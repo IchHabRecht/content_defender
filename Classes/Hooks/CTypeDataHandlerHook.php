@@ -63,4 +63,27 @@ class CTypeDataHandlerHook
             }
         }
     }
+
+    /**
+     * @param DataHandler $dataHandler
+     * @return void
+     */
+    public function processCmdmap_beforeStart(DataHandler $dataHandler)
+    {
+        $cmdmap = $dataHandler->cmdmap;
+        if (empty($cmdmap['tt_content'])) {
+            return;
+        }
+
+        $datamap = $dataHandler->datamap;
+        foreach ($cmdmap['tt_content'] as $id => $incomingFieldArray) {
+            if (!isset($datamap['tt_content'][$id])) {
+                unset($dataHandler->cmdmap['tt_content'][$id]);
+            }
+        }
+
+        if (count($cmdmap['tt_content']) !== count($dataHandler->cmdmap['tt_content'])) {
+            $dataHandler->printLogErrorMessages('');
+        }
+    }
 }
