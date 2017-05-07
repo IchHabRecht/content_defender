@@ -1,0 +1,41 @@
+language: php
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.1
+      env: TYPO3=^8.0 PHP_LINT=yes
+    - php: 7.0
+      env: TYPO3=^8.0 PHP_LINT=yes
+    - php: 5.6
+      env: TYPO3=^7.6 PHP_LINT=yes
+    - php: 5.5
+      env: TYPO3=^7.6 PHP_LINT=yes
+
+addons:
+  apt:
+    packages:
+      - parallel
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+sudo: false
+
+before_install:
+  - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
+
+before_script:
+  - composer require typo3/cms="$TYPO3"
+  - git checkout composer.json
+
+script:
+  - >
+    if [ "$PHP_LINT" == "yes" ]; then
+      echo;
+      echo "Running php lint";
+      echo;
+      echo;
+      find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
+    fi
