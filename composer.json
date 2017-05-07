@@ -23,7 +23,8 @@
         "typo3/cms-core": ">=7.6 <8.8"
     },
     "suggest": {
-        "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues"
+        "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues",
+        "phpstan/phpstan": "Use PHPStan for static PHP analysis"
     },
     "autoload": {
         "psr-4": {
