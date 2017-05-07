@@ -22,6 +22,9 @@
     "require": {
         "typo3/cms-core": ">=7.6 <8.8"
     },
+    "suggest": {
+        "phpstan/phpstan": "Use PHPStan for static PHP analysis"
+    },
     "autoload": {
         "psr-4": {
             "IchHabRecht\\ContentDefender\\": "Classes/"
