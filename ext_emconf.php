@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "content_defender".
  *
- * Auto generated 08-05-2017 10:54
+ * Auto generated 08-05-2017 11:39
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array (
   'uploadfolder' => 0,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '1.0.0',
+  'version' => '1.0.1',
   'constraints' => 
   array (
     'depends' => 
@@ -35,6 +35,6 @@ $EM_CONF[$_EXTKEY] = array (
     array (
     ),
   ),
-  '_md5_values_when_last_written' => 'a:8:{s:9:"ChangeLog";s:4:"296d";s:13:"composer.json";s:4:"6028";s:12:"ext_icon.png";s:4:"f488";s:17:"ext_localconf.php";s:4:"974f";s:52:"Classes/BackendLayout/BackendLayoutConfiguration.php";s:4:"6cbb";s:47:"Classes/Form/FormDataProvider/TcaCTypeItems.php";s:4:"2495";s:38:"Classes/Hooks/CTypeDataHandlerHook.php";s:4:"d3e4";s:33:"Classes/Hooks/WizardItemsHook.php";s:4:"27da";}',
+  '_md5_values_when_last_written' => 'a:9:{s:9:"ChangeLog";s:4:"7b5a";s:9:"README.md";s:4:"b63d";s:13:"composer.json";s:4:"6028";s:12:"ext_icon.png";s:4:"f488";s:17:"ext_localconf.php";s:4:"974f";s:52:"Classes/BackendLayout/BackendLayoutConfiguration.php";s:4:"6cbb";s:47:"Classes/Form/FormDataProvider/TcaCTypeItems.php";s:4:"2495";s:38:"Classes/Hooks/CTypeDataHandlerHook.php";s:4:"d3e4";s:33:"Classes/Hooks/WizardItemsHook.php";s:4:"27da";}',
 );
 

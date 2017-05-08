@@ -1,3 +1,6 @@
+2017-05-08         [RELEASE] Release of content_defender 1.0.1 (Nicole Cordes)
+2017-05-08 0c1df4d [TASK] Add README.md with extension usage instructions (Nicole Cordes)
+
 2017-05-08         [RELEASE] Release of content_defender 1.0.0 (Nicole Cordes)
 2017-05-07 3d6aeff [FEATURE] Execute phpstan/phpstan with Travis CI builds (Nicole Cordes)
 2017-05-07 06d5235 [FEATURE] Add PHP lint for supported PHP versions (Nicole Cordes)
