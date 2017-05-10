@@ -6,7 +6,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class CmdmapDataHandlerHook
+class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 {
     /**
      * @param DataHandler $dataHandler
@@ -39,14 +39,15 @@ class CmdmapDataHandlerHook
                             $command = 'paste';
                             $pageId = (int)$value['target'];
                             $colPos = (int)$value['update']['colPos'];
-                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         } else {
                             $targetRecord = BackendUtility::getRecord('tt_content', abs($value));
                             $pageId = (int)$targetRecord['pid'];
                             $colPos = (int)$targetRecord['colPos'];
-                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         }
-                        $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
+
+                        $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
+                        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+                        $allowed = $this->isAllowedCType($columnConfiguration, $cType);
 
                         if (!$allowed) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);

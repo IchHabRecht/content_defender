@@ -6,7 +6,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class DatamapDataHandlerHook
+class DatamapDataHandlerHook extends AbstractDataHandlerHook
 {
     /**
      * @param DataHandler $dataHandler
@@ -32,11 +32,12 @@ class DatamapDataHandlerHook
                 $currentRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
                 $pageId = (int)$currentRecord['pid'];
             }
-            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-
             $colPos = (int)$incomingFieldArray['colPos'];
             $cType = $incomingFieldArray['CType'];
-            $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
+
+            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
+            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+            $allowed = $this->isAllowedCType($columnConfiguration, $cType);
 
             if (!$allowed) {
                 unset($dataHandler->datamap['tt_content'][$id]);

@@ -74,27 +74,4 @@ class BackendLayoutConfiguration
 
         return self::$columnConfiguration[$configurationIdentifier][$colPos];
     }
-
-    /**
-     * @param string $cType
-     * @param int $colPos
-     * @return true
-     */
-    public function isAllowedCTypeInColPos($cType, $colPos)
-    {
-        $columnConfiguration = $this->getConfigurationByColPos($colPos);
-        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed']) && empty($columnConfiguration['disallowed']))) {
-            return true;
-        }
-
-        if (!empty($columnConfiguration['allowed'])) {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['allowed']);
-            $allowed = in_array($cType, $cTypes, true);
-        } else {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['disallowed']);
-            $allowed = !in_array($cType, $cTypes, true);
-        }
-
-        return $allowed;
-    }
 }
