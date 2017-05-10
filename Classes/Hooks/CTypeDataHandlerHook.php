@@ -21,7 +21,10 @@ class CTypeDataHandlerHook
         }
 
         foreach ($datamap['tt_content'] as $id => $incomingFieldArray) {
-            if (MathUtility::canBeInterpretedAsInteger($id)) {
+            if (!isset($incomingFieldArray['colPos']) || !isset($incomingFieldArray['CType']) || !isset($incomingFieldArray['pid'])) {
+                if (!MathUtility::canBeInterpretedAsInteger($id)) {
+                    continue;
+                }
                 $incomingFieldArray = array_merge(BackendUtility::getRecord('tt_content', $id), $incomingFieldArray);
             }
 
