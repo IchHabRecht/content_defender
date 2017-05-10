@@ -4,9 +4,15 @@ matrix:
   fast_finish: true
   include:
     - php: 7.1
+      env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
+    - php: 7.1
       env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 7.1
       env: TYPO3=^7.6 PHPUNIT_TESTS=yes
+    - php: 7.0
+      env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
+    - php: 7.0
+      env: TYPO3="dev-master as 8.7.0" CODE_ANALYSIS=yes
     - php: 7.0
       env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 7.0
@@ -19,6 +25,9 @@ matrix:
       env: TYPO3=^7.6 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 5.5
       env: TYPO3=^7.6 PHPUNIT_TESTS=yes PHP_LINT=yes
+  allow_failures:
+    - env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
+    - env: TYPO3="dev-master as 8.7.0" CODE_ANALYSIS=yes
 
 addons:
   apt:
