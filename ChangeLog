@@ -1,3 +1,13 @@
+2017-05-10         [RELEASE] Release of content_defender 1.0.3 (Nicole Cordes)
+2017-05-10 2030f7b [BUGFIX] Use correct page id for record processing in CTypeDataHandlerHook (Nicole Cordes)
+2017-05-10 d9880dd [BUGFIX] Correct logging information for paste command in CTypeDataHandlerHook (Nicole Cordes)
+2017-05-10 14f127e [TASK] Simplify copy command evaluation in CTypeDataHandlerHook (Nicole Cordes)
+2017-05-10 4f8bb89 [TASK] Add missing typo3/cms-backend dependency to composer.json (Nicole Cordes)
+2017-05-10 f01f153 [TASK] Execute tests for TYPO3 dev-master on Travis CI (Nicole Cordes)
+2017-05-10 6c3b60f [TASK] Prevent multiple return types for BackendLayoutConfiguration::createFromPageId (Nicole Cordes)
+2017-05-10 cd8935b [TASK] Add runtime cache for column configuration in BackendLayoutConfiguration (Nicole Cordes)
+2017-05-10 1d20cda [TASK] Prevent fetching unnecessary record information (Nicole Cordes)
+
 2017-05-10         [RELEASE] Release of content_defender 1.0.2 (Nicole Cordes)
 2017-05-10 b403689 [TASK] Add functional tests for CTypeDataHandlerHook (Nicole Cordes)
 2017-05-10 58f81bf [BUGFIX] Prevent double error messages for copy command (Nicole Cordes)
