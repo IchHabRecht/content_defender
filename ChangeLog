@@ -1,3 +1,8 @@
+2017-05-10         [RELEASE] Release of content_defender 1.0.2 (Nicole Cordes)
+2017-05-10 b403689 [TASK] Add functional tests for CTypeDataHandlerHook (Nicole Cordes)
+2017-05-10 58f81bf [BUGFIX] Prevent double error messages for copy command (Nicole Cordes)
+2017-05-10 29ceb6d [BUGFIX] Only restrict move and copy commands from DataHandler (Nicole Cordes)
+
 2017-05-08         [RELEASE] Release of content_defender 1.0.1 (Nicole Cordes)
 2017-05-08 0c1df4d [TASK] Add README.md with extension usage instructions (Nicole Cordes)
 
