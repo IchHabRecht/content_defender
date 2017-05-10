@@ -22,6 +22,9 @@
     "require": {
         "typo3/cms-core": ">=7.6 <8.8"
     },
+    "require-dev": {
+        "nimut/testing-framework": "1.x-dev"
+    },
     "suggest": {
         "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues",
         "phpstan/phpstan": "Use PHPStan for static PHP analysis"
@@ -29,6 +32,11 @@
     "autoload": {
         "psr-4": {
             "IchHabRecht\\ContentDefender\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IchHabRecht\\ContentDefender\\Tests\\": "Tests/"
         }
     },
     "replace": {

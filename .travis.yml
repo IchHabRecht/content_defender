@@ -4,17 +4,21 @@ matrix:
   fast_finish: true
   include:
     - php: 7.1
-      env: TYPO3=^8.0 PHP_LINT=yes
+      env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
+    - php: 7.1
+      env: TYPO3=^7.6 PHPUNIT_TESTS=yes
     - php: 7.0
-      env: TYPO3=^8.0 PHP_LINT=yes
+      env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 7.0
       env: TYPO3=^8.0 CODE_ANALYSIS=yes
     - php: 7.0
+      env: TYPO3=^7.6 PHPUNIT_TESTS=yes
+    - php: 7.0
       env: TYPO3=^7.6 CODE_ANALYSIS=yes
     - php: 5.6
-      env: TYPO3=^7.6 PHP_LINT=yes
+      env: TYPO3=^7.6 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 5.5
-      env: TYPO3=^7.6 PHP_LINT=yes
+      env: TYPO3=^7.6 PHPUNIT_TESTS=yes PHP_LINT=yes
 
 addons:
   apt:
@@ -33,8 +37,24 @@ before_install:
 before_script:
   - composer require typo3/cms="$TYPO3"
   - git checkout composer.json
+  - mkdir -p .Build/Web/typo3conf/ext/
+  - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
+  - export TYPO3_PATH_WEB=$PWD/.Build/Web
 
 script:
+  - >
+    if [ "$PHPUNIT_TESTS" == "yes" ]; then
+      echo;
+      echo "Running functional tests";
+      echo;
+      echo;
+      export typo3DatabaseName="typo3";
+      export typo3DatabaseHost="localhost";
+      export typo3DatabaseUsername="root";
+      export typo3DatabasePassword="";
+      find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';
+    fi
+
   - >
     if [ "$CODE_ANALYSIS" == "yes" ]; then
       travis_fold start before_phpstan;
