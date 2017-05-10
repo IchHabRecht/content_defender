@@ -16,11 +16,7 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
     public function manipulateWizardItems(&$wizardItems, &$parentObject)
     {
         $pageId = $parentObject->id;
-
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-        if (null === $backendLayoutConfiguration) {
-            return;
-        }
 
         $colPos = (int)$parentObject->colPos;
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);

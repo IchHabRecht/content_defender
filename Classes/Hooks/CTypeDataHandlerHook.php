@@ -30,9 +30,6 @@ class CTypeDataHandlerHook
 
             $pageId = (int)$incomingFieldArray['pid'];
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-            if (null === $backendLayoutConfiguration) {
-                return;
-            }
 
             $colPos = (int)$incomingFieldArray['colPos'];
             $cType = $incomingFieldArray['CType'];
@@ -87,9 +84,6 @@ class CTypeDataHandlerHook
                         ) {
                             $pageId = (int)$value['target'];
                             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-                            if (null === $backendLayoutConfiguration) {
-                                return;
-                            }
 
                             $colPos = (int)$value['update']['colPos'];
                             $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
@@ -97,9 +91,6 @@ class CTypeDataHandlerHook
                             $targetRecord = BackendUtility::getRecord('tt_content', abs($value));
                             $pageId = (int)$targetRecord['pid'];
                             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-                            if (null === $backendLayoutConfiguration) {
-                                return;
-                            }
 
                             $colPos = (int)$targetRecord['colPos'];
                             $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);

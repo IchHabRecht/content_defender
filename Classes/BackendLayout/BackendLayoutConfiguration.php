@@ -26,14 +26,16 @@ class BackendLayoutConfiguration
 
     /**
      * @param int $pageId
-     * @return BackendLayoutConfiguration|null
+     * @return BackendLayoutConfiguration
      */
     public static function createFromPageId($pageId)
     {
         $backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);
         $backendLayout = $backendLayoutView->getSelectedBackendLayout($pageId);
         if (null === $backendLayout) {
-            return null;
+            $backendLayout = [
+                'config' => '',
+            ];
         }
 
         return new self($backendLayout);

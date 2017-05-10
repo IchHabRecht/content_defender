@@ -19,9 +19,6 @@ class TcaCTypeItems implements FormDataProviderInterface
 
         $pageId = !empty($result['effectivePid']) ? (int)$result['effectivePid'] : (int)$result['databaseRow']['pid'];
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-        if (null === $backendLayoutConfiguration) {
-            return $result;
-        }
 
         $colPos = (int)$result['databaseRow']['colPos'];
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
