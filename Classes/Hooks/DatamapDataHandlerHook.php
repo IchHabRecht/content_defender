@@ -20,24 +20,20 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
         }
 
         foreach ($datamap['tt_content'] as $id => $incomingFieldArray) {
-            if (!isset($incomingFieldArray['colPos']) || !isset($incomingFieldArray['CType']) || !isset($incomingFieldArray['pid'])) {
-                if (!MathUtility::canBeInterpretedAsInteger($id)) {
-                    continue;
-                }
+            if (MathUtility::canBeInterpretedAsInteger($id)) {
                 $incomingFieldArray = array_merge(BackendUtility::getRecord('tt_content', $id), $incomingFieldArray);
             }
 
             $pageId = (int)$incomingFieldArray['pid'];
             if ($pageId < 0) {
-                $currentRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
-                $pageId = (int)$currentRecord['pid'];
+                $previousRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
+                $pageId = (int)$previousRecord['pid'];
             }
             $colPos = (int)$incomingFieldArray['colPos'];
-            $cType = $incomingFieldArray['CType'];
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-            $allowed = $this->isAllowedCType($columnConfiguration, $cType);
+            $allowed = $this->isAllowedRecord($columnConfiguration, $incomingFieldArray);
 
             if (!$allowed) {
                 unset($dataHandler->datamap['tt_content'][$id]);
@@ -47,11 +43,10 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                     1,
                     $pageId,
                     1,
-                    'The record "%s" with CType "%s" couldn\'t be saved due to disallowed CType value.',
+                    'The record "%s" couldn\'t be saved due to disallowed value(s).',
                     23,
                     [
                         $incomingFieldArray[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
-                        $cType,
                     ]
                 );
             }
