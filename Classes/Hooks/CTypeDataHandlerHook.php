@@ -83,18 +83,15 @@ class CTypeDataHandlerHook
                             && isset($value['update']['colPos'])
                         ) {
                             $pageId = (int)$value['target'];
-                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-
                             $colPos = (int)$value['update']['colPos'];
-                            $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
+                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         } else {
                             $targetRecord = BackendUtility::getRecord('tt_content', abs($value));
                             $pageId = (int)$targetRecord['pid'];
-                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-
                             $colPos = (int)$targetRecord['colPos'];
-                            $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
+                            $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         }
+                        $allowed = $backendLayoutConfiguration->isAllowedCTypeInColPos($cType, $colPos);
 
                         if (!$allowed) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);
