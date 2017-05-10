@@ -29,6 +29,10 @@ class CTypeDataHandlerHook
             }
 
             $pageId = (int)$incomingFieldArray['pid'];
+            if ($pageId < 0) {
+                $currentRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
+                $pageId = (int)$currentRecord['pid'];
+            }
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
             $colPos = (int)$incomingFieldArray['colPos'];
