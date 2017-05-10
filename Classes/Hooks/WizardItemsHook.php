@@ -33,7 +33,9 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
                     continue;
                 }
 
-                if (!in_array($keyParts[1], $cTypes, true)) {
+                if (empty($configuration['tt_content_defValues']['CType'])
+                    || !in_array($configuration['tt_content_defValues']['CType'], $cTypes, true)
+                ) {
                     unset($wizardItems[$key]);
                     continue;
                 }
@@ -48,7 +50,9 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
                     continue;
                 }
 
-                if (in_array($keyParts[1], $cTypes, true)) {
+                if (!empty($configuration['tt_content_defValues']['CType'])
+                    && in_array($configuration['tt_content_defValues']['CType'], $cTypes, true)
+                ) {
                     unset($wizardItems[$key]);
                     continue;
                 }
