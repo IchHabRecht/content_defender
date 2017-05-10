@@ -124,7 +124,9 @@ class CTypeDataHandlerHook
             }
         }
 
-        if (count($cmdmap['tt_content']) !== count($dataHandler->cmdmap['tt_content'])) {
+        if (count($cmdmap['tt_content']) !== count($dataHandler->cmdmap['tt_content'])
+            && empty(GeneralUtility::_GP('prErr'))
+        ) {
             $dataHandler->printLogErrorMessages('');
         }
     }
