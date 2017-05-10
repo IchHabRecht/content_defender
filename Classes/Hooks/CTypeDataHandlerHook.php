@@ -82,6 +82,7 @@ class CTypeDataHandlerHook
                             && 'paste' === $value['action']
                             && isset($value['update']['colPos'])
                         ) {
+                            $command = 'paste';
                             $pageId = (int)$value['target'];
                             $colPos = (int)$value['update']['colPos'];
                             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
@@ -102,7 +103,7 @@ class CTypeDataHandlerHook
                                 $pageId,
                                 1,
                                 'The command "%s" for record "%s" with CType "%s" couldn\'t be executed due to disallowed CType value.',
-                                23,
+                                24,
                                 [
                                     $command,
                                     $currentRecord[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
