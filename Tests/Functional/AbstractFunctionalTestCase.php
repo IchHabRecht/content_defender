@@ -24,7 +24,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
     {
         parent::setUp();
 
-        $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/';
+        $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';
         $this->importDataSet($fixturePath . 'backend_layout.xml');
         $this->importDataSet($fixturePath . 'pages.xml');
         $this->importDataSet($fixturePath . 'tt_content.xml');
