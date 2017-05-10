@@ -11,8 +11,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 ];
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['content_defender'] =
-    \IchHabRecht\ContentDefender\Hooks\CTypeDataHandlerHook::class;
+    \IchHabRecht\ContentDefender\Hooks\DatamapDataHandlerHook::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['content_defender'] =
-    \IchHabRecht\ContentDefender\Hooks\CTypeDataHandlerHook::class;
+    \IchHabRecht\ContentDefender\Hooks\CmdmapDataHandlerHook::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms']['db_new_content_el']['wizardItemsHook']['content_defender'] =
     \IchHabRecht\ContentDefender\Hooks\WizardItemsHook::class;

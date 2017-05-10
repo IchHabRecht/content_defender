@@ -5,7 +5,7 @@ use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
-class CTypeDataHandlerHookTest extends FunctionalTestCase
+class CmpmapDataHandlerHookTest extends FunctionalTestCase
 {
     /**
      * @var array
@@ -32,44 +32,6 @@ class CTypeDataHandlerHookTest extends FunctionalTestCase
 
         $this->setUpBackendUserFromFixture(1);
         Bootstrap::getInstance()->initializeLanguageObject();
-    }
-
-    /**
-     * @test
-     */
-    public function newRecordWithDisallowedCTypeIsNotBeSaved()
-    {
-        $datamap['tt_content']['NEW123'] = [
-            'pid' => 2,
-            'CType' => 'bullets',
-            'colPos' => 0,
-            'header' => 'Bullet List',
-        ];
-
-        $dataHandler = new DataHandler();
-        $dataHandler->start($datamap, []);
-        $dataHandler->process_datamap();
-
-        $this->assertEmpty($dataHandler->substNEWwithIDs);
-    }
-
-    /**
-     * @test
-     */
-    public function newRecordWithDisallowedCTypeAfterRecordIsNotBeSaved()
-    {
-        $datamap['tt_content']['NEW123'] = [
-            'pid' => -2,
-            'CType' => 'bullets',
-            'colPos' => 0,
-            'header' => 'Bullet List',
-        ];
-
-        $dataHandler = new DataHandler();
-        $dataHandler->start($datamap, []);
-        $dataHandler->process_datamap();
-
-        $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
 
     /**
