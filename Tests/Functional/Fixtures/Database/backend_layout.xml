@@ -20,10 +20,15 @@
         2 {
             columns {
                 1 {
-                    name = Normal (header, textmedia)
+                    name = Normal (header, textmedia, list[-indexed_search_pi2])
                     colPos = 0
                     colspan = 6
-                    allowed = header, textmedia
+                    allowed {
+                        CType = header, textmedia, list
+                    }
+                    disallowed {
+                        list_type = indexed_search_pi2
+                    }
                 }
             }
         }
@@ -33,13 +38,17 @@
                     name = Footer1 (no bullets)
                     colPos = 10
                     colspan = 2
-                    disallowed = bullets
+                    disallowed {
+                        CType = bullets
+                    }
                 }
                 2 {
                     name = Footer2 (bullets)
                     colPos = 11
                     colspan = 2
-                    allowed = bullets
+                    allowed {
+                        CType = bullets
+                    }
                 }
                 3 {
                     name = Footer3 (all)

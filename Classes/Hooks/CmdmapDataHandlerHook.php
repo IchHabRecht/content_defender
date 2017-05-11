@@ -30,7 +30,6 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                         break;
                     case 'copy':
                         $currentRecord = BackendUtility::getRecord('tt_content', $id);
-                        $cType = $currentRecord['CType'];
                         if (is_array($value)
                             && !empty($value['action'])
                             && 'paste' === $value['action']
@@ -47,7 +46,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 
                         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-                        $allowed = $this->isAllowedCType($columnConfiguration, $cType);
+                        $allowed = $this->isAllowedRecord($columnConfiguration, $currentRecord);
 
                         if (!$allowed) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);
@@ -57,12 +56,11 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                                 1,
                                 $pageId,
                                 1,
-                                'The command "%s" for record "%s" with CType "%s" couldn\'t be executed due to disallowed CType value.',
+                                'The command "%s" for record "%s" couldn\'t be executed due to disallowed value(s).',
                                 24,
                                 [
                                     $command,
                                     $currentRecord[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
-                                    $cType,
                                 ]
                             );
                         }

@@ -22,26 +22,39 @@ class TcaCTypeItems implements FormDataProviderInterface
 
         $colPos = (int)$result['databaseRow']['colPos'];
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed']) && empty($columnConfiguration['disallowed']))) {
+        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return $result;
         }
 
-        if (!empty($columnConfiguration['allowed'])) {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['allowed']);
-            $result['processedTca']['columns']['CType']['config']['items'] = array_filter(
-                $result['processedTca']['columns']['CType']['config']['items'],
-                function ($item) use ($cTypes) {
-                    return in_array($item[1], $cTypes);
+        if (!empty($columnConfiguration['allowed.'])) {
+            foreach ($columnConfiguration['allowed.'] as $field => $value) {
+                if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
+                    continue;
                 }
-            );
-        } else {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['disallowed']);
-            $result['processedTca']['columns']['CType']['config']['items'] = array_filter(
-                $result['processedTca']['columns']['CType']['config']['items'],
-                function ($item) use ($cTypes) {
-                    return !in_array($item[1], $cTypes);
+
+                $allowedValues = GeneralUtility::trimExplode(',', $value);
+                $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+                    $result['processedTca']['columns'][$field]['config']['items'],
+                    function ($item) use ($allowedValues) {
+                        return in_array($item[1], $allowedValues);
+                    }
+                );
+            }
+        }
+        if (!empty($columnConfiguration['disallowed.'])) {
+            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
+                if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
+                    continue;
                 }
-            );
+
+                $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+                $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+                    $result['processedTca']['columns'][$field]['config']['items'],
+                    function ($item) use ($disAllowedValues) {
+                        return !in_array($item[1], $disAllowedValues);
+                    }
+                );
+            }
         }
 
         return $result;

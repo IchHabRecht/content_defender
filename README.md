@@ -14,34 +14,68 @@ Simply install the extension with Composer or the Extension Manager.
 
 1. You only need to adjust the column configuration of your backend_layout
 
-**Allow certain content element types**
+**Restrict certain content element fields**
 
-- To restrict content element CTypes to a limited set use `allowed = [list of tt_content.CTypes]`
+- To allow a limited set of values for content element fields use `allowed.field = [list of comma separated values]`
 
-*Example:*
+*Examples:*
 ```
 columns {
     1 {
         name = Column with header and textmedia elements
         colPos = 3
         colspan = 6
-        allowed = header, textmedia
+        allowed {
+            CType = header, textmedia
+        }
+    }
+}
+```
+
+```
+columns {
+    1 {
+        name = Column with News plugin only
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = list
+            list_type = news_pi1
+        }
     }
 }
 ```
 
 **Deny certain content element types**
 
-- To remove content element CTypes use `disallowed = [list of tt_content.CTypes]`
+- To remove a set of values from content element fields use `disallowed.field = [list of comma separated values]`
 
-*Example:*
+*Examples:*
 ```
 columns {
     1 {
         name = Column without divider, plain html and table elements
         colPos = 3
         colspan = 6
-        disallowed = div, html, table
+        disallowed {
+            CType = div, html, table
+        }
+    }
+}
+```
+
+```
+columns {
+    1 {
+        name = Column with header and list, without News plugin
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = header, list
+        }
+        disallowed {
+            list_type = news_pi1
+        }
     }
 }
 ```

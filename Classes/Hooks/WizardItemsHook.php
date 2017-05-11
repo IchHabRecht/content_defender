@@ -20,52 +20,54 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
 
         $colPos = (int)$parentObject->colPos;
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed']) && empty($columnConfiguration['disallowed']))) {
+        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return;
         }
 
-        $headersUsed = [];
-        if (!empty($columnConfiguration['allowed'])) {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['allowed']);
-            foreach ($wizardItems as $key => $configuration) {
-                $keyParts = explode('_', $key, 2);
-                if (count($keyParts) === 1) {
-                    continue;
-                }
+        if (!empty($columnConfiguration['allowed.'])) {
+            foreach ($columnConfiguration['allowed.'] as $field => $value) {
+                $allowedValues = GeneralUtility::trimExplode(',', $value);
+                foreach ($wizardItems as $key => $configuration) {
+                    $keyParts = explode('_', $key, 2);
+                    if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
+                        continue;
+                    }
 
-                if (empty($configuration['tt_content_defValues']['CType'])
-                    || !in_array($configuration['tt_content_defValues']['CType'], $cTypes, true)
-                ) {
-                    unset($wizardItems[$key]);
-                    continue;
+                    if (!in_array($configuration['tt_content_defValues'][$field], $allowedValues)
+                    ) {
+                        unset($wizardItems[$key]);
+                        continue;
+                    }
                 }
-
-                $headersUsed[$keyParts[0]] = $key;
             }
-        } else {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['disallowed']);
-            foreach ($wizardItems as $key => $configuration) {
-                $keyParts = explode('_', $key, 2);
-                if (count($keyParts) === 1) {
-                    continue;
+        }
+        if (!empty($columnConfiguration['disallowed.'])) {
+            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
+                $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+                foreach ($wizardItems as $key => $configuration) {
+                    $keyParts = explode('_', $key, 2);
+                    if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
+                        continue;
+                    }
+                    if (in_array($configuration['tt_content_defValues'][$field], $disAllowedValues)
+                    ) {
+                        unset($wizardItems[$key]);
+                        continue;
+                    }
                 }
-
-                if (!empty($configuration['tt_content_defValues']['CType'])
-                    && in_array($configuration['tt_content_defValues']['CType'], $cTypes, true)
-                ) {
-                    unset($wizardItems[$key]);
-                    continue;
-                }
-
-                $headersUsed[$keyParts[0]] = $key;
             }
         }
 
+        $availableWizardItems = [];
         foreach ($wizardItems as $key => $_) {
             $keyParts = explode('_', $key, 2);
-            if (count($keyParts) === 1 && !isset($headersUsed[$keyParts[0]])) {
-                unset($wizardItems[$key]);
+            if (count($keyParts) === 1) {
+                continue;
             }
+            $availableWizardItems[$keyParts[0]] = $key;
+            $availableWizardItems[$key] = $key;
         }
+
+        $wizardItems = array_intersect_key($wizardItems, $availableWizardItems);
     }
 }

@@ -7,23 +7,40 @@ abstract class AbstractDataHandlerHook
 {
     /**
      * @param array $columnConfiguration
-     * @param string $cType
-     * @return true
+     * @param array $record
+     * @return bool
      */
-    protected function isAllowedCType(array $columnConfiguration, $cType)
+    protected function isAllowedRecord(array $columnConfiguration, array $record)
     {
-        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed']) && empty($columnConfiguration['disallowed']))) {
+        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return true;
         }
 
-        if (!empty($columnConfiguration['allowed'])) {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['allowed']);
-            $allowed = in_array($cType, $cTypes, true);
-        } else {
-            $cTypes = GeneralUtility::trimExplode(',', $columnConfiguration['disallowed']);
-            $allowed = !in_array($cType, $cTypes, true);
+        if (!empty($columnConfiguration['allowed.'])) {
+            foreach ($columnConfiguration['allowed.'] as $field => $value) {
+                if (!isset($record[$field])) {
+                    continue;
+                }
+
+                $allowedValues = GeneralUtility::trimExplode(',', $value);
+                if (!in_array($record[$field], $allowedValues)) {
+                    return false;
+                }
+            }
+        }
+        if (!empty($columnConfiguration['disallowed.'])) {
+            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
+                if (!isset($record[$field])) {
+                    continue;
+                }
+
+                $disallowedValues = GeneralUtility::trimExplode(',', $value);
+                if (in_array($record[$field], $disallowedValues)) {
+                    return false;
+                }
+            }
         }
 
-        return $allowed;
+        return true;
     }
 }
