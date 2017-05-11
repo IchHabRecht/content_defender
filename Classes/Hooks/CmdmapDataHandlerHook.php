@@ -46,7 +46,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 
                         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-                        $allowed = $this->isAllowedRecord($columnConfiguration, $currentRecord);
+                        $allowed = $this->isRecordAllowedByRestriction($columnConfiguration, $currentRecord);
 
                         if (!$allowed) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);
