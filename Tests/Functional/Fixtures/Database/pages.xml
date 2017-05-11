@@ -13,7 +13,7 @@
         <title>Content elements</title>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
-        <backend_layout>1</backend_layout>
-        <backend_layout_next_level>1</backend_layout_next_level>
+        <backend_layout>pagets__default</backend_layout>
+        <backend_layout_next_level>pagets__default</backend_layout_next_level>
     </pages>
 </dataset>
