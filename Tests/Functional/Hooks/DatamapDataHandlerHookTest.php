@@ -44,4 +44,45 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
+
+    /**
+     * @test
+     */
+    public function newRecordsWithMaxitemsCountAreNotSaved()
+    {
+        $datamap['tt_content'] = [
+            'NEW123' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 0,
+                'header' => 'Text & Media 1',
+            ],
+            'NEW456' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 0,
+                'header' => 'Text & Media 2',
+            ],
+            'NEW789' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 0,
+                'header' => 'Text & Media 3',
+            ],
+            'NEW147' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 0,
+                'header' => 'Text & Media 4',
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'pid=3 AND colPos=0');
+
+        $this->assertSame(3, $count);
+    }
 }
