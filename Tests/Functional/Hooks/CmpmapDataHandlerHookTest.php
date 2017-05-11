@@ -17,7 +17,7 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         ];
 
         $commandMap['tt_content'][2] = [
-            'move' => 1,
+            'move' => 2,
         ];
 
         $dataHandler = new DataHandler();
@@ -40,7 +40,7 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         ];
 
         $commandMap['tt_content'][3] = [
-            'move' => 1,
+            'move' => 2,
         ];
 
         $dataHandler = new DataHandler();
