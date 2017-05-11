@@ -25,9 +25,12 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                     case 'move':
                         // New colPos is passed as datamap array and already processed in processDatamap_beforeStart
                         if (!isset($dataHandler->datamap['tt_content'][$id])) {
-                            unset($dataHandler->cmdmap['tt_content'][$id]);
+                            $data = GeneralUtility::_GP('data');
+                            if (isset($data['tt_content'][$id])) {
+                                unset($dataHandler->cmdmap['tt_content'][$id]);
+                                break;
+                            }
                         }
-                        break;
                     case 'copy':
                         $currentRecord = BackendUtility::getRecord('tt_content', $id);
                         if (is_array($value)
@@ -38,6 +41,9 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                             $command = 'paste';
                             $pageId = (int)$value['target'];
                             $colPos = (int)$value['update']['colPos'];
+                        } elseif ($value > 0) {
+                            $pageId = (int)$value;
+                            $colPos = (int)$currentRecord['colPos'];
                         } else {
                             $targetRecord = BackendUtility::getRecord('tt_content', abs($value));
                             $pageId = (int)$targetRecord['pid'];
