@@ -43,12 +43,13 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                             $pageId = (int)$targetRecord['pid'];
                             $colPos = (int)$targetRecord['colPos'];
                         }
+                        $currentRecord['pid'] = $pageId;
+                        $currentRecord['colPos'] = $colPos;
 
                         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
-                        $allowed = $this->isRecordAllowedByRestriction($columnConfiguration, $currentRecord);
 
-                        if (!$allowed) {
+                        if (!$this->isRecordAllowedByRestriction($columnConfiguration, $currentRecord)) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);
                             $dataHandler->log(
                                 'tt_content',
@@ -61,6 +62,24 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                                 [
                                     $command,
                                     $currentRecord[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
+                                ]
+                            );
+                        }
+
+                        if (!$this->isRecordAllowedByItemsCount($columnConfiguration, $currentRecord)) {
+                            unset($dataHandler->cmdmap['tt_content'][$id]);
+                            $dataHandler->log(
+                                'tt_content',
+                                $id,
+                                1,
+                                $pageId,
+                                1,
+                                'The command "%s" for record "%s" couldn\'t be executed due to reached maxitems configuration of %d.',
+                                28,
+                                [
+                                    $command,
+                                    $currentRecord[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
+                                    $columnConfiguration['maxitems'],
                                 ]
                             );
                         }
