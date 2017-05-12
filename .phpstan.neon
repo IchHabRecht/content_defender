@@ -1,0 +1,4 @@
+parameters:
+    ignoreErrors:
+        - "#Casting to int something that's already int.#"
+    reportUnmatchedIgnoredErrors: false

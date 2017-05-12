@@ -76,7 +76,7 @@ script:
       travis_fold end before_phpstan;
       echo;
       echo;
-      .Build/bin/phpstan analyse --level 5 Classes;
+      .Build/bin/phpstan analyse -c .phpstan.neon --level 5 Classes Tests;
     fi
 
   - >
