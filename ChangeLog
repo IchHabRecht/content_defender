@@ -1,3 +1,13 @@
+2017-05-12         [RELEASE] Release of content_defender 2.1.0 (Nicole Cordes)
+2017-05-12 50ce4c5 [TASK] Add new maxitems configuration to README.md (Nicole Cordes)
+2017-05-12 ebd5dd6 [TASK] Add functional test for maxitems configuration to CmpmapDataHandlerHookTest (Nicole Cordes)
+2017-05-12 199cf19 [BUGFIX] Use correct page ids in functional tests (Nicole Cordes)
+2017-05-12 a96ed8f [BUGFIX] Verify restrictions for move command (Nicole Cordes)
+2017-05-12 37c83ae [TASK] Add functional test for maxitems configuration to DatamapDataHandlerHookTest (Nicole Cordes)
+2017-05-12 09d7f58 [TASK] Move backend_layout configuration to Page TSconfig (Nicole Cordes)
+2017-05-11 84bb93f [FEATURE] Add maxitems check to CmdmapDataHandlerHook (Nicole Cordes)
+2017-05-11 20a3e54 [FEATURE] Add maxitems check to DatamapDataHandlerHook (Nicole Cordes)
+
 2017-05-11         [RELEASE] Release of content_defender 2.0.0 (Nicole Cordes)
 2017-05-10 1bc07fe [TASK] Adjust backend_layout configuration in README.md (Nicole Cordes)
 2017-05-10 d7371f5 [TASK] Add functional tests for WizardItemsHook (Nicole Cordes)
