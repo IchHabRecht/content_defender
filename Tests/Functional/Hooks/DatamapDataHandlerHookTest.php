@@ -3,6 +3,7 @@ namespace IchHabRecht\ContentDefender\Tests\Functional\Hooks;
 
 require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 
+use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase

@@ -20,4 +20,11 @@
         <CType>bullets</CType>
         <colPos>3</colPos>
     </tt_content>
+    <tt_content>
+        <uid>4</uid>
+        <pid>3</pid>
+        <header>Text &amp; Media on subpage</header>
+        <CType>textmedia</CType>
+        <colPos>3</colPos>
+    </tt_content>
 </dataset>
