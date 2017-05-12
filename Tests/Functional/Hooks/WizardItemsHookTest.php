@@ -1,8 +1,9 @@
 <?php
-namespace IchHabRecht\ContentDefender\Hooks;
+namespace IchHabRecht\ContentDefender\Tests\Functional\Hooks;
 
 require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 
+use IchHabRecht\ContentDefender\Hooks\WizardItemsHook;
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
 use TYPO3\CMS\Core\Core\Bootstrap;
