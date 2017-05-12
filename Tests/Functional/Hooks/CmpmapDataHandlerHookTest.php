@@ -17,7 +17,7 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         ];
 
         $commandMap['tt_content'][2] = [
-            'move' => 1,
+            'move' => 2,
         ];
 
         $dataHandler = new DataHandler();
@@ -40,7 +40,7 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         ];
 
         $commandMap['tt_content'][3] = [
-            'move' => 1,
+            'move' => 2,
         ];
 
         $dataHandler = new DataHandler();
@@ -51,6 +51,29 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'uid=3 AND colPos=0');
 
         $this->assertSame(0, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function moveCommandMovesOnlyOneRecordToMaxitemsColPos()
+    {
+        $commandMap['tt_content'] = [
+            2 => [
+                'move' => 3,
+            ],
+            3 => [
+                'move' => 3,
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'pid=3 AND colPos=3');
+
+        $this->assertSame(1, $count);
     }
 
     /**
@@ -133,6 +156,30 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->copyMappingArray['tt_content'][3]);
+    }
+
+    /**
+     * @test
+     */
+    public function copyCommandCopiesOnlyOneRecordToMaxitemsColPos()
+    {
+        $_GET['CB']['paste'] = '|3';
+        $commandMap['tt_content'] = [
+            2 => [
+                'copy' => 3,
+            ],
+            3 => [
+                'copy' => 3,
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'pid=3 AND colPos=3');
+
+        $this->assertSame(1, $count);
     }
 
     /**

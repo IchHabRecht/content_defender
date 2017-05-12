@@ -79,3 +79,22 @@ columns {
     }
 }
 ```
+
+**Limit the number of content elements**
+
+- To restrict the number of content elements use `maxitems = [number of elements]`
+
+*Example:*
+```
+columns {
+    1 {
+        name = Column with one textmedia 
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = textmedia
+        }
+        maxitems = 1
+    }
+}
+```
