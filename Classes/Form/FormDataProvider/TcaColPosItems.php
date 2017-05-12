@@ -2,6 +2,7 @@
 namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\Form\Exception\AccessDeniedColPosException;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
@@ -54,6 +55,12 @@ class TcaColPosItems implements FormDataProviderInterface
             }
 
             if ((int)$columnConfiguration['maxitems'] <= self::$colPosCount[$identifier]) {
+                if ($colPos === (int)$result['databaseRow']['colPos'][0]) {
+                    throw  new AccessDeniedColPosException(
+                        'Maximum number of allowed content elements (' . $columnConfiguration['maxitems'] . ') reached.',
+                        1494605357
+                    );
+                }
                 unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
             }
         }
