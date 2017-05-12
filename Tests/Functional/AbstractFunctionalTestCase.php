@@ -1,5 +1,5 @@
 <?php
-namespace IchHabRecht\ContentDefender\Tests\Functional\Hooks;
+namespace IchHabRecht\ContentDefender\Tests\Functional;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\Bootstrap;
