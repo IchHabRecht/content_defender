@@ -1,3 +1,12 @@
+2017-05-13         [RELEASE] Release of content_defender 2.2.0 (Nicole Cordes)
+2017-05-13 83aaba7 [FEATURE] Show error message for new content element in loaded column (Nicole Cordes)
+2017-05-12 2616bd3 [BUGFIX] Fix namespace of WizardItemsHookTest (Nicole Cordes)
+2017-05-12 de63339 [TASK] Add separate configuration for phpstan/phpstan (Nicole Cordes)
+2017-05-12 36971bb [TASK] Add functional test for TcaCTypeItems (Nicole Cordes)
+2017-05-12 3225be9 [TASK] Add functional test for TcaColPosItems (Nicole Cordes)
+2017-05-12 6e4add0 [BUGFIX] Correct the namespace of AbstractFunctionalTestCase (Nicole Cordes)
+2017-05-12 347fd28 [FEATURE] Remove loaded columns from edit form (Nicole Cordes)
+
 2017-05-12         [RELEASE] Release of content_defender 2.1.0 (Nicole Cordes)
 2017-05-12 50ce4c5 [TASK] Add new maxitems configuration to README.md (Nicole Cordes)
 2017-05-12 ebd5dd6 [TASK] Add functional test for maxitems configuration to CmpmapDataHandlerHookTest (Nicole Cordes)
