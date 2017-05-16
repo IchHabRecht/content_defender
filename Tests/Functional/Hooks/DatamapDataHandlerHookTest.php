@@ -86,4 +86,24 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $this->assertSame(3, $count);
     }
+
+    /**
+     * @test
+     */
+    public function existingRecordWithinMaxitemsCountIsSaved()
+    {
+        $datamap['tt_content'] = [
+            '4' => [
+                'header' => 'New Header',
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'New Header\'');
+
+        $this->assertSame(1, $count);
+    }
 }

@@ -53,4 +53,20 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
 
         $this->assertSame($expected, $result['processedTca']['columns']['colPos']['config']['items']);
     }
+
+    /**
+     * @test
+     */
+    public function existingRecordsInLoadedColumnCanBeOpened()
+    {
+        $formDataCompilerInput = [
+            'command' => 'edit',
+            'tableName' => 'tt_content',
+            'vanillaUid' => 4,
+        ];
+
+        $formDataGroup = new TcaDatabaseRecord();
+        $formDataCompiler = new FormDataCompiler($formDataGroup);
+        $result = $formDataCompiler->compile($formDataCompilerInput);
+    }
 }
