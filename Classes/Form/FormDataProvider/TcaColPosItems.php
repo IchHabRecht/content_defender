@@ -48,6 +48,7 @@ class TcaColPosItems implements FormDataProviderInterface
                     'pid=' . (int)$pageId
                     . ' AND colPos=' . (int)$colPos
                     . ' AND ' . $languageField . '=' . (int)$language
+                    . ' AND uid!=' . (int)$result['databaseRow']['uid']
                     . BackendUtility::deleteClause('tt_content')
                 );
 
