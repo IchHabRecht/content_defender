@@ -1,3 +1,8 @@
+2017-05-17         [RELEASE] Release of content_defender 2.2.1 (Nicole Cordes)
+2017-05-17 26a23b4 [BUGFIX] Exclude IRRE inline children from TcaColPosItems (Nicole Cordes)
+2017-05-16 73e6599 [TASK] Add additional function tests for maxitems editing (Nicole Cordes)
+2017-05-16 cda12ea [TASK] Exclude current, existing record from maxitems count (Nicole Cordes)
+
 2017-05-13         [RELEASE] Release of content_defender 2.2.0 (Nicole Cordes)
 2017-05-13 83aaba7 [FEATURE] Show error message for new content element in loaded column (Nicole Cordes)
 2017-05-12 2616bd3 [BUGFIX] Fix namespace of WizardItemsHookTest (Nicole Cordes)
