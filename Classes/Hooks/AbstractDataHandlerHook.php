@@ -76,6 +76,7 @@ abstract class AbstractDataHandlerHook
                 'pid=' . (int)$pageId
                 . ' AND colPos=' . (int)$colPos
                 . ' AND ' . $languageField . '=' . (int)$language
+                . ' AND uid!=' . (int)$record['uid']
                 . BackendUtility::deleteClause('tt_content')
             );
 

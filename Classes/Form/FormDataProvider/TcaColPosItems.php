@@ -22,6 +22,7 @@ class TcaColPosItems implements FormDataProviderInterface
     {
         if ('tt_content' !== $result['tableName']
             || empty($result['processedTca']['columns']['colPos']['config']['items'])
+            || !empty($result['isInlineChild'])
         ) {
             return $result;
         }
@@ -48,6 +49,7 @@ class TcaColPosItems implements FormDataProviderInterface
                     'pid=' . (int)$pageId
                     . ' AND colPos=' . (int)$colPos
                     . ' AND ' . $languageField . '=' . (int)$language
+                    . ' AND uid!=' . (int)$result['databaseRow']['uid']
                     . BackendUtility::deleteClause('tt_content')
                 );
 
