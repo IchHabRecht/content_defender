@@ -55,6 +55,9 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
 
+                        // Failing one of the conditions prevents a new record from being added to the database for the
+                        // current command
+
                         if (!$this->isRecordAllowedByRestriction($columnConfiguration, $currentRecord)) {
                             unset($dataHandler->cmdmap['tt_content'][$id]);
                             $dataHandler->log(
@@ -89,6 +92,13 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                                 ]
                             );
                         }
+
+                        // As for copy command the wrong record uid is used (the one of the record which should
+                        // be copied), we need to decrease the self::$colPosCount count again
+                        if ('paste' === $command) {
+                            self::$colPosCount[$this->getIdentifierForRecord($currentRecord)]--;
+                        }
+
                         break;
                 }
             }

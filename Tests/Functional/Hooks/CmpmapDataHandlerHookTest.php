@@ -186,6 +186,31 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function copyCommandCopiesAllowedRecordToEmptyMaxitemsColpos()
+    {
+        $commandMap['tt_content'][4] = [
+            'copy' => [
+                'action' => 'paste',
+                'target' => 3,
+                'update' => [
+                    'colPos' => '3',
+                ],
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_cmdmap();
+
+        $recordUid = $dataHandler->copyMappingArray['tt_content'][4];
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'uid=' . $recordUid . ' AND colPos=3');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
     public function deleteCommandDeletesContentElement()
     {
         $commandMap['tt_content'][1] = [

@@ -62,14 +62,11 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
-        $pageId = $record['pid'];
-        $colPos = $record['colPos'];
-        $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = $record[$languageField];
-
-        $identifier = $pageId . '/' . $language . '/' . $colPos;
+        $identifier = $this->getIdentifierForRecord($record);
 
         if (!isset(self::$colPosCount[$identifier])) {
+            $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
+            list($pageId, $colPos, $language) = explode('/', $identifier);
             $count = $this->getDatabaseConnection()->exec_SELECTcountRows(
                 '*',
                 'tt_content',
@@ -84,6 +81,20 @@ abstract class AbstractDataHandlerHook
         }
 
         return (int)$columnConfiguration['maxitems'] >= ++self::$colPosCount[$identifier];
+    }
+
+    /**
+     * @param array $record
+     * @return string
+     */
+    protected function getIdentifierForRecord(array $record)
+    {
+        $pageId = $record['pid'];
+        $colPos = $record['colPos'];
+        $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
+        $language = $record[$languageField];
+
+        return $pageId . '/' . $colPos . '/' . $language;
     }
 
     /**
