@@ -1,3 +1,6 @@
+2017-06-15         [RELEASE] Release of content_defender 2.2.2 (Nicole Cordes)
+2017-06-13 a0c5208 [BUGFIX] Correct maxitems count on copy command (Nicole Cordes)
+
 2017-05-17         [RELEASE] Release of content_defender 2.2.1 (Nicole Cordes)
 2017-05-17 26a23b4 [BUGFIX] Exclude IRRE inline children from TcaColPosItems (Nicole Cordes)
 2017-05-16 73e6599 [TASK] Add additional function tests for maxitems editing (Nicole Cordes)
