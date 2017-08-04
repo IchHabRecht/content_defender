@@ -27,4 +27,11 @@
         <CType>textmedia</CType>
         <colPos>3</colPos>
     </tt_content>
+    <tt_content>
+        <uid>5</uid>
+        <pid>4</pid>
+        <header>Text &amp; Media on empty subpage</header>
+        <CType>textmedia</CType>
+        <colPos>0</colPos>
+    </tt_content>
 </dataset>

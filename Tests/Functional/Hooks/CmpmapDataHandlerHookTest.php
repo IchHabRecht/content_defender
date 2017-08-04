@@ -57,6 +57,30 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function moveCommandMovesToNewColPosAndNoErrorIsThrown()
+    {
+        $dataMap['tt_content'][5] = [
+            'colPos' => 3,
+        ];
+
+        $commandMap['tt_content'][5] = [
+            'move' => 4,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($dataMap, $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->exec_SELECTcountRows('*', 'tt_content', 'uid=5 AND colPos=3');
+
+        $this->assertSame(1, $count);
+        $this->assertEmpty($dataHandler->errorLog, serialize($dataHandler->errorLog));
+    }
+
+    /**
+     * @test
+     */
     public function moveCommandMovesOnlyOneRecordToMaxitemsColPos()
     {
         $commandMap['tt_content'] = [
