@@ -31,6 +31,11 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                                 break;
                             }
                         }
+
+                        if(is_array($dataHandler->processedRecords) && in_array($id, $dataHandler->processedRecords)) {
+                            break;
+                        }
+
                     case 'copy':
                         $currentRecord = BackendUtility::getRecord('tt_content', $id);
                         if (is_array($value)
