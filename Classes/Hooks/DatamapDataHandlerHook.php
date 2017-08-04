@@ -16,6 +16,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
     public function processDatamap_beforeStart(DataHandler $dataHandler)
     {
         $datamap = $dataHandler->datamap;
+        $dataHandler->processedRecords = [];
         if (empty($datamap['tt_content'])) {
             return;
         }
@@ -32,6 +33,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 $incomingFieldArray['pid'] = $pageId;
             }
             $colPos = (int)$incomingFieldArray['colPos'];
+            $dataHandler->processedRecords[] = $incomingFieldArray['uid'];
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
