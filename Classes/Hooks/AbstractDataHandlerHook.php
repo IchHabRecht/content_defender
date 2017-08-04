@@ -64,6 +64,10 @@ abstract class AbstractDataHandlerHook
 
         $identifier = $this->getIdentifierForRecord($record);
 
+        if (isset(self::$colPosCount[$identifier]) && !isset($record['uid'])) {
+            ++self::$colPosCount[$identifier];
+        }
+
         if (!isset(self::$colPosCount[$identifier])) {
             $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
             list($pageId, $colPos, $language) = explode('/', $identifier);
@@ -77,10 +81,10 @@ abstract class AbstractDataHandlerHook
                 . BackendUtility::deleteClause('tt_content')
             );
 
-            self::$colPosCount[$identifier] = $count;
+            self::$colPosCount[$identifier] = ++$count;
         }
 
-        return (int)$columnConfiguration['maxitems'] >= ++self::$colPosCount[$identifier];
+        return (int)$columnConfiguration['maxitems'] >= self::$colPosCount[$identifier];
     }
 
     /**
