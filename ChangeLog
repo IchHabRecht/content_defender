@@ -1,3 +1,7 @@
+2017-08-07         [RELEASE] Release of content_defender 2.2.3 (Nicole Cordes)
+2017-08-07 c0dacc0 [TASK] Add functional test (Nicole Cordes)
+2017-08-06 3e8a269 [BUGFIX] Use existing DataHandler datamap to check for move command (Nicole Cordes)
+
 2017-06-15         [RELEASE] Release of content_defender 2.2.2 (Nicole Cordes)
 2017-06-13 a0c5208 [BUGFIX] Correct maxitems count on copy command (Nicole Cordes)
 
