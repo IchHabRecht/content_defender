@@ -3,7 +3,10 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
@@ -35,5 +38,17 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
         $this->setUpBackendUserFromFixture(1);
         Bootstrap::getInstance()->initializeLanguageObject();
+    }
+
+    /**
+     * @param DataHandler $dataHandler
+     */
+    protected function assertNoProssesingErrorsInDataHandler(DataHandler $dataHandler)
+    {
+        $dataHandler->printLogErrorMessages('');
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+
+        $this->assertSame(0, count($flashMessageQueue->getAllMessages()));
     }
 }
