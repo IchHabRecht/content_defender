@@ -67,6 +67,7 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
 
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
-        $result = $formDataCompiler->compile($formDataCompilerInput);
+
+        $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput));
     }
 }
