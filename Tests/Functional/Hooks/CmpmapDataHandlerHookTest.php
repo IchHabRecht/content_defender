@@ -98,7 +98,7 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=5 AND colPos=3');
 
         $this->assertSame(1, $count);
-        $this->assertNoProssesingErrorsInDataHandler($dataHandler);
+        $this->assertNoProcessingErrorsInDataHandler($dataHandler);
     }
 
     /**
