@@ -12,6 +12,7 @@
         <header>Header</header>
         <CType>header</CType>
         <colPos>3</colPos>
+        <sorting>128</sorting>
     </tt_content>
     <tt_content>
         <uid>3</uid>
@@ -19,6 +20,7 @@
         <header>Bullet List</header>
         <CType>bullets</CType>
         <colPos>3</colPos>
+        <sorting>256</sorting>
     </tt_content>
     <tt_content>
         <uid>4</uid>
