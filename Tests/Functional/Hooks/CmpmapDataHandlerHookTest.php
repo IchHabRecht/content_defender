@@ -11,6 +11,29 @@ class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function moveCommandMovesRecordInCurrentColPos()
+    {
+        $dataMap['tt_content'][2] = [
+            'colPos' => 3,
+        ];
+
+        $commandMap['tt_content'][2] = [
+            'move' => -3,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($dataMap, $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=2 AND colPos=3 AND sorting=512');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
     public function moveCommandMovesAllowedRecordToNewColPos()
     {
         $dataMap['tt_content'][2] = [
