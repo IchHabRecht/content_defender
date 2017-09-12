@@ -12,7 +12,7 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
-    public function loadedColumnIsRemovedFormColPosList()
+    public function loadedColumnIsRemovedFromColPosList()
     {
         $expected = [
             0 => [
@@ -27,6 +27,39 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
                 null,
                 null,
             ],
+            4 => [
+                'Footer3 (all)',
+                '12',
+                null,
+                null,
+            ],
+        ];
+
+        $formDataCompilerInput = [
+            'command' => 'new',
+            'tableName' => 'tt_content',
+            'vanillaUid' => 3,
+        ];
+
+        $formDataGroup = new TcaDatabaseRecord();
+        $formDataCompiler = new FormDataCompiler($formDataGroup);
+        $result = $formDataCompiler->compile($formDataCompilerInput);
+
+        $this->assertSame($expected, $result['processedTca']['columns']['colPos']['config']['items']);
+    }
+
+    /**
+     * @test
+     */
+    public function notAllowedColumnsAreRemovedFromColPosList()
+    {
+        $expected = [
+            0 => [
+                'Left (maxitems = 3)',
+                '0',
+                null,
+                null,
+            ],
             3 => [
                 'Footer2 (bullets)',
                 '11',
@@ -38,6 +71,12 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
                 '12',
                 null,
                 null,
+            ],
+        ];
+
+        $_GET['defVals'] = [
+            'tt_content' => [
+                'CType' => 'bullets',
             ],
         ];
 
