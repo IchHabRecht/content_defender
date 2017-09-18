@@ -4,5 +4,4 @@
 /.phpstan.neon export-ignore
 /.styleci.yml export-ignore
 /.travis.yml export-ignore
-/ChangeLog export-ignore
 /Tests export-ignore
