@@ -46,6 +46,27 @@ columns {
 }
 ```
 
+**Restrict certain content element fields and list_types**
+
+- In order to restrict plugins (CType list) to certain plugin and allow normal CTypes in the same colPos, there must
+  be an empty value for the field list_type. It is "created" through the colon right before the `news_pi1` in the line
+  `list_type`.
+
+*Example:*
+```
+columns {
+    1 {
+        name = A column with restricted list_type and "normal" CTypes
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = textmedia, list
+            list_type = ,news_pi1
+        }
+    }
+}
+```
+
 **Deny certain content element types**
 
 - To remove a set of values from content element fields use `disallowed.field = [list of comma separated values]`
