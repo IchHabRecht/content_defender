@@ -4,12 +4,18 @@ addons:
   apt:
     packages:
       - parallel
+  sonarcloud:
+    organization: "ichhabrecht-github"
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.sonar/cache
 
-sudo: false
+jdk:
+  - oraclejdk8
+
+sudo: required
 
 before_install:
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
@@ -49,7 +55,6 @@ jobs:
   fast_finish: true
   allow_failures:
     - env: TYPO3=dev-master
-    - env: Static code analysis
   include:
     - stage: test
       php: 7.2
@@ -67,23 +72,11 @@ jobs:
       php: 7.0
       env: TYPO3=^8.0
 
-    - &phpstan
-      stage: test
-      php: 7.2
-      env: Static code analysis
-      before_script: skip
-      script:
-        - travis_fold start before_phpstan
-        - travis_time_start
-        - echo
-        - echo "Running php static analysis"
-        - echo
-        - echo
-        - composer require phpstan/phpstan=^0.9 --update-with-dependencie
-        - travis_time_finish
-        - travis_fold end before_phpstan
-        - .Build/bin/phpstan analyse -c .phpstan.neon --level 5 Classes Tests-
-    - <<: *phpstan
-      php: 7.1
-    - <<: *phpstan
+    - stage: sonarqube scanner
+      if: type = push AND branch = master
       php: 7.0
+      before_install: skip
+      install: skip
+      before_script:
+      script:
+        - sonar-scanner
