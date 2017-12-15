@@ -3,16 +3,22 @@ language: php
 matrix:
   fast_finish: true
   include:
-    - php: 7.1
-      env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
+    - php: 7.2
+      env: TYPO3=dev-master PHPUNIT_TESTS=yes
+    - php: 7.2
+      env: TYPO3=^9.0 PHPUNIT_TESTS=yes PHP_LINT=yes
+    - php: 7.2
+      env: TYPO3=^8.0 PHPUNIT_TESTS=yes
+    - php: 7.2
+      env: TYPO3=^7.6 PHPUNIT_TESTS=yes
     - php: 7.1
       env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 7.1
+      env: TYPO3=^8.0 CODE_ANALYSIS=yes
+    - php: 7.1
       env: TYPO3=^7.6 PHPUNIT_TESTS=yes
-    - php: 7.0
-      env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
-    - php: 7.0
-      env: TYPO3="dev-master as 8.7.0" CODE_ANALYSIS=yes
+    - php: 7.1
+      env: TYPO3=^7.6 CODE_ANALYSIS=yes
     - php: 7.0
       env: TYPO3=^8.0 PHPUNIT_TESTS=yes PHP_LINT=yes
     - php: 7.0
@@ -26,8 +32,10 @@ matrix:
     - php: 5.5
       env: TYPO3=^7.6 PHPUNIT_TESTS=yes PHP_LINT=yes
   allow_failures:
-    - env: TYPO3="dev-master as 8.7.0" PHPUNIT_TESTS=yes
-    - env: TYPO3="dev-master as 8.7.0" CODE_ANALYSIS=yes
+    - env: TYPO3=dev-master PHPUNIT_TESTS=yes
+    - env: TYPO3=dev-master CODE_ANALYSIS=yes
+    - env: TYPO3=^8.0 CODE_ANALYSIS=yes
+    - env: TYPO3=^7.6 CODE_ANALYSIS=yes
 
 addons:
   apt:
@@ -44,8 +52,13 @@ before_install:
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
 
 before_script:
-  - composer require typo3/cms="$TYPO3"
-  - git checkout composer.json
+  - >
+    if [ "$TYPO3" == "dev-master" ]; then
+      composer config minimum-stability dev;
+      composer require typo3/cms-backend="dev-master" --no-update;
+      composer require typo3/cms-core="dev-master" --no-update;
+    fi
+  - composer require nimut/typo3-complete="$TYPO3"
   - mkdir -p .Build/Web/typo3conf/ext/
   - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
@@ -68,14 +81,13 @@ script:
     if [ "$CODE_ANALYSIS" == "yes" ]; then
       travis_fold start before_phpstan;
       travis_time_start;
+      echo;
       echo "Running php static analysis";
-      git clean -dffx;
-      composer require typo3/cms="$TYPO3" phpstan/phpstan="^0.6"
-      git checkout composer.json;
+      echo;
+      echo;
+      composer require phpstan/phpstan=^0.9 --update-with-dependencies
       travis_time_finish;
       travis_fold end before_phpstan;
-      echo;
-      echo;
       .Build/bin/phpstan analyse -c .phpstan.neon --level 5 Classes Tests;
     fi
 
