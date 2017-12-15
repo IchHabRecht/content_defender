@@ -4,8 +4,8 @@ namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use IchHabRecht\ContentDefender\Form\Exception\AccessDeniedColPosException;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaColPosItems implements FormDataProviderInterface
@@ -87,15 +87,30 @@ class TcaColPosItems implements FormDataProviderInterface
                 $identifier = $pageId . '/' . $language . '/' . $colPos;
 
                 if (!isset(self::$colPosCount[$identifier])) {
-                    $count = $this->getDatabaseConnection()->exec_SELECTcountRows(
-                        '*',
-                        'tt_content',
-                        'pid=' . (int)$pageId
-                        . ' AND colPos=' . (int)$colPos
-                        . ' AND ' . $languageField . '=' . (int)$language
-                        . ' AND uid!=' . (int)$result['databaseRow']['uid']
-                        . BackendUtility::deleteClause('tt_content')
-                    );
+                    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+                    $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+                    $count = $queryBuilder->count('*')
+                        ->from('tt_content')
+                        ->where(
+                            $queryBuilder->expr()->eq(
+                                'pid',
+                                $queryBuilder->createNamedParameter($pageId, \PDO::PARAM_INT)
+                            ),
+                            $queryBuilder->expr()->eq(
+                                'colPos',
+                                $queryBuilder->createNamedParameter($colPos, \PDO::PARAM_INT)
+                            ),
+                            $queryBuilder->expr()->eq(
+                                $languageField,
+                                $queryBuilder->createNamedParameter($language, \PDO::PARAM_INT)
+                            ),
+                            $queryBuilder->expr()->neq(
+                                'uid',
+                                $queryBuilder->createNamedParameter($result['databaseRow']['uid'], \PDO::PARAM_INT)
+                            )
+                        )
+                        ->execute()
+                        ->fetchColumn();
 
                     self::$colPosCount[$identifier] = $count;
                 }
@@ -113,13 +128,5 @@ class TcaColPosItems implements FormDataProviderInterface
         }
 
         return $result;
-    }
-
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 }
