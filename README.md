@@ -46,6 +46,25 @@ columns {
 }
 ```
 
+**Combine multiple content element fields**
+
+- In order to restrict content elements using multple field conditions, please note that it might be necessary to allow empty values as well. A basic example would be to allow multiple content element types (text and list) while restricting plugin types to `news` only. If the editor wants to add a new text element, the plugin type stays empty.
+
+*Example:*
+```
+columns {
+    1 {
+        name = A column with restricted list_type and "normal" CType
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = textmedia, list
+            list_type = ,news_pi1
+        }
+    }
+}
+```
+
 **Deny certain content element types**
 
 - To remove a set of values from content element fields use `disallowed.field = [list of comma separated values]`
