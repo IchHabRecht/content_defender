@@ -20,11 +20,11 @@
         }
     ],
     "require": {
-        "typo3/cms-backend": ">=7.6 <8.8",
-        "typo3/cms-core": ">=7.6 <8.8"
+        "typo3/cms-backend": ">=8.7 <9.1",
+        "typo3/cms-core": ">=8.7 <9.1"
     },
     "require-dev": {
-        "nimut/testing-framework": "2.x-dev"
+        "nimut/testing-framework": "3.x-dev"
     },
     "suggest": {
         "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues",

@@ -38,6 +38,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                             }
                             break;
                         }
+                        // no break
                     case 'copy':
                         if (is_array($value)
                             && !empty($value['action'])

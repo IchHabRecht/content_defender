@@ -4,4 +4,5 @@
 /.phpstan.neon export-ignore
 /.styleci.yml export-ignore
 /.travis.yml export-ignore
+/sonar-project.properties
 /Tests/ export-ignore

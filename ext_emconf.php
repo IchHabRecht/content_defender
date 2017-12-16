@@ -21,23 +21,23 @@ $EM_CONF[$_EXTKEY] = array (
   'uploadfolder' => 0,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '2.2.4',
-  'constraints' => 
+  'version' => '3.0.0',
+  'constraints' =>
   array (
-    'depends' => 
+    'depends' =>
     array (
-      'typo3' => '7.6.0-8.7.99',
+      'typo3' => '8.7.0-9.0.99',
     ),
-    'conflicts' => 
+    'conflicts' =>
     array (
     ),
-    'suggests' => 
+    'suggests' =>
     array (
     ),
   ),
-  'autoload-dev' => 
+  'autoload-dev' =>
   array (
-    'psr-4' => 
+    'psr-4' =>
     array (
       'IchHabRecht\\ContentDefender\\Tests\\' => 'Tests/',
     ),
