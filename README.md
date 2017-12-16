@@ -46,17 +46,15 @@ columns {
 }
 ```
 
-**Restrict certain content element fields and list_types**
+**Combine multiple content element fields**
 
-- In order to restrict plugins (CType list) to certain plugin and allow normal CTypes in the same colPos, there must
-  be an empty value for the field list_type. It is "created" through the colon right before the `news_pi1` in the line
-  `list_type`.
+- In order to restrict content elements using multple field conditions, please note that it might be necessary to allow empty values as well. A basic example would be to allow multiple content element types (text and list) while restricting plugin types to `news` only. If the editor wants to add a new text element, the plugin type stays empty.
 
 *Example:*
 ```
 columns {
     1 {
-        name = A column with restricted list_type and "normal" CTypes
+        name = A column with restricted list_type and "normal" CType
         colPos = 3
         colspan = 6
         allowed {
