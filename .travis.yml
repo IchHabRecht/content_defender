@@ -72,6 +72,35 @@ jobs:
       php: 7.0
       env: TYPO3=^8.0
 
+    - stage: publish to ter
+      if: tag IS present
+      php: 7.0
+      before_install: skip
+      install: skip
+      before_script: skip
+      script:
+        - |
+          if [ -n "$TRAVIS_TAG" ] && [ -n "$TYPO3_ORG_USERNAME" ] && [ -n "$TYPO3_ORG_PASSWORD" ]; then
+            # Install requirements
+            echo
+            echo "Preparing upload of release ${TRAVIS_TAG} to TER"
+            echo
+            echo
+            composer install
+            composer require --dev helhum/ter-client dev-master
+
+            # Cleanup before we upload
+            git reset --hard HEAD && git clean -fx
+
+            # Upload
+            TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`
+            echo
+            echo "Uploading release ${TRAVIS_TAG} to TER"
+            echo
+            echo
+            .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
+            fi;
+
     - stage: sonarqube scanner
       if: type = push AND branch = master
       php: 7.0
