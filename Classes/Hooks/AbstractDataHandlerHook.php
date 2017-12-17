@@ -1,16 +1,23 @@
 <?php
 namespace IchHabRecht\ContentDefender\Hooks;
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use IchHabRecht\ContentDefender\Repository\ContentRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractDataHandlerHook
 {
     /**
-     * @var array
+     * @var ContentRepository
      */
-    protected static $colPosCount = [];
+    protected $contentRepository;
+
+    /**
+     * @param ContentRepository $contentRepository
+     */
+    public function __construct(ContentRepository $contentRepository = null)
+    {
+        $this->contentRepository = $contentRepository ?? GeneralUtility::makeInstance(ContentRepository::class);
+    }
 
     /**
      * @param array $columnConfiguration
@@ -67,52 +74,6 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
-        $identifier = $this->getIdentifierForRecord($record);
-
-        if (!isset(self::$colPosCount[$identifier])) {
-            $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-            list($pageId, $colPos, $language) = explode('/', $identifier);
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-            $count = $queryBuilder->count('*')
-                ->from('tt_content')
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'pid',
-                        $queryBuilder->createNamedParameter($pageId, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'colPos',
-                        $queryBuilder->createNamedParameter($colPos, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        $languageField,
-                        $queryBuilder->createNamedParameter($language, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->neq(
-                        'uid',
-                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)
-                    )
-                )
-                ->execute()
-                ->fetchColumn();
-            self::$colPosCount[$identifier] = $count;
-        }
-
-        return (int)$columnConfiguration['maxitems'] >= ++self::$colPosCount[$identifier];
-    }
-
-    /**
-     * @param array $record
-     * @return string
-     */
-    protected function getIdentifierForRecord(array $record)
-    {
-        $pageId = $record['pid'];
-        $colPos = $record['colPos'];
-        $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = $record[$languageField];
-
-        return $pageId . '/' . $colPos . '/' . $language;
+        return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->increaseColPosCountByRecord($record);
     }
 }
