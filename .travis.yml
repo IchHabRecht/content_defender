@@ -27,6 +27,10 @@ install:
   - mkdir -p .Build/Web/typo3conf/ext/
   - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
+  - export typo3DatabaseName=typo3
+  - export typo3DatabaseHost=localhost
+  - export typo3DatabaseUsername=root
+  - export typo3DatabasePassword=
 
 script:
   - >
@@ -34,10 +38,6 @@ script:
     echo "Running functional tests";
     echo;
     echo;
-    export typo3DatabaseName="typo3";
-    export typo3DatabaseHost="localhost";
-    export typo3DatabaseUsername="root";
-    export typo3DatabasePassword="";
     find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';
 
   - >
@@ -101,8 +101,39 @@ jobs:
     - stage: sonarqube scanner
       if: type = push AND branch IN (2.x)
       php: 7.0
+      env: TYPO3=^8.7
       before_install: skip
-      install: skip
+      install:
+        - composer require --dev nimut/typo3-complete="$TYPO3" nimut/phpunit-merger=0.1
+        - mkdir -p .Build/Web/typo3conf/ext/ .Log/coverage/ .Log/log/
+        - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
+        - export TYPO3_PATH_WEB=$PWD/.Build/Web
+        - export typo3DatabaseName=typo3
+        - export typo3DatabaseHost=localhost
+        - export typo3DatabaseUsername=root
+        - export typo3DatabasePassword=
       before_script:
       script:
-        - sonar-scanner
+        - >
+          echo;
+          echo "Running functional tests";
+          echo;
+          echo;
+          .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml --log-junit .Log/log/functional.xml --coverage-php .Log/coverage/functional.cov --whitelist Classes Tests/Functional/;
+
+        - >
+          echo;
+          echo "Merging log and coverage files";
+          echo;
+          echo;
+          .Build/bin/phpunit-merger coverage .Log/coverage/ .Log/coverage.xml;
+          .Build/bin/phpunit-merger log .Log/log/ .Log/log.xml;
+
+        - git fetch --unshallow
+
+        - >
+          echo;
+          echo "Running SonarQube Scanner";
+          echo;
+          echo;
+          sonar-scanner;
