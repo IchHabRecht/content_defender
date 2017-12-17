@@ -6,6 +6,8 @@ addons:
       - parallel
   sonarcloud:
     organization: "ichhabrecht-github"
+    branches:
+      - 2.x
 
 cache:
   directories:
@@ -97,7 +99,7 @@ jobs:
             fi;
 
     - stage: sonarqube scanner
-      if: type = push AND branch = master
+      if: type = push AND branch IN (2.x)
       php: 7.0
       before_install: skip
       install: skip
