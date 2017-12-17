@@ -105,7 +105,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 // As for copy command the wrong record uid is used (the one of the record which should
                 // be copied), we need to decrease the self::$colPosCount count again
                 if ('paste' === $command) {
-                    self::$colPosCount[$this->getIdentifierForRecord($currentRecord)]--;
+                    $this->contentRepository->decreaseColPosCountByRecord($currentRecord);
                 }
             }
         }
