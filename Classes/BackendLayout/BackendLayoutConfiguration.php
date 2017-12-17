@@ -48,30 +48,31 @@ class BackendLayoutConfiguration
     public function getConfigurationByColPos($colPos)
     {
         $configurationIdentifier = md5($this->backendLayout['config']);
-        if (!isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
-            if (empty($this->backendLayout['__config']['backend_layout.']['rowCount'])
-                || empty($this->backendLayout['__config']['backend_layout.']['colCount'])
-                || !in_array($colPos, array_map('intval', $this->backendLayout['__colPosList']), true)
-            ) {
-                self::$columnConfiguration[$configurationIdentifier][$colPos] = [];
-            } else {
-                $columnConfiguration = [];
-                foreach ($this->backendLayout['__config']['backend_layout.']['rows.'] as $row) {
-                    if (empty($row['columns.'])) {
-                        continue;
-                    }
+        if (isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
+            return self::$columnConfiguration[$configurationIdentifier][$colPos];
+        }
 
-                    foreach ($row['columns.'] as $column) {
-                        if ($colPos === (int)$column['colPos']) {
-                            $columnConfiguration = $column;
-                            break 2;
-                        }
-                    }
+        if (empty($this->backendLayout['__config']['backend_layout.']['rowCount'])
+            || empty($this->backendLayout['__config']['backend_layout.']['colCount'])
+            || !in_array($colPos, array_map('intval', $this->backendLayout['__colPosList']), true)
+        ) {
+            return self::$columnConfiguration[$configurationIdentifier][$colPos] = [];
+        }
+
+        $configuration = [];
+        foreach ($this->backendLayout['__config']['backend_layout.']['rows.'] as $row) {
+            if (empty($row['columns.'])) {
+                continue;
+            }
+
+            foreach ($row['columns.'] as $column) {
+                if ($colPos === (int)$column['colPos']) {
+                    $configuration = $column;
+                    break 2;
                 }
-                self::$columnConfiguration[$configurationIdentifier][$colPos] = $columnConfiguration;
             }
         }
 
-        return self::$columnConfiguration[$configurationIdentifier][$colPos];
+        return self::$columnConfiguration[$configurationIdentifier][$colPos] = $configuration;
     }
 }

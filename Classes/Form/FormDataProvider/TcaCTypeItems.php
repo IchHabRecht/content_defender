@@ -26,35 +26,34 @@ class TcaCTypeItems implements FormDataProviderInterface
             return $result;
         }
 
-        if (!empty($columnConfiguration['allowed.'])) {
-            foreach ($columnConfiguration['allowed.'] as $field => $value) {
-                if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
-                    continue;
-                }
-
-                $allowedValues = GeneralUtility::trimExplode(',', $value);
-                $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
-                    $result['processedTca']['columns'][$field]['config']['items'],
-                    function ($item) use ($allowedValues) {
-                        return in_array($item[1], $allowedValues);
-                    }
-                );
+        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        foreach ($allowedConfiguration as $field => $value) {
+            if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
+                continue;
             }
+
+            $allowedValues = GeneralUtility::trimExplode(',', $value);
+            $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+                $result['processedTca']['columns'][$field]['config']['items'],
+                function ($item) use ($allowedValues) {
+                    return in_array($item[1], $allowedValues);
+                }
+            );
         }
-        if (!empty($columnConfiguration['disallowed.'])) {
-            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
-                if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
-                    continue;
-                }
 
-                $disAllowedValues = GeneralUtility::trimExplode(',', $value);
-                $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
-                    $result['processedTca']['columns'][$field]['config']['items'],
-                    function ($item) use ($disAllowedValues) {
-                        return !in_array($item[1], $disAllowedValues);
-                    }
-                );
+        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        foreach ($disallowedConfiguration as $field => $value) {
+            if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
+                continue;
             }
+
+            $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+            $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+                $result['processedTca']['columns'][$field]['config']['items'],
+                function ($item) use ($disAllowedValues) {
+                    return !in_array($item[1], $disAllowedValues);
+                }
+            );
         }
 
         return $result;

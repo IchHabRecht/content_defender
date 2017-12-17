@@ -56,11 +56,8 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 // DataHandler copies a record by first add a new content element (in the old colPos) and then adjust
                 // the colPos information to the target colPos. This means we have to allow this element to be added
                 // even if the maxitems is reached already. The copy command was checked in CmdmapDataHandlerHook.
-                if (empty($dataHandler->cmdmap)) {
-                    $clipboard = GeneralUtility::_GP('CB');
-                    if (!empty($clipboard['paste'])) {
-                        continue;
-                    }
+                if (empty($dataHandler->cmdmap) && !empty(GeneralUtility::_GP('CB')['paste'])) {
+                    continue;
                 }
 
                 unset($dataHandler->datamap['tt_content'][$id]);

@@ -24,38 +24,16 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
             return;
         }
 
-        if (!empty($columnConfiguration['allowed.'])) {
-            foreach ($columnConfiguration['allowed.'] as $field => $value) {
-                $allowedValues = GeneralUtility::trimExplode(',', $value);
-                foreach ($wizardItems as $key => $configuration) {
-                    $keyParts = explode('_', $key, 2);
-                    if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
-                        continue;
-                    }
-
-                    if (!in_array($configuration['tt_content_defValues'][$field], $allowedValues)
-                    ) {
-                        unset($wizardItems[$key]);
-                        continue;
-                    }
-                }
-            }
+        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        foreach ($allowedConfiguration as $field => $value) {
+            $allowedValues = GeneralUtility::trimExplode(',', $value);
+            $wizardItems = $this->removeDisallowedValues($wizardItems, $field, $allowedValues);
         }
-        if (!empty($columnConfiguration['disallowed.'])) {
-            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
-                $disAllowedValues = GeneralUtility::trimExplode(',', $value);
-                foreach ($wizardItems as $key => $configuration) {
-                    $keyParts = explode('_', $key, 2);
-                    if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
-                        continue;
-                    }
-                    if (in_array($configuration['tt_content_defValues'][$field], $disAllowedValues)
-                    ) {
-                        unset($wizardItems[$key]);
-                        continue;
-                    }
-                }
-            }
+
+        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        foreach ($disallowedConfiguration as $field => $value) {
+            $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+            $wizardItems = $this->removeDisallowedValues($wizardItems, $field, $disAllowedValues, false);
         }
 
         $availableWizardItems = [];
@@ -69,5 +47,31 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
         }
 
         $wizardItems = array_intersect_key($wizardItems, $availableWizardItems);
+    }
+
+    /**
+     * @param array $wizardItems
+     * @param string $field
+     * @param array $values
+     * @param bool $allowed
+     * @return array
+     */
+    protected function removeDisallowedValues(array $wizardItems, $field, array $values, $allowed = true)
+    {
+        foreach ($wizardItems as $key => $configuration) {
+            $keyParts = explode('_', $key, 2);
+            if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
+                continue;
+            }
+
+            if (($allowed && !in_array($configuration['tt_content_defValues'][$field], $values))
+                || (!$allowed && in_array($configuration['tt_content_defValues'][$field], $values))
+            ) {
+                unset($wizardItems[$key]);
+                continue;
+            }
+        }
+
+        return $wizardItems;
     }
 }

@@ -23,32 +23,37 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
-        if (!empty($columnConfiguration['allowed.'])) {
-            foreach ($columnConfiguration['allowed.'] as $field => $value) {
-                if (!isset($record[$field])) {
-                    continue;
-                }
-
-                $allowedValues = GeneralUtility::trimExplode(',', $value);
-                if (!in_array($record[$field], $allowedValues)) {
-                    return false;
-                }
+        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        foreach ($allowedConfiguration as $field => $value) {
+            $allowedValues = GeneralUtility::trimExplode(',', $value);
+            if (!$this->isAllowedValue($record, $field, $allowedValues)) {
+                return false;
             }
         }
-        if (!empty($columnConfiguration['disallowed.'])) {
-            foreach ($columnConfiguration['disallowed.'] as $field => $value) {
-                if (!isset($record[$field])) {
-                    continue;
-                }
 
-                $disallowedValues = GeneralUtility::trimExplode(',', $value);
-                if (in_array($record[$field], $disallowedValues)) {
-                    return false;
-                }
+        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        foreach ($disallowedConfiguration as $field => $value) {
+            $disallowedValues = GeneralUtility::trimExplode(',', $value);
+            if (!$this->isAllowedValue($record, $field, $disallowedValues, false)) {
+                return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * @param array $record
+     * @param string $field
+     * @param array $values
+     * @param bool $allowed
+     * @return bool
+     */
+    protected function isAllowedValue(array $record, $field, array $values, $allowed = true)
+    {
+        return !isset($record[$field])
+            || ($allowed && in_array($record[$field], $values))
+            || (!$allowed && !in_array($record[$field], $values));
     }
 
     /**
