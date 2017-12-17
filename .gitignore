@@ -1,4 +1,4 @@
-.Build/
-.idea/
-.php_cs
-.php_cs.cache
+/.Build/
+/.idea/
+/.php_cs
+/.php_cs.cache
