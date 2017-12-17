@@ -24,7 +24,8 @@
         "typo3/cms-core": ">=8.7 <9.1"
     },
     "require-dev": {
-        "nimut/testing-framework": "3.x-dev"
+        "nimut/testing-framework": "3.x-dev",
+        "nimut/phpunit-merger": "0.1"
     },
     "suggest": {
         "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues",
