@@ -26,7 +26,7 @@ install:
   - composer require nimut/typo3-complete="$TYPO3"
   - mkdir -p .Build/Web/typo3conf/ext/
   - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
-  - export TYPO3_PATH_WEB=$PWD/.Build/Web
+  - export TYPO3_PATH_ROOT=$PWD/.Build/Web
   - export typo3DatabaseName=typo3
   - export typo3DatabaseHost=localhost
   - export typo3DatabaseUsername=root
@@ -76,27 +76,26 @@ jobs:
       install: skip
       before_script: skip
       script:
-        - |
-          if [ -n "$TRAVIS_TAG" ] && [ -n "$TYPO3_ORG_USERNAME" ] && [ -n "$TYPO3_ORG_PASSWORD" ]; then
-            # Install requirements
-            echo
-            echo "Preparing upload of release ${TRAVIS_TAG} to TER"
-            echo
-            echo
-            composer install
-            composer require --dev helhum/ter-client dev-master
+        - >
+          if [ -n "$TYPO3_ORG_USERNAME" ] && [ -n "$TYPO3_ORG_PASSWORD" ]; then
+            echo;
+            echo "Preparing upload of release ${TRAVIS_TAG} to TER";
+            echo;
+            echo;
+            composer install --no-dev;
+            composer require --update-no-dev helhum/ter-client dev-master;
 
             # Cleanup before we upload
-            git reset --hard HEAD && git clean -fx
+            git reset --hard HEAD && git clean -fx;
 
             # Upload
-            TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`
-            echo
-            echo "Uploading release ${TRAVIS_TAG} to TER"
-            echo
-            echo
-            .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE"
-            fi;
+            TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`;
+            echo;
+            echo "Uploading release ${TRAVIS_TAG} to TER";
+            echo;
+            echo;
+            .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
+          fi
 
     - stage: sonarqube scanner
       if: type = push AND branch IN (2.x)
@@ -107,7 +106,7 @@ jobs:
         - composer require --dev nimut/typo3-complete="$TYPO3" nimut/phpunit-merger=0.1
         - mkdir -p .Build/Web/typo3conf/ext/ .Log/coverage/ .Log/log/
         - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
-        - export TYPO3_PATH_WEB=$PWD/.Build/Web
+        - export TYPO3_PATH_ROOT=$PWD/.Build/Web
         - export typo3DatabaseName=typo3
         - export typo3DatabaseHost=localhost
         - export typo3DatabaseUsername=root
