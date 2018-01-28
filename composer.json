@@ -10,7 +10,7 @@
     ],
     "homepage": "https://github.com/IchHabRecht/content_defender",
     "license": [
-        "GPL-2.0+"
+        "GPL-2.0-or-later"
     ],
     "authors": [
         {
