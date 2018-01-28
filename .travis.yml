@@ -25,10 +25,11 @@ before_install:
 
 install:
   - >
-    if [ "$TYPO3" == "dev-master" ]; then
+    if [[ "$TYPO3" = *"dev"* ]]; then
       composer config minimum-stability dev;
-      composer require typo3/cms-backend="dev-master" --no-update;
-      composer require typo3/cms-core="dev-master" --no-update;
+      composer config prefer-stable true;
+      composer require typo3/cms-backend="@dev" --no-update;
+      composer require typo3/cms-core="@dev" --no-update;
     fi
   - composer require nimut/typo3-complete="$TYPO3"
   - mkdir -p .Build/Web/typo3conf/ext/
@@ -58,6 +59,7 @@ jobs:
   fast_finish: true
   allow_failures:
     - env: TYPO3=dev-master
+    - env: TYPO3=8.7.x-dev
   include:
     - stage: test
       php: 7.2
@@ -69,11 +71,20 @@ jobs:
       php: 7.2
       env: TYPO3=^8.0
     - stage: test
+      php: 7.2
+      env: TYPO3=8.7.x-dev
+    - stage: test
       php: 7.1
       env: TYPO3=^8.0
     - stage: test
+      php: 7.1
+      env: TYPO3=8.7.x-dev
+    - stage: test
       php: 7.0
       env: TYPO3=^8.0
+    - stage: test
+      php: 7.0
+      env: TYPO3=8.7.x-dev
 
     - stage: publish to ter
       if: tag IS present
