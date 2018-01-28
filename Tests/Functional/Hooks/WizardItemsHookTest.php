@@ -6,6 +6,7 @@ require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 use IchHabRecht\ContentDefender\Hooks\WizardItemsHook;
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
+use TYPO3\CMS\Backend\Controller\Wizard\NewContentElementWizardController;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
@@ -55,11 +56,19 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         $_GET['colPos'] = $colPos;
 
         Bootstrap::getInstance()->initializeLanguageObject();
-        $newContentElementController = new NewContentElementController();
-        $wizardItems = $newContentElementController->wizardArray();
+        if (version_compare(TYPO3_version, '9.0', '<')) {
+            $parentObject = new NewContentElementController();
+            $wizardItems = $parentObject->wizardArray();
+        } else {
+            $parentObject = new NewContentElementWizardController();
+            $closure = \Closure::bind(function () use ($parentObject) {
+                return $parentObject->getWizardItems();
+            }, null, get_class($parentObject));
+            $wizardItems = $closure();
+        }
 
         $wizardItemsHook = new WizardItemsHook();
-        $wizardItemsHook->manipulateWizardItems($wizardItems, $newContentElementController);
+        $wizardItemsHook->manipulateWizardItems($wizardItems, $parentObject);
 
         $this->assertCount($expectedCount, $wizardItems);
     }
