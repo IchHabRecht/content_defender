@@ -1,3 +1,9 @@
+2018-01-29         [RELEASE] Release of content_defender 3.0.1 (Nicole Cordes)
+2018-01-28 0371a92 [TASK] Include current 8.7 development branch on Travis CI (Nicole Cordes)
+2018-01-28 e384f9b [!!!][BUGFIX] Change of parent object in NewContentElementWizardHookInterface (Nicole Cordes)
+2018-01-28 cbdb792 [TASK] Update composer.json license definition (Nicole Cordes)
+2017-12-21 7dc8cb2 [TASK] Clean up Travis CI and SonarQube configuration (Nicole Cordes)
+
 2017-12-18         [RELEASE] Release of content_defender 3.0.0 (Nicole Cordes)
 2017-12-17 41fc30d [BUGFIX] Prevent code duplication for colPos count (Nicole Cordes)
 2017-12-17 57d03f8 [FEATURE] SonarQube: Add PHPUnit test and coverage results import (Nicole Cordes)
