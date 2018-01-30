@@ -1,3 +1,7 @@
+2018-01-30         [RELEASE] Release of content_defender 3.0.2 (Nicole Cordes)
+2018-01-30 8a86583 [TASK] Raise compatibility to TYPO3 9.1 (Nicole Cordes)
+2018-01-29 362c6f3 Revert "[!!!][BUGFIX] Change of parent object in NewContentElementWizardHookInterface" (Nicole Cordes)
+
 2018-01-29         [RELEASE] Release of content_defender 3.0.1 (Nicole Cordes)
 2018-01-28 0371a92 [TASK] Include current 8.7 development branch on Travis CI (Nicole Cordes)
 2018-01-28 e384f9b [!!!][BUGFIX] Change of parent object in NewContentElementWizardHookInterface (Nicole Cordes)
