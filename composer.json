@@ -28,8 +28,7 @@
         "nimut/phpunit-merger": "0.1"
     },
     "suggest": {
-        "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues",
-        "phpstan/phpstan": "Use PHPStan for static PHP analysis"
+        "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues"
     },
     "autoload": {
         "psr-4": {
