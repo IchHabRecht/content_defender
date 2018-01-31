@@ -9,7 +9,13 @@ mod.web_layout.BackendLayouts.default {
                     1 {
                         name = Border (all)
                         colPos = 3
-                        colspan = 3
+                        colspan = 5
+                    }
+
+
+                    2 {
+                        name = Disabled
+                        colPos =
                     }
                 }
             }
@@ -19,7 +25,7 @@ mod.web_layout.BackendLayouts.default {
                     1 {
                         name = Normal (header, textmedia, list[-indexed_search_pi2])
                         colPos = 0
-                        colspan = 3
+                        colspan = 6
                         allowed {
                             CType = header, textmedia, list
                         }
