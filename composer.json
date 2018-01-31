@@ -9,9 +9,7 @@
         "backend"
     ],
     "homepage": "https://github.com/IchHabRecht/content_defender",
-    "license": [
-        "GPL-2.0+"
-    ],
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Nicole Cordes | CPS-IT GmbH",
