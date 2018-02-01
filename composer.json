@@ -18,8 +18,7 @@
         }
     ],
     "require": {
-        "typo3/cms-backend": ">=7.6 <8.8",
-        "typo3/cms-core": ">=7.6 <8.8"
+        "typo3/cms-backend": ">=7.6 <8.8"
     },
     "require-dev": {
         "nimut/testing-framework": "2.x-dev || 3.x-dev"
