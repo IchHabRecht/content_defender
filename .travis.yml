@@ -29,7 +29,6 @@ install:
       composer config minimum-stability dev;
       composer config prefer-stable true;
       composer require typo3/cms-backend="@dev" --no-update;
-      composer require typo3/cms-core="@dev" --no-update;
     fi
   - composer require nimut/typo3-complete="$TYPO3"
   - mkdir -p .Build/Web/typo3conf/ext/
