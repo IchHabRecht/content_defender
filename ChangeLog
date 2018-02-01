@@ -1,3 +1,7 @@
+2018-02-01         [RELEASE] Release of content_defender 3.0.3 (Nicole Cordes)
+2018-01-31 132d2f2 [TASK] Remove phpstan/phpstan suggestion (Nicole Cordes)
+2018-01-31 6cd91d2 [BUGFIX] Exclude disabled (not assigned) columns (Nicole Cordes)
+
 2018-01-30         [RELEASE] Release of content_defender 3.0.2 (Nicole Cordes)
 2018-01-30 8a86583 [TASK] Raise compatibility to TYPO3 9.1 (Nicole Cordes)
 2018-01-29 362c6f3 Revert "[!!!][BUGFIX] Change of parent object in NewContentElementWizardHookInterface" (Nicole Cordes)
