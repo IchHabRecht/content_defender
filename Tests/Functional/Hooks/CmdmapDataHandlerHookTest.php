@@ -6,7 +6,7 @@ require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
-class CmpmapDataHandlerHookTest extends AbstractFunctionalTestCase
+class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 {
     /**
      * @test
