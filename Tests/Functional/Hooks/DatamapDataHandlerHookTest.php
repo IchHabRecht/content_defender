@@ -23,6 +23,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
@@ -42,6 +43,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
@@ -81,6 +83,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=0');
 
@@ -101,6 +104,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'New Header\'');
 

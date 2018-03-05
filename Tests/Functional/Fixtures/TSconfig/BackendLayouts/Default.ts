@@ -12,7 +12,6 @@ mod.web_layout.BackendLayouts.default {
                         colspan = 5
                     }
 
-
                     2 {
                         name = Disabled
                         colPos =
