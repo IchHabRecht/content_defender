@@ -144,7 +144,7 @@ class ContentRepository
     protected function fetchRecordsForColPos(array $record): array
     {
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = (int)$record[$languageField][0];
+        $language = (array)$record[$languageField];
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
@@ -162,7 +162,7 @@ class ContentRepository
                 ),
                 $queryBuilder->expr()->eq(
                     $languageField,
-                    $queryBuilder->createNamedParameter($language, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($language[0], \PDO::PARAM_INT)
                 )
             )
             ->execute()
@@ -172,8 +172,8 @@ class ContentRepository
     protected function getIdentifier(array $record): string
     {
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = (int)$record[$languageField][0];
+        $language = (array)$record[$languageField];
 
-        return $record['pid'] . '/' . $language . '/' . $record['colPos'];
+        return $record['pid'] . '/' . $language[0] . '/' . $record['colPos'];
     }
 }
