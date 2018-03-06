@@ -42,6 +42,13 @@ install:
 script:
   - >
     echo;
+    echo "Running unit tests";
+    echo;
+    echo;
+    .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/;
+
+  - >
+    echo;
     echo "Running functional tests";
     echo;
     echo;
@@ -129,6 +136,13 @@ jobs:
         - export typo3DatabasePassword=
       before_script:
       script:
+        - >
+          echo;
+          echo "Running unit tests";
+          echo;
+          echo;
+          .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml --log-junit .Log/log/unit.xml --coverage-php .Log/coverage/unit.cov --whitelist Classes Tests/Unit/;
+
         - >
           echo;
           echo "Running functional tests";

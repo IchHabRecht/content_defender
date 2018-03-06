@@ -136,12 +136,20 @@ class ContentRepository
 
     protected function initialize(array $record)
     {
+        $result = $this->fetchRecordsForColPos($record);
+
+        self::$colPosCount[$this->getIdentifier($record)] = array_combine($result, $result);
+    }
+
+    protected function fetchRecordsForColPos(array $record): array
+    {
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
         $language = (int)$record[$languageField][0];
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-        $result = $queryBuilder->select('uid')
+
+        return $queryBuilder->select('uid')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -159,8 +167,6 @@ class ContentRepository
             )
             ->execute()
             ->fetchAll(\PDO::FETCH_COLUMN);
-
-        self::$colPosCount[$this->getIdentifier($record)] = array_combine($result, $result);
     }
 
     protected function getIdentifier(array $record): string
