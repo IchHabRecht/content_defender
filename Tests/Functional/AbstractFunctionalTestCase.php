@@ -28,9 +28,14 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
     {
         parent::setUp();
 
+        $this->importDataSet('ntf://Database/sys_language.xml');
+
         $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';
         $this->importDataSet($fixturePath . 'pages.xml');
         $this->importDataSet($fixturePath . 'tt_content.xml');
+        if (!empty($GLOBALS['TCA']['pages_language_overlay'])) {
+            $this->importDataSet($fixturePath . 'pages_language_overlay.xml');
+        }
 
         ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="DIR:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/BackendLayouts" extensions="ts">'

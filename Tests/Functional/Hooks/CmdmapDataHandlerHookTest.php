@@ -280,4 +280,42 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $this->assertSame(1, $count);
     }
+
+    /**
+     * @test
+     */
+    public function localizeCommandTranslatesRecordInLoadedColumn()
+    {
+        $commandMap['tt_content'][4] = [
+            'localize' => 2,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND sys_language_uid=2 AND colPos=3');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function copyToLanguageCommandTranslatesRecordInLoadedColumn()
+    {
+        $commandMap['tt_content'][4] = [
+            'copyToLanguage' => 2,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND sys_language_uid=2 AND colPos=3');
+
+        $this->assertSame(1, $count);
+    }
 }
