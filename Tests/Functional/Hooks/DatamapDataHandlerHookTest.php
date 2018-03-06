@@ -93,6 +93,30 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function newRecordWithMaxitemsCountInLoadedColumnIsNotSaved()
+    {
+        $datamap['tt_content'] = [
+            'NEW123' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 3,
+                'header' => 'Text & Media',
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'Text & Media\'');
+
+        $this->assertSame(0, $count);
+    }
+
+    /**
+     * @test
+     */
     public function existingRecordWithinMaxitemsCountIsSaved()
     {
         $datamap['tt_content'] = [
