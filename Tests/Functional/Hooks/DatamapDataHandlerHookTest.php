@@ -18,6 +18,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
             'CType' => 'bullets',
             'colPos' => 0,
             'header' => 'Bullet List',
+            'sys_language_uid' => 0,
         ];
 
         $dataHandler = new DataHandler();
@@ -38,6 +39,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
             'CType' => 'bullets',
             'colPos' => 0,
             'header' => 'Bullet List',
+            'sys_language_uid' => 0,
         ];
 
         $dataHandler = new DataHandler();
@@ -59,24 +61,28 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 1',
+                'sys_language_uid' => 0,
             ],
             'NEW456' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 2',
+                'sys_language_uid' => 0,
             ],
             'NEW789' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 3',
+                'sys_language_uid' => 0,
             ],
             'NEW147' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 4',
+                'sys_language_uid' => 0,
             ],
         ];
 
@@ -101,6 +107,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
                 'CType' => 'textmedia',
                 'colPos' => 3,
                 'header' => 'Text & Media',
+                'sys_language_uid' => 0,
             ],
         ];
 
