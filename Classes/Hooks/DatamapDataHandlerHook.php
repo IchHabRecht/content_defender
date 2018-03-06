@@ -21,6 +21,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
         }
 
         foreach ($datamap['tt_content'] as $id => $incomingFieldArray) {
+            $incomingFieldArray['uid'] = $id;
             if (MathUtility::canBeInterpretedAsInteger($id)) {
                 $incomingFieldArray = array_merge(BackendUtility::getRecord('tt_content', $id), $incomingFieldArray);
             }
@@ -76,5 +77,10 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 );
             }
         }
+    }
+
+    public function processDatamap_afterAllOperations(DataHandler $dataHandler)
+    {
+        $this->contentRepository->substituteNewIdsWithUids($dataHandler->substNEWwithIDs);
     }
 }

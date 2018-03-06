@@ -9,14 +9,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ContentRepository
 {
     /**
-     * @var int[]
+     * @var int[][]
      */
     protected static $colPosCount = [];
 
-    /**
-     * @param array $record
-     * @return int
-     */
     public function countColPosByRecord(array $record): int
     {
         $identifier = $this->getIdentifier($record);
@@ -25,29 +21,117 @@ class ContentRepository
             $this->initialize($record);
         }
 
-        return self::$colPosCount[$identifier];
+        return count(self::$colPosCount[$identifier]);
     }
 
+    public function addRecordToColPos(array $record): int
+    {
+        $identifier = $this->getIdentifier($record);
+
+        if (!isset(self::$colPosCount[$identifier])) {
+            $this->initialize($record);
+        }
+        self::$colPosCount[$identifier][$record['uid']] = $record['uid'];
+
+        return count(self::$colPosCount[$identifier]);
+    }
+
+    public function removeRecordFromColPos(array $record): int
+    {
+        $identifier = $this->getIdentifier($record);
+
+        if (!isset(self::$colPosCount[$identifier])) {
+            $this->initialize($record);
+        }
+        if (isset(self::$colPosCount[$identifier][$record['uid']])) {
+            unset(self::$colPosCount[$identifier][$record['uid']]);
+        }
+
+        return count(self::$colPosCount[$identifier]);
+    }
+
+    public function isRecordInColPos(array $record): bool
+    {
+        $identifier = $this->getIdentifier($record);
+
+        if (!isset(self::$colPosCount[$identifier])) {
+            $this->initialize($record);
+        }
+
+        return isset(self::$colPosCount[$identifier][$record['uid']]);
+    }
+
+    public function substituteNewIdsWithUids(array $newIdUidArray)
+    {
+        if (empty($newIdUidArray)) {
+            return;
+        }
+
+        foreach (self::$colPosCount as $identifier => $uidArray) {
+            $intersect = array_intersect_key($newIdUidArray, $uidArray);
+            if (empty($intersect)) {
+                continue;
+            }
+            self::$colPosCount[$identifier] = array_replace(
+                array_diff_key($uidArray, $newIdUidArray),
+                array_combine($intersect, $intersect)
+            );
+        }
+    }
+
+    /**
+     * @param array $record
+     * @param int $inc
+     * @return int
+     * @deprecated since version 3.0.4, will be removed in version 4.0.0
+     */
     public function increaseColPosCountByRecord(array $record, int $inc = 1): int
     {
+        trigger_error(
+            'Method "increaseColPosCountByRecord" is deprecated since version 3.0.4, will be removed in version 4.0.0',
+            E_USER_DEPRECATED
+        );
         $identifier = $this->getIdentifier($record);
 
         if (!isset(self::$colPosCount[$identifier])) {
             $this->initialize($record);
         }
+        self::$colPosCount[$identifier] = array_merge(
+            self::$colPosCount[$identifier],
+            array_fill(0, $inc, 0)
+        );
 
-        return self::$colPosCount[$identifier] += $inc;
+        return count(self::$colPosCount[$identifier]);
     }
 
+    /**
+     * @param array $record
+     * @param int $dec
+     * @return int
+     * @deprecated since version 3.0.4, will be removed in version 4.0.0
+     */
     public function decreaseColPosCountByRecord(array $record, int $dec = 1): int
     {
+        trigger_error(
+            'Method "decreaseColPosCountByRecord" is deprecated since version 3.0.4, will be removed in version 4.0.0',
+            E_USER_DEPRECATED
+        );
         $identifier = $this->getIdentifier($record);
 
         if (!isset(self::$colPosCount[$identifier])) {
             $this->initialize($record);
         }
+        if (!empty($record['uid']) && isset(self::$colPosCount[$identifier][$record['uid']])) {
+            unset(self::$colPosCount[$identifier][$record['uid']]);
+            $dec -= 1;
+        }
+        while ($dec > 0 && in_array(0, self::$colPosCount[$identifier], true)) {
+            $index = array_search(0, self::$colPosCount[$identifier], true);
+            unset(self::$colPosCount[$identifier][$index]);
+            $dec -= 1;
+        }
 
-        return self::$colPosCount[$identifier] -= $dec;
+        return count(self::$colPosCount[$identifier]);
     }
 
     protected function initialize(array $record)
@@ -57,7 +141,7 @@ class ContentRepository
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-        $count = $queryBuilder->count('*')
+        $result = $queryBuilder->select('uid')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -71,16 +155,12 @@ class ContentRepository
                 $queryBuilder->expr()->eq(
                     $languageField,
                     $queryBuilder->createNamedParameter($language, \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->neq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)
                 )
             )
             ->execute()
-            ->fetchColumn();
+            ->fetchAll(\PDO::FETCH_COLUMN);
 
-        self::$colPosCount[$this->getIdentifier($record)] = (int)$count;
+        self::$colPosCount[$this->getIdentifier($record)] = array_combine($result, $result);
     }
 
     protected function getIdentifier(array $record): string
