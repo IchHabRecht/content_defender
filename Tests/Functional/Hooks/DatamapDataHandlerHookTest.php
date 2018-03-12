@@ -18,11 +18,13 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
             'CType' => 'bullets',
             'colPos' => 0,
             'header' => 'Bullet List',
+            'sys_language_uid' => 0,
         ];
 
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
@@ -37,11 +39,13 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
             'CType' => 'bullets',
             'colPos' => 0,
             'header' => 'Bullet List',
+            'sys_language_uid' => 0,
         ];
 
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->substNEWwithIDs);
     }
@@ -57,34 +61,64 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 1',
+                'sys_language_uid' => 0,
             ],
             'NEW456' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 2',
+                'sys_language_uid' => 0,
             ],
             'NEW789' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 3',
+                'sys_language_uid' => 0,
             ],
             'NEW147' => [
                 'pid' => 3,
                 'CType' => 'textmedia',
                 'colPos' => 0,
                 'header' => 'Text & Media 4',
+                'sys_language_uid' => 0,
             ],
         ];
 
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=0');
 
         $this->assertSame(3, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function newRecordWithMaxitemsCountInLoadedColumnIsNotSaved()
+    {
+        $datamap['tt_content'] = [
+            'NEW123' => [
+                'pid' => 3,
+                'CType' => 'textmedia',
+                'colPos' => 3,
+                'header' => 'Text & Media',
+                'sys_language_uid' => 0,
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'Text & Media\'');
+
+        $this->assertSame(0, $count);
     }
 
     /**
@@ -101,6 +135,7 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler = new DataHandler();
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'New Header\'');
 

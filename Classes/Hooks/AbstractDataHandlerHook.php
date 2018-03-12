@@ -74,6 +74,6 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
-        return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->increaseColPosCountByRecord($record);
+        return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->addRecordToColPos($record);
     }
 }

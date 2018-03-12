@@ -93,6 +93,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3');
@@ -141,6 +142,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $recordUid = $dataHandler->copyMappingArray['tt_content'][2];
@@ -160,6 +162,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $recordUid = $dataHandler->copyMappingArray['tt_content'][2];
@@ -185,6 +188,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->copyMappingArray['tt_content'][3]);
@@ -201,6 +205,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $this->assertEmpty($dataHandler->copyMappingArray['tt_content'][3]);
@@ -223,6 +228,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3');
@@ -247,6 +253,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $recordUid = $dataHandler->copyMappingArray['tt_content'][4];
@@ -266,9 +273,48 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $dataHandler = new DataHandler();
         $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'deleted=1');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function localizeCommandTranslatesRecordInLoadedColumn()
+    {
+        $commandMap['tt_content'][4] = [
+            'localize' => 2,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND sys_language_uid=2 AND colPos=3');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function copyToLanguageCommandTranslatesRecordInLoadedColumn()
+    {
+        $commandMap['tt_content'][4] = [
+            'copyToLanguage' => 2,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND sys_language_uid=2 AND colPos=3');
 
         $this->assertSame(1, $count);
     }

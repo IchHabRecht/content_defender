@@ -78,13 +78,15 @@ class TcaColPosItems implements FormDataProviderInterface
             if (!empty($columnConfiguration['maxitems'])
                 && $columnConfiguration['maxitems'] <= $this->contentRepository->countColPosByRecord($record)
             ) {
-                if ($colPos === (int)$result['databaseRow']['colPos'][0]) {
+                $isCurrentColPos = $colPos === (int)$result['databaseRow']['colPos'][0];
+                if ($isCurrentColPos && !$this->contentRepository->isRecordInColPos($record)) {
                     throw  new AccessDeniedColPosException(
                         'Maximum number of allowed content elements (' . $columnConfiguration['maxitems'] . ') reached.',
                         1494605357
                     );
+                } elseif (!$isCurrentColPos) {
+                    unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
                 }
-                unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
             }
         }
 
