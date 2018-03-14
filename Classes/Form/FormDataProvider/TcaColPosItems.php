@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;

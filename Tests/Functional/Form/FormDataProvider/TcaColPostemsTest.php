@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace IchHabRecht\ContentDefender\Tests\Functional\Form\FormDataProvider;
 
 require_once __DIR__ . '/../../AbstractFunctionalTestCase.php';

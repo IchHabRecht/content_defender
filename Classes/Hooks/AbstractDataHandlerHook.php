@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace IchHabRecht\ContentDefender\Hooks;
 
 use IchHabRecht\ContentDefender\Repository\ContentRepository;

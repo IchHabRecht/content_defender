@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace IchHabRecht\ContentDefender\BackendLayout;
 
 use TYPO3\CMS\Backend\View\BackendLayoutView;

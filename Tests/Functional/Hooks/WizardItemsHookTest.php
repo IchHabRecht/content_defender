@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace IchHabRecht\ContentDefender\Tests\Functional\Hooks;
 
 require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
