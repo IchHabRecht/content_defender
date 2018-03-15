@@ -97,6 +97,7 @@ class ContentRepository
      * @param int $inc
      * @return int
      * @deprecated since version 3.0.4, will be removed in version 4.0.0
+     * @codeCoverageIgnore
      */
     public function increaseColPosCountByRecord(array $record, int $inc = 1): int
     {
@@ -122,6 +123,7 @@ class ContentRepository
      * @param int $dec
      * @return int
      * @deprecated since version 3.0.4, will be removed in version 4.0.0
+     * @codeCoverageIgnore
      */
     public function decreaseColPosCountByRecord(array $record, int $dec = 1): int
     {

@@ -45,14 +45,14 @@ script:
     echo "Running unit tests";
     echo;
     echo;
-    .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/;
+    .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php Tests/Unit/;
 
   - >
     echo;
     echo "Running functional tests";
     echo;
     echo;
-    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}';
+    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php {}';
 
   - >
     echo;
@@ -127,7 +127,7 @@ jobs:
       before_install: skip
       install:
         - composer require nimut/typo3-complete="$TYPO3"
-        - mkdir -p .Build/Web/typo3conf/ext/ .Log/coverage/ .Log/log/
+        - mkdir -p .Build/Web/typo3conf/ext/ .Build/log/coverage/ .Build/log/tests/
         - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
         - export TYPO3_PATH_ROOT=$PWD/.Build/Web
         - export typo3DatabaseName=typo3
@@ -141,22 +141,22 @@ jobs:
           echo "Running unit tests";
           echo;
           echo;
-          .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml --log-junit .Log/log/unit.xml --coverage-php .Log/coverage/unit.cov --whitelist Classes Tests/Unit/;
+          .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php Tests/Unit/;
 
         - >
           echo;
           echo "Running functional tests";
           echo;
           echo;
-          .Build/bin/phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml --log-junit .Log/log/functional.xml --coverage-php .Log/coverage/functional.cov --whitelist Classes Tests/Functional/;
+          .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php --log-junit .Build/log/tests/functional.xml --coverage-php .Build/log/coverage/functional.cov Tests/Functional/;
 
         - >
           echo;
           echo "Merging log and coverage files";
           echo;
           echo;
-          .Build/bin/phpunit-merger coverage .Log/coverage/ .Log/coverage.xml;
-          .Build/bin/phpunit-merger log .Log/log/ .Log/log.xml;
+          .Build/bin/phpunit-merger coverage .Build/log/coverage/ .Build/log/coverage.xml;
+          .Build/bin/phpunit-merger log .Build/log/tests/ .Build/log/tests.xml;
 
         - git fetch --unshallow
 

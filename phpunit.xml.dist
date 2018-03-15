@@ -1,0 +1,25 @@
+<phpunit
+    backupGlobals="true"
+    backupStaticAttributes="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    forceCoversAnnotation="false"
+    ignoreDeprecatedCodeUnitsFromCodeCoverage="true"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    verbose="true"
+>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Classes</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="junit" target=".Build/log/tests/junit.xml" logIncompleteSkipped="false" />
+        <log type="coverage-php" target=".Build/log/coverage/coverage.cov" />
+    </logging>
+</phpunit>
