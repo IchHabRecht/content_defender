@@ -290,7 +290,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'deleted=1');
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=2 AND deleted=1');
 
         $this->assertSame(1, $count);
     }

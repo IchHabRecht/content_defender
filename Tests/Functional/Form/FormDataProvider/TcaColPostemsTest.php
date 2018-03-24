@@ -171,12 +171,12 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $this->assertSame(6, $dataHandler->substNEWwithIDs['NEW123']);
+        $this->assertGreaterThan(0, (int)$dataHandler->substNEWwithIDs['NEW123']);
 
         $formDataCompilerInput = [
             'command' => 'edit',
             'tableName' => 'tt_content',
-            'vanillaUid' => 6,
+            'vanillaUid' => (int)$dataHandler->substNEWwithIDs['NEW123'],
         ];
 
         $formDataGroup = new TcaDatabaseRecord();
