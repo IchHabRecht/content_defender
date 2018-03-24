@@ -3,7 +3,7 @@
     <tt_content>
         <uid>1</uid>
         <pid>2</pid>
-        <header>Text &amp; Madia</header>
+        <header>Text &amp; Media</header>
         <CType>textmedia</CType>
     </tt_content>
     <tt_content>
@@ -32,7 +32,14 @@
     <tt_content>
         <uid>5</uid>
         <pid>4</pid>
-        <header>Text &amp; Madia</header>
+        <header>Text &amp; Media</header>
         <CType>textmedia</CType>
+    </tt_content>
+    <tt_content>
+        <uid>6</uid>
+        <pid>4</pid>
+        <header>Text &amp; Media (deleted)</header>
+        <CType>textmedia</CType>
+        <deleted>1</deleted>
     </tt_content>
 </dataset>
