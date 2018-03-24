@@ -30,7 +30,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
     public function processDatamap_beforeStart(DataHandler $dataHandler)
     {
         $datamap = $dataHandler->datamap;
-        if (empty($datamap['tt_content'])) {
+        if (empty($datamap['tt_content']) || $dataHandler->bypassAccessCheckForRecords) {
             return;
         }
 
