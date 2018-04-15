@@ -19,6 +19,7 @@ require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 
 use IchHabRecht\ContentDefender\Hooks\WizardItemsHook;
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -65,8 +66,17 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts">'
         );
+
         $_GET['id'] = 2;
         $_GET['colPos'] = $colPos;
+
+        $serverRequest = $this->prophesize(ServerRequestInterface::class);
+        $serverRequest->getParsedBody()->willReturn([
+            'id' => 2,
+            'colPos' => $colPos,
+        ]);
+        $serverRequest->getQueryParams()->willReturn([]);
+        $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
         Bootstrap::getInstance()->initializeLanguageObject();
         $newContentElementController = new NewContentElementController();
