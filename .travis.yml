@@ -72,7 +72,10 @@ jobs:
       env: TYPO3=dev-master
     - stage: test
       php: 7.2
-      env: TYPO3=^9.0
+      env: TYPO3=~9.2.0
+    - stage: test
+      php: 7.2
+      env: TYPO3=~9.1.1
     - stage: test
       php: 7.2
       env: TYPO3=^8.0
@@ -155,6 +158,7 @@ jobs:
           echo "Merging log and coverage files";
           echo;
           echo;
+          composer require --update-with-all-dependencies nimut/phpunit-merger;
           .Build/bin/phpunit-merger coverage .Build/log/coverage/ .Build/log/coverage.xml;
           .Build/bin/phpunit-merger log .Build/log/tests/ .Build/log/tests.xml;
 
