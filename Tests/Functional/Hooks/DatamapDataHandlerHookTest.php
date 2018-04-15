@@ -155,4 +155,26 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $this->assertSame(1, $count);
     }
+
+    /**
+     * @test
+     */
+    public function existingDeletedRecordCanBeProcessed()
+    {
+        $datamap['tt_content'] = [
+            '6' => [
+                'header' => 'New Header',
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->bypassAccessCheckForRecords = true;
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=6 AND header=\'New Header\'');
+
+        $this->assertSame(1, $count);
+    }
 }

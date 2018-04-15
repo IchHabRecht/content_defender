@@ -29,7 +29,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
     public function processCmdmap_beforeStart(DataHandler $dataHandler)
     {
         $cmdmap = $dataHandler->cmdmap;
-        if (empty($cmdmap['tt_content'])) {
+        if (empty($cmdmap['tt_content']) || $dataHandler->bypassAccessCheckForRecords) {
             return;
         }
 
