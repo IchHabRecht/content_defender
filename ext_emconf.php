@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "content_defender".
  *
- * Auto generated 12-03-2018 13:39
+ * Auto generated 16-04-2018 00:50
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = array (
   'uploadfolder' => 0,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '3.0.4',
+  'version' => '3.0.5',
   'constraints' => 
   array (
     'depends' => 
@@ -42,6 +42,6 @@ $EM_CONF[$_EXTKEY] = array (
       'IchHabRecht\\ContentDefender\\Tests\\' => 'Tests/',
     ),
   ),
-  '_md5_values_when_last_written' => 'a:28:{s:9:"ChangeLog";s:4:"3052";s:9:"README.md";s:4:"a8eb";s:13:"composer.json";s:4:"3458";s:12:"ext_icon.png";s:4:"f488";s:17:"ext_localconf.php";s:4:"b918";s:24:"sonar-project.properties";s:4:"cd69";s:52:"Classes/BackendLayout/BackendLayoutConfiguration.php";s:4:"e9c3";s:54:"Classes/Form/Exception/AccessDeniedColPosException.php";s:4:"3fa2";s:47:"Classes/Form/FormDataProvider/TcaCTypeItems.php";s:4:"47e7";s:48:"Classes/Form/FormDataProvider/TcaColPosItems.php";s:4:"0716";s:41:"Classes/Hooks/AbstractDataHandlerHook.php";s:4:"808f";s:39:"Classes/Hooks/CmdmapDataHandlerHook.php";s:4:"d619";s:40:"Classes/Hooks/DatamapDataHandlerHook.php";s:4:"59c7";s:33:"Classes/Hooks/WizardItemsHook.php";s:4:"dcf1";s:40:"Classes/Repository/ContentRepository.php";s:4:"2f6d";s:47:"Tests/Functional/AbstractFunctionalTestCase.php";s:4:"0d8b";s:44:"Tests/Functional/Fixtures/Database/pages.xml";s:4:"7199";s:61:"Tests/Functional/Fixtures/Database/pages_language_overlay.xml";s:4:"49d9";s:49:"Tests/Functional/Fixtures/Database/tt_content.xml";s:4:"7589";s:61:"Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts";s:4:"ca7e";s:60:"Tests/Functional/Fixtures/TSconfig/BackendLayouts/Default.ts";s:4:"a875";s:60:"Tests/Functional/Fixtures/TSconfig/BackendLayouts/Subpage.ts";s:4:"87bc";s:60:"Tests/Functional/Form/FormDataProvider/TcaCTypeItemsTest.php";s:4:"9fec";s:60:"Tests/Functional/Form/FormDataProvider/TcaColPostemsTest.php";s:4:"16b8";s:52:"Tests/Functional/Hooks/CmdmapDataHandlerHookTest.php";s:4:"0b9e";s:53:"Tests/Functional/Hooks/DatamapDataHandlerHookTest.php";s:4:"c734";s:46:"Tests/Functional/Hooks/WizardItemsHookTest.php";s:4:"7ba7";s:47:"Tests/Unit/Repository/ContentRepositoryTest.php";s:4:"cdc2";}',
+  '_md5_values_when_last_written' => 'a:30:{s:9:"ChangeLog";s:4:"82dc";s:7:"LICENSE";s:4:"b234";s:9:"README.md";s:4:"5be2";s:13:"composer.json";s:4:"4bfc";s:12:"ext_icon.png";s:4:"f488";s:17:"ext_localconf.php";s:4:"b918";s:16:"phpunit.xml.dist";s:4:"db6a";s:24:"sonar-project.properties";s:4:"87cc";s:52:"Classes/BackendLayout/BackendLayoutConfiguration.php";s:4:"75b7";s:54:"Classes/Form/Exception/AccessDeniedColPosException.php";s:4:"7671";s:47:"Classes/Form/FormDataProvider/TcaCTypeItems.php";s:4:"cc53";s:48:"Classes/Form/FormDataProvider/TcaColPosItems.php";s:4:"5b26";s:41:"Classes/Hooks/AbstractDataHandlerHook.php";s:4:"5ceb";s:39:"Classes/Hooks/CmdmapDataHandlerHook.php";s:4:"0160";s:40:"Classes/Hooks/DatamapDataHandlerHook.php";s:4:"4f4b";s:33:"Classes/Hooks/WizardItemsHook.php";s:4:"54cf";s:40:"Classes/Repository/ContentRepository.php";s:4:"fba1";s:47:"Tests/Functional/AbstractFunctionalTestCase.php";s:4:"1f8f";s:44:"Tests/Functional/Fixtures/Database/pages.xml";s:4:"7199";s:61:"Tests/Functional/Fixtures/Database/pages_language_overlay.xml";s:4:"49d9";s:49:"Tests/Functional/Fixtures/Database/tt_content.xml";s:4:"8c39";s:61:"Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts";s:4:"ca7e";s:60:"Tests/Functional/Fixtures/TSconfig/BackendLayouts/Default.ts";s:4:"a875";s:60:"Tests/Functional/Fixtures/TSconfig/BackendLayouts/Subpage.ts";s:4:"87bc";s:60:"Tests/Functional/Form/FormDataProvider/TcaCTypeItemsTest.php";s:4:"506f";s:60:"Tests/Functional/Form/FormDataProvider/TcaColPostemsTest.php";s:4:"2c80";s:52:"Tests/Functional/Hooks/CmdmapDataHandlerHookTest.php";s:4:"a2e3";s:53:"Tests/Functional/Hooks/DatamapDataHandlerHookTest.php";s:4:"0a8a";s:46:"Tests/Functional/Hooks/WizardItemsHookTest.php";s:4:"24ea";s:47:"Tests/Unit/Repository/ContentRepositoryTest.php";s:4:"d853";}',
 );
 
