@@ -23,10 +23,7 @@
         "typo3/cms-backend": "^8.7 || >=9.1 <9.3"
     },
     "require-dev": {
-        "nimut/testing-framework": "3.x-dev"
-    },
-    "suggest": {
-        "friendsofphp/php-cs-fixer": "Tool to automatically fix PHP coding standards issues"
+        "nimut/testing-framework": "4.x-dev"
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +48,7 @@
             "extension-key": "content_defender",
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "app-dir": ".Build",
-            "web-dir": ".Build/Web"
+            "web-dir": ".Build/public"
         }
     }
 }
