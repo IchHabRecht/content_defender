@@ -36,6 +36,7 @@ enabled:
   - no_useless_return
   - no_whitespace_before_comma_in_array
   - no_whitespace_in_blank_line
+  - non_printable_character
   - normalize_index_brace
   - object_operator_without_whitespace
   - phpdoc_add_missing_param_annotation
@@ -49,6 +50,8 @@ enabled:
   - phpdoc_trim
   - phpdoc_types
   - phpdoc_var_without_name
+  - return_type_declaration
+  - self_accessor
   - short_array_syntax
   - short_scalar_cast
   - single_quote
