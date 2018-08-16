@@ -59,9 +59,6 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         Bootstrap::getInstance()->initializeLanguageObject();
     }
 
-    /**
-     * @param DataHandler $dataHandler
-     */
     protected function assertNoProcessingErrorsInDataHandler(DataHandler $dataHandler)
     {
         $dataHandler->printLogErrorMessages('');

@@ -30,9 +30,6 @@ class BackendLayoutConfiguration
      */
     private static $columnConfiguration = [];
 
-    /**
-     * @param array $backendLayout
-     */
     public function __construct(array $backendLayout)
     {
         $this->backendLayout = $backendLayout;
