@@ -30,10 +30,10 @@ install:
       composer config prefer-stable true;
       composer require typo3/cms-backend="@dev" --no-update;
     fi
-  - composer require nimut/typo3-complete="$TYPO3"
-  - mkdir -p .Build/Web/typo3conf/ext/
-  - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
-  - export TYPO3_PATH_ROOT=$PWD/.Build/Web
+  - composer require nimut/typo3-complete:$TYPO3
+  - mkdir -p .Build/public/typo3conf/ext/
+  - if [ ! -L .Build/public/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/content_defender; fi
+  - export TYPO3_PATH_ROOT=$PWD/.Build/public
   - export typo3DatabaseName=typo3
   - export typo3DatabaseHost=localhost
   - export typo3DatabaseUsername=root
@@ -41,18 +41,22 @@ install:
 
 script:
   - >
-    echo;
-    echo "Running unit tests";
-    echo;
-    echo;
-    .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php Tests/Unit/;
+    if [ -d "Tests/Unit" ]; then
+      echo;
+      echo "Running unit tests";
+      echo;
+      echo;
+      .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php Tests/Unit/;
+    fi
 
   - >
-    echo;
-    echo "Running functional tests";
-    echo;
-    echo;
-    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php {}';
+    if [ -d "Tests/Functional" ]; then
+      echo;
+      echo "Running functional tests";
+      echo;
+      echo;
+      find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php {}';
+    fi
 
   - >
     echo;
@@ -95,44 +99,40 @@ jobs:
       php: 7.0
       env: TYPO3=8.7.x-dev
 
-    - stage: publish to ter
-      if: tag IS present
+    - stage: 🚢 to ter
+      if: tag IS present AND env(TYPO3_ORG_USERNAME) IS present AND env(TYPO3_ORG_PASSWORD) IS present
       php: 7.0
+      env: TYPO3=^8.7
       before_install: skip
       install: skip
       before_script: skip
       script:
-        - >
-          if [ -n "$TYPO3_ORG_USERNAME" ] && [ -n "$TYPO3_ORG_PASSWORD" ]; then
-            echo;
-            echo "Preparing upload of release ${TRAVIS_TAG} to TER";
-            echo;
-            echo;
-            composer install --no-dev;
-            composer require --update-no-dev helhum/ter-client dev-master;
+      - >
+        echo;
+        echo "Preparing upload of release ${TRAVIS_TAG} to TER";
+        echo;
+        echo;
+        composer require --dev nimut/typo3-complete:$TYPO3;
+        composer require --update-no-dev helhum/ter-client:dev-master;
 
-            # Cleanup before we upload
-            git reset --hard HEAD && git clean -fx;
+        # Cleanup before we upload
+        git reset --hard HEAD && git clean -fx;
 
-            # Upload
-            TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`;
-            echo;
-            echo "Uploading release ${TRAVIS_TAG} to TER";
-            echo;
-            echo;
-            .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
-          fi
+        # Upload
+        TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`;
+        echo;
+        echo "Uploading release ${TRAVIS_TAG} to TER";
+        echo;
+        echo;
+        .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
 
-    - stage: sonarqube scanner
-      if: type = push AND branch IN (master, pre-merge)
+    - stage: ✔ with sonarqube scanner
+      if: type = push AND branch IN (master, pre-merge) AND env(SONAR_TOKEN) IS present AND fork = false
       php: 7.2
-      env: TYPO3=^9.0
       before_install: skip
       install:
-        - composer require nimut/typo3-complete="$TYPO3"
-        - mkdir -p .Build/Web/typo3conf/ext/ .Build/log/coverage/ .Build/log/tests/
-        - if [ ! -L .Build/Web/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/Web/typo3conf/ext/content_defender; fi
-        - export TYPO3_PATH_ROOT=$PWD/.Build/Web
+        - mkdir -p .Log/coverage/ .Log/junit/
+        - export TYPO3_PATH_WEB=$PWD/.Build/public
         - export typo3DatabaseName=typo3
         - export typo3DatabaseHost=localhost
         - export typo3DatabaseUsername=root
@@ -140,29 +140,48 @@ jobs:
       before_script:
       script:
         - >
-          echo;
-          echo "Running unit tests";
-          echo;
-          echo;
-          .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php Tests/Unit/;
+          if [ -d "Tests" ]; then
+            for TYPO3 in "^8.7" "~9.1.1" "~9.2.0"; do
 
-        - >
-          echo;
-          echo "Running functional tests";
-          echo;
-          echo;
-          .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php --log-junit .Build/log/tests/functional.xml --coverage-php .Build/log/coverage/functional.cov Tests/Functional/;
+              echo;
+              echo "Running TYPO3 version $TYPO3";
+              echo;
+              echo;
+              git clean -Xdf;
+              composer require --dev nimut/typo3-complete:$TYPO3;
+              git checkout composer.json;
+              VERSION=${TYPO3//[!0-9]/};
 
-        - >
-          echo;
-          echo "Merging log and coverage files";
-          echo;
-          echo;
-          composer require --update-with-all-dependencies nimut/phpunit-merger;
-          .Build/bin/phpunit-merger coverage .Build/log/coverage/ .Build/log/coverage.xml;
-          .Build/bin/phpunit-merger log .Build/log/tests/ .Build/log/tests.xml;
+              mkdir -p .Build/public/typo3conf/ext/
+              if [ ! -L .Build/public/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/content_defender; fi
 
-        - git fetch --unshallow
+              if [ -d "Tests/Unit" ]; then
+                echo;
+                echo "Running unit tests";
+                echo;
+                echo;
+                .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php --log-junit .Log/junit/unit_$VERSION.xml --coverage-php .Log/coverage/unit_$VERSION.cov Tests/Unit/;
+              fi
+
+              if [ -d "Tests/Functional" ]; then
+                echo;
+                echo "Running functional tests";
+                echo;
+                echo;
+                .Build/bin/phpunit --bootstrap .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php --log-junit .Log/junit/functional_$VERSION.xml --coverage-php .Log/coverage/functional_$VERSION.cov Tests/Functional/;
+              fi
+            done
+
+            echo;
+            echo "Merging log and coverage files";
+            echo;
+            echo;
+            composer require --update-with-all-dependencies nimut/phpunit-merger;
+            .Build/bin/phpunit-merger coverage .Log/coverage/ .Log/coverage.xml;
+            .Build/bin/phpunit-merger log .Log/junit/ .Log/junit.xml;
+          fi
+
+        - git fetch --unshallow || true
 
         - >
           echo;
