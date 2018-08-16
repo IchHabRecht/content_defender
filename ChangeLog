@@ -1,3 +1,12 @@
+2018-08-16         [RELEASE] Release of content_defender 3.0.6 (Nicole Cordes)
+2018-07-11 b58daa7 make it compatible with TYPO3 9.3 (Christian Heindl)
+2018-07-11 1452918 make it compatible with TYPO3 9.3 (Christian Heindl)
+2018-08-16 458d658 [TASK] Update supporting files to EXT:my_skeleton 0.1.2 (Nicole Cordes)
+2018-06-23 9fcf0bc [TASK] Update supporting files to EXT:my_skeleton 0.1.0 (Nicole Cordes)
+2018-04-25 6f1f2cd use _GP instead of _GET (Daniel)
+2018-04-25 9fdd449 Remove superfluous whitespace (Daniel)
+2018-04-25 8c48428 Remove deprecated property calls (Daniel)
+
 2018-04-16         [RELEASE] Release of content_defender 3.0.5 (Nicole Cordes)
 2018-04-16 cebbcae [TASK] Raise TYPO3 dependencies to include 9.2 (Nicole Cordes)
 2018-04-16 4706194 [TASK] Make functional tests compatible to TYPO3 dev-master again (Nicole Cordes)
