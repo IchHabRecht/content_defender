@@ -1,3 +1,6 @@
+2018-08-17         [RELEASE] Release of content_defender 3.0.7 (Nicole Cordes)
+2018-08-17 cb6edd0 [BUGFIX] Fix TER upload (Nicole Cordes)
+
 2018-08-16         [RELEASE] Release of content_defender 3.0.6 (Nicole Cordes)
 2018-07-11 b58daa7 make it compatible with TYPO3 9.3 (Christian Heindl)
 2018-07-11 1452918 make it compatible with TYPO3 9.3 (Christian Heindl)
