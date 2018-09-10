@@ -22,22 +22,22 @@ $EM_CONF[$_EXTKEY] = array (
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
   'version' => '3.0.7',
-  'constraints' => 
+  'constraints' =>
   array (
-    'depends' => 
+    'depends' =>
     array (
-      'typo3' => '8.7.0-9.3.99',
+      'typo3' => '8.7.0-9.4.99',
     ),
-    'conflicts' => 
+    'conflicts' =>
     array (
     ),
-    'suggests' => 
+    'suggests' =>
     array (
     ),
   ),
-  'autoload-dev' => 
+  'autoload-dev' =>
   array (
-    'psr-4' => 
+    'psr-4' =>
     array (
       'IchHabRecht\\ContentDefender\\Tests\\' => 'Tests/',
     ),

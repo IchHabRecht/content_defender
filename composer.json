@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "typo3/cms-backend": "^8.7 || >=9.1 <9.4"
+        "typo3/cms-backend": "^8.7 || >=9.1 <9.5"
     },
     "require-dev": {
         "nimut/testing-framework": "4.x-dev"
