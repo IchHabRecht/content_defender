@@ -118,11 +118,7 @@ jobs:
           echo "Preparing upload of release ${TRAVIS_TAG} to TER";
           echo;
           echo;
-          composer require --dev nimut/typo3-complete:"$TYPO3";
-          composer require --update-no-dev helhum/ter-client:"dev-master";
-
-        - >
-          git reset --hard HEAD && git clean -fx;
+          composer global require helhum/ter-client;
 
         - >
           TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`;
@@ -130,7 +126,7 @@ jobs:
           echo "Uploading release ${TRAVIS_TAG} to TER";
           echo;
           echo;
-          .Build/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
+          $HOME/.composer/vendor/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
 
     - stage: ✔ with sonarqube scanner
       if: type = push AND branch IN (master, pre-merge) AND env(SONAR_TOKEN) IS present AND fork = false
