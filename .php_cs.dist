@@ -24,6 +24,7 @@ return PhpCsFixer\Config::create()
         'concat_space' => [
             'spacing' => 'one',
         ],
+        'declare_equal_normalize' => ['space' => 'single'],
         'declare_strict_types' => true,
         'function_typehint_space' => true,
         'hash_to_slash_comment' => true,
@@ -53,7 +54,6 @@ return PhpCsFixer\Config::create()
         'no_multiline_whitespace_before_semicolons' => true,
         'no_short_bool_cast' => true,
         'no_singleline_whitespace_before_semicolons' => true,
-        'no_superfluous_phpdoc_tags' => true,
         'no_trailing_comma_in_list_call' => true,
         'no_trailing_comma_in_singleline_array' => true,
         'no_unneeded_control_parentheses' => [
@@ -101,4 +101,6 @@ return PhpCsFixer\Config::create()
             ->exclude('doc')
             ->exclude('Resources')
             ->notName('ext_emconf.php')
+            ->notName('ext_localconf.php')
+            ->notName('ext_tables.php')
     );
