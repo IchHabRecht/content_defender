@@ -127,7 +127,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
         if (count($cmdmap['tt_content']) !== count($dataHandler->cmdmap['tt_content'])
             && empty(GeneralUtility::_GP('prErr'))
         ) {
-            $dataHandler->printLogErrorMessages('');
+            $dataHandler->printLogErrorMessages();
         }
     }
 

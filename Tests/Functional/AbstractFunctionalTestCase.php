@@ -61,7 +61,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
     protected function assertNoProcessingErrorsInDataHandler(DataHandler $dataHandler)
     {
-        $dataHandler->printLogErrorMessages('');
+        $dataHandler->printLogErrorMessages();
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 
