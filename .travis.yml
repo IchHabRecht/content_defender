@@ -76,16 +76,7 @@ jobs:
       env: TYPO3=dev-master
     - stage: test
       php: 7.2
-      env: TYPO3=~9.4.0
-    - stage: test
-      php: 7.2
-      env: TYPO3=~9.3.0
-    - stage: test
-      php: 7.2
-      env: TYPO3=~9.2.0
-    - stage: test
-      php: 7.2
-      env: TYPO3=~9.1.1
+      env: TYPO3=^9.5
     - stage: test
       php: 7.2
       env: TYPO3=^8.0
@@ -108,7 +99,6 @@ jobs:
     - stage: 🚢 to ter
       if: tag IS present AND env(TYPO3_ORG_USERNAME) IS present AND env(TYPO3_ORG_PASSWORD) IS present
       php: 7.0
-      env: TYPO3=^8.7
       before_install: skip
       install: skip
       before_script: skip
@@ -143,7 +133,7 @@ jobs:
       script:
         - >
           if [ -d "Tests" ]; then
-            for TYPO3 in "^8.7" "~9.1.1" "~9.2.0" "~9.3.0" "~9.4.0"; do
+            for TYPO3 in "^8.7" "^9.5"; do
 
               echo;
               echo "Running TYPO3 version $TYPO3";
