@@ -67,7 +67,7 @@ class TcaColPosItems implements FormDataProviderInterface
 
             $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
             foreach ($allowedConfiguration as $field => $value) {
-                if (!isset($record[$field])) {
+                if (empty($record[$field])) {
                     continue;
                 }
 
@@ -79,7 +79,7 @@ class TcaColPosItems implements FormDataProviderInterface
 
             $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
             foreach ($disallowedConfiguration as $field => $value) {
-                if (!isset($record[$field])) {
+                if (empty($record[$field])) {
                     continue;
                 }
 
