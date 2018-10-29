@@ -37,7 +37,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
                 null,
             ],
             2 => [
-                'Footer1 (no bullets)',
+                'Footer1 (header, list[indexed_search_pi2])',
                 '10',
                 null,
                 null,
