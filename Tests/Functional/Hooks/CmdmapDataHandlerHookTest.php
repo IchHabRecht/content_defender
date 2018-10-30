@@ -71,6 +71,29 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function moveCommandMovesRecordWithEmptyListType()
+    {
+        $dataMap['tt_content'][7] = [
+            'colPos' => 10,
+        ];
+
+        $commandMap['tt_content'][7] = [
+            'move' => 4,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start($dataMap, $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=7 AND colPos=10 AND sorting=64');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
     public function moveCommandPreventsDisallowedRecordInNewColPos()
     {
         $dataMap['tt_content'][3] = [
@@ -181,6 +204,31 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $recordUid = $dataHandler->copyMappingArray['tt_content'][2];
         $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=' . $recordUid . ' AND colPos=0');
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
+    public function copyCommandMovesRecordInAllowedColPosWithEmptyListType()
+    {
+        $commandMap['tt_content'][2] = [
+            'move' => [
+                'action' => 'paste',
+                'target' => 3,
+                'update' => [
+                    'colPos' => '10',
+                ],
+            ],
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=2 AND colPos=10');
 
         $this->assertSame(1, $count);
     }

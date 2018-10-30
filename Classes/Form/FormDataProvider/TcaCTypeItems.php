@@ -40,12 +40,8 @@ class TcaCTypeItems implements FormDataProviderInterface
             return $result;
         }
 
-        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($allowedConfiguration as $field => $value) {
-            if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
-                continue;
-            }
-
             $allowedValues = GeneralUtility::trimExplode(',', $value);
             $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
                 $result['processedTca']['columns'][$field]['config']['items'],
@@ -55,12 +51,8 @@ class TcaCTypeItems implements FormDataProviderInterface
             );
         }
 
-        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($disallowedConfiguration as $field => $value) {
-            if (empty($result['processedTca']['columns'][$field]['config']['items'])) {
-                continue;
-            }
-
             $disAllowedValues = GeneralUtility::trimExplode(',', $value);
             $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
                 $result['processedTca']['columns'][$field]['config']['items'],

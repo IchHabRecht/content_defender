@@ -48,7 +48,7 @@ columns {
 
 **Combine multiple content element fields**
 
-- In order to restrict content elements using multple field conditions, please note that it might be necessary to allow empty values as well. A basic example would be to allow multiple content element types (text and list) while restricting plugin types to `news` only. If the editor wants to add a new text element, the plugin type stays empty.
+- The example allows multiple content element types (text and list) while restricting plugin types to `news` only.
 
 *Example:*
 ```
@@ -59,7 +59,7 @@ columns {
         colspan = 6
         allowed {
             CType = textmedia, list
-            list_type = ,news_pi1
+            list_type = news_pi1
         }
     }
 }

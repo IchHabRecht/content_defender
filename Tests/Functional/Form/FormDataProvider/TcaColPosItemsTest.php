@@ -22,7 +22,7 @@ use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
-class TcaColPostemsTest extends AbstractFunctionalTestCase
+class TcaColPosItemsTest extends AbstractFunctionalTestCase
 {
     /**
      * @test
@@ -37,7 +37,7 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
                 null,
             ],
             2 => [
-                'Footer1 (no bullets)',
+                'Footer1 (header, list[indexed_search_pi2])',
                 '10',
                 null,
                 null,
@@ -47,6 +47,12 @@ class TcaColPostemsTest extends AbstractFunctionalTestCase
                 '12',
                 null,
                 null,
+            ],
+        ];
+
+        $_GET['defVals'] = [
+            'tt_content' => [
+                'CType' => 'header',
             ],
         ];
 

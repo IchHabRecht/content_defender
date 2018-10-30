@@ -65,7 +65,7 @@ class TcaColPosItems implements FormDataProviderInterface
 
             $record['colPos'] = $colPos;
 
-            $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+            $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
             foreach ($allowedConfiguration as $field => $value) {
                 if (!isset($record[$field])) {
                     continue;
@@ -77,7 +77,7 @@ class TcaColPosItems implements FormDataProviderInterface
                 }
             }
 
-            $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+            $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
             foreach ($disallowedConfiguration as $field => $value) {
                 if (!isset($record[$field])) {
                     continue;

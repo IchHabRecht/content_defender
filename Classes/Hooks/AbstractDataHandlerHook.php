@@ -16,6 +16,15 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
+use TYPO3\CMS\Backend\Form\FormDataCompiler;
+use TYPO3\CMS\Backend\Form\FormDataGroup\OnTheFly;
+use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRecordTypeValue;
+use TYPO3\CMS\Backend\Form\FormDataProvider\InitializeProcessedTca;
+use TYPO3\CMS\Backend\Form\FormDataProvider\PageTsConfig;
+use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon;
+use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessShowitem;
+use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsRemoveUnused;
+use TYPO3\CMS\Backend\Form\FormDataProvider\UserTsConfig;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractDataHandlerHook
@@ -44,7 +53,29 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
-        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        $formDataGroup = GeneralUtility::makeInstance(OnTheFly::class);
+        $formDataGroup->setProviderList(
+            [
+                UserTsConfig::class,
+                PageTsConfig::class,
+                InitializeProcessedTca::class,
+                DatabaseRecordTypeValue::class,
+                TcaColumnsProcessCommon::class,
+                TcaColumnsProcessShowitem::class,
+                TcaColumnsRemoveUnused::class,
+            ]
+        );
+        $formDataCompiler = GeneralUtility::makeInstance(FormDataCompiler::class, $formDataGroup);
+        $formDataCompilerInput = [
+            'command' => 'edit',
+            'databaseRow' => $record,
+            'effectivePid' => $record['pid'],
+            'tableName' => 'tt_content',
+            'vanillaUid' => (int)$record['uid'],
+        ];
+        $result = $formDataCompiler->compile($formDataCompilerInput);
+
+        $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($allowedConfiguration as $field => $value) {
             $allowedValues = GeneralUtility::trimExplode(',', $value);
             if (!$this->isAllowedValue($record, $field, $allowedValues)) {
@@ -52,7 +83,7 @@ abstract class AbstractDataHandlerHook
             }
         }
 
-        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($disallowedConfiguration as $field => $value) {
             $disallowedValues = GeneralUtility::trimExplode(',', $value);
             if (!$this->isAllowedValue($record, $field, $disallowedValues, false)) {
