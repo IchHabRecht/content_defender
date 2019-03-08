@@ -1,3 +1,11 @@
+2019-03-08         [RELEASE] Release of content_defender 3.0.10 (Nicole Cordes)
+2019-03-08 8265815 [TASK] Raise PHP compatibility to 7.3 (Nicole Cordes)
+2019-03-08 79e495f [TASK] Update supporting files to EXT:my_skeleton 0.1.8 (Nicole Cordes)
+2019-03-08 fa07685 [BUGFIX] Move extension configuration to ext_tables.php (Nicole Cordes)
+2018-10-29 ccc1a22 [TASK] Add functional tests for empty list_type handling (Nicole Cordes)
+2018-10-29 45fec68 [BUGFIX] Only process fields that are shown for current record type (Nicole Cordes)
+2018-10-03 5bc282d [BUGFIX] Remove superfluous argument in printLogErrorMessages (Nicole Cordes)
+
 2018-10-03         [RELEASE] Release of content_defender 3.0.9 (Nicole Cordes)
 2018-10-03 c7c1a18 [TASK] Raise TYPO3 dependencies to include 9.5 (Nicole Cordes)
 2018-10-03 82665e3 [TASK] Update supporting files to EXT:my_skeleton 0.1.5 (Nicole Cordes)
