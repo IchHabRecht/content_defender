@@ -37,7 +37,6 @@
         }
     },
     "replace": {
-        "content_defender": "self.version",
         "typo3-ter/content-defender": "self.version"
     },
     "config": {

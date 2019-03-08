@@ -19,7 +19,7 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="junit" target=".Log/junit/junit.xml" logIncompleteSkipped="false" />
+        <log type="junit" target=".Log/junit/junit.xml" />
         <log type="coverage-php" target=".Log/coverage/coverage.cov" />
     </logging>
 </phpunit>
