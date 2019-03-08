@@ -69,8 +69,24 @@ jobs:
   fast_finish: true
   allow_failures:
     - env: TYPO3=dev-master
+    - env: TYPO3=9.5.x-dev
     - env: TYPO3=8.7.x-dev
   include:
+    - stage: test
+      php: 7.3
+      env: TYPO3=dev-master
+    - stage: test
+      php: 7.3
+      env: TYPO3=^9.5
+    - stage: test
+      php: 7.3
+      env: TYPO3=^8.0
+    - stage: test
+      php: 7.3
+      env: TYPO3=9.5.x-dev
+    - stage: test
+      php: 7.3
+      env: TYPO3=8.7.x-dev
     - stage: test
       php: 7.2
       env: TYPO3=dev-master
@@ -80,6 +96,9 @@ jobs:
     - stage: test
       php: 7.2
       env: TYPO3=^8.0
+    - stage: test
+      php: 7.2
+      env: TYPO3=9.5.x-dev
     - stage: test
       php: 7.2
       env: TYPO3=8.7.x-dev
