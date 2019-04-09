@@ -24,6 +24,13 @@ use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 class TcaCTypeItemsTest extends AbstractFunctionalTestCase
 {
     /**
+     * @var array
+     */
+    protected $pathsToLinkInTestInstance = [
+        'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Configuration' => 'typo3conf/ext/content_defender/Configuration',
+    ];
+
+    /**
      * @test
      */
     public function disallowedCTypesAreRemovedFromCTypeList()
@@ -52,5 +59,36 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
         $this->assertSame($expected, array_values($result['processedTca']['columns']['CType']['config']['items']));
+    }
+
+    /**
+     * @test
+     */
+    public function disallowedItemsAreRemovedFromListWithItemsProcFunc()
+    {
+        $expected = [
+            0 => [
+                0 => 'tx_simpleselectboxsingle.I.5',
+                1 => '5',
+                2 => null,
+                3 => null,
+            ],
+        ];
+
+        $_GET['defVals']['tt_content'] = [
+            'colPos' => 12,
+            'CType' => 'header',
+        ];
+        $formDataCompilerInput = [
+            'command' => 'new',
+            'tableName' => 'tt_content',
+            'vanillaUid' => 2,
+        ];
+
+        $formDataGroup = new TcaDatabaseRecord();
+        $formDataCompiler = new FormDataCompiler($formDataGroup);
+        $result = $formDataCompiler->compile($formDataCompilerInput);
+
+        $this->assertSame($expected, array_values($result['processedTca']['columns']['tx_simpleselectboxsingle']['config']['items']));
     }
 }
