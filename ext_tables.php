@@ -3,16 +3,13 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\IchHabRecht\ContentDefender\Form\FormDataProvider\TcaCTypeItems::class] = [
     'depends' => [
-        \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowDefaultValues::class,
-    ],
-    'before' => [
         \TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems::class,
     ],
 ];
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\IchHabRecht\ContentDefender\Form\FormDataProvider\TcaColPosItems::class] = [
     'depends' => [
-        \TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems::class,
+        \IchHabRecht\ContentDefender\Form\FormDataProvider\TcaCTypeItems::class,
     ],
 ];
 

@@ -34,7 +34,7 @@ class TcaCTypeItems implements FormDataProviderInterface
         $pageId = !empty($result['effectivePid']) ? (int)$result['effectivePid'] : (int)$result['databaseRow']['pid'];
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
-        $colPos = (int)$result['databaseRow']['colPos'];
+        $colPos = (int)($result['databaseRow']['colPos'][0] ?? ($result['databaseRow']['colPos'] ?? 0));
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return $result;
@@ -53,11 +53,11 @@ class TcaCTypeItems implements FormDataProviderInterface
 
         $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($disallowedConfiguration as $field => $value) {
-            $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+            $disallowedValues = GeneralUtility::trimExplode(',', $value);
             $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
                 $result['processedTca']['columns'][$field]['config']['items'],
-                function ($item) use ($disAllowedValues) {
-                    return !in_array($item[1], $disAllowedValues);
+                function ($item) use ($disallowedValues) {
+                    return !in_array($item[1], $disallowedValues);
                 }
             );
         }
