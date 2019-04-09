@@ -51,6 +51,6 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, $result['processedTca']['columns']['CType']['config']['items']);
+        $this->assertSame($expected, array_values($result['processedTca']['columns']['CType']['config']['items']));
     }
 }
