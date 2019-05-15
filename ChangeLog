@@ -1,3 +1,9 @@
+2019-05-15         [RELEASE] Release of content_defender 3.0.11 (Nicole Cordes)
+2019-04-09 776e4eb [FEATURE] Add functional test for select field with itemsProcFunc (Nicole Cordes)
+2019-04-09 b5d22d7 [BUGFIX] Process TcaCTypeItems after TcaSelectItems (Nicole Cordes)
+2019-04-09 01cdfcc [TASK] Simplify expectation verification in functional tests (Nicole Cordes)
+2019-03-08 63151bb [TASK] Update supporting files to EXT:my_skeleton 0.1.9 (Nicole Cordes)
+
 2019-03-08         [RELEASE] Release of content_defender 3.0.10 (Nicole Cordes)
 2019-03-08 8265815 [TASK] Raise PHP compatibility to 7.3 (Nicole Cordes)
 2019-03-08 79e495f [TASK] Update supporting files to EXT:my_skeleton 0.1.8 (Nicole Cordes)
