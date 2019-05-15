@@ -36,13 +36,13 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
                 null,
                 null,
             ],
-            2 => [
+            1 => [
                 'Footer1 (header, list[indexed_search_pi2])',
                 '10',
                 null,
                 null,
             ],
-            4 => [
+            2 => [
                 'Footer3 (all)',
                 '12',
                 null,
@@ -66,7 +66,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, $result['processedTca']['columns']['colPos']['config']['items']);
+        $this->assertSame($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
     }
 
     /**
@@ -93,7 +93,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertArraySubset($expected, $result['processedTca']['columns']['colPos']['config']['items']);
+        $this->assertArraySubset($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
     }
 
     /**
@@ -108,13 +108,13 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
                 null,
                 null,
             ],
-            3 => [
+            1 => [
                 'Footer2 (bullets)',
                 '11',
                 null,
                 null,
             ],
-            4 => [
+            2 => [
                 'Footer3 (all)',
                 '12',
                 null,
@@ -138,7 +138,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, $result['processedTca']['columns']['colPos']['config']['items']);
+        $this->assertSame($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
     }
 
     /**

@@ -54,8 +54,11 @@ mod.web_layout.BackendLayouts.default {
                     }
 
                     3 {
-                        name = Footer3 (all)
+                        name = Footer3 (all, tx_simpleselectboxsingle=5)
                         colPos = 12
+                        allowed {
+                            tx_simpleselectboxsingle = 5
+                        }
                     }
                 }
             }
