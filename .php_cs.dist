@@ -21,6 +21,9 @@ return PhpCsFixer\Config::create()
         ],
         'binary_operator_spaces' => true,
         'blank_line_before_return' => true,
+        'cast_spaces' => [
+            'space' => 'none',
+        ],
         'concat_space' => [
             'spacing' => 'one',
         ],

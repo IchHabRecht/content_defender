@@ -18,6 +18,9 @@ cache:
 jdk:
   - oraclejdk8
 
+services:
+  - mysql
+
 sudo: required
 
 before_install:
