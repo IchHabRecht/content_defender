@@ -35,7 +35,7 @@ class ContentRepositoryTest extends UnitTestCase
         'uid' => 4,
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

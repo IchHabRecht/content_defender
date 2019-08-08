@@ -31,7 +31,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
      */
     protected $coreExtensionsToLoad = [
         'fluid_styled_content',
-        'indexed_search',
+        'indexed_search'
     ];
 
     /**
@@ -51,7 +51,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
             'Footer2 (bullets)' => [
                 11,
                 2,
-            ],
+            ]
         ];
     }
 
@@ -78,9 +78,11 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         $serverRequest->getQueryParams()->willReturn([]);
         $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
-        Bootstrap::getInstance()->initializeLanguageObject();
-        $newContentElementController = new NewContentElementController();
-        $wizardItems = $newContentElementController->wizardArray();
+        Bootstrap::initializeLanguageObject();
+
+        $mock = $this->getAccessibleMock(NewContentElementController::class, ['dummy']);
+        $mock->_call('init', $serverRequest->reveal());
+        $wizardItems = $mock->_call('getWizards');
 
         $wizardItemsHook = new WizardItemsHook();
         $wizardItemsHook->manipulateWizardItems($wizardItems, $newContentElementController);
