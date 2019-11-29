@@ -23,9 +23,14 @@ mod.web_layout.BackendLayouts.default {
             2 {
                 columns {
                     1 {
+                        name = Disabled without colPos
+                        colspan = 1
+                    }
+
+                    2 {
                         name = Normal (header, textmedia, list[-indexed_search_pi2])
                         colPos = 0
-                        colspan = 6
+                        colspan = 5
                         allowed {
                             CType = header, textmedia, list
                         }
