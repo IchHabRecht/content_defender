@@ -68,6 +68,12 @@ jobs:
                     echo;
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
+            php: 7.4
+            env: TYPO3=^9.5
+        -   <<: *tests
+            php: 7.4
+            env: TYPO3=^8.7
+        -   <<: *tests
             php: 7.3
             env: TYPO3=^9.5
         -   <<: *tests
@@ -176,6 +182,12 @@ jobs:
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
+            php: 7.4
+            env: TYPO3=9.5.x-dev
+        -   <<: *dev-tests
+            php: 7.4
+            env: TYPO3=8.7.x-dev
+        -   <<: *dev-tests
             php: 7.3
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
@@ -202,6 +214,12 @@ jobs:
                 - composer require --no-progress --no-suggest --no-update typo3/cms-composer-installers:"^1.5 || ^2.0"
                 - composer require --no-progress --no-suggest --prefer-lowest nimut/typo3-complete:"$TYPO3"
                 - git checkout composer.json
+            php: 7.4
+            env: TYPO3=^9.5
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=9.5.x-dev
+        -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=^9.5
         -   <<: *lowest-tests
