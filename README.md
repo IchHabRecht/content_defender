@@ -120,5 +120,7 @@ columns {
 
 ## Community
 
-- Thanks to [Marcus Schwemer](https://twitter.com/MarcusSchwemer) who wrote about content_defender in his blog [TYPO3worx](https://typo3worx.eu/2017/07/typo3-extension-roundup-q1-q2-2017/)
+- Thanks to [WACON Internet GmbH](https://www.wacon.de) that sponsors the maintenance of this extension with a [GitHub sponsorship](https://github.com/sponsors/IchHabRecht)
+
 - Thanks to [Daniel Goerz](https://twitter.com/ervaude) who wrote about content_defender in his blog [useTYPO3](https://usetypo3.com/backend-layouts.html)
+- Thanks to [Marcus Schwemer](https://twitter.com/MarcusSchwemer) who wrote about content_defender in his blog [TYPO3worx](https://typo3worx.eu/2017/07/typo3-extension-roundup-q1-q2-2017/)
