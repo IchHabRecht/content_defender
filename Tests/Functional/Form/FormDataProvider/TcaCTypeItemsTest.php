@@ -44,15 +44,19 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $_GET['defVals']['tt_content'] = [
-            'colPos' => 11,
-            'CType' => 'bullets',
-        ];
-        $formDataCompilerInput = [
-            'command' => 'new',
-            'tableName' => 'tt_content',
-            'vanillaUid' => 2,
-        ];
+        $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
+            [
+                'command' => 'new',
+                'tableName' => 'tt_content',
+                'vanillaUid' => 2,
+            ],
+            [
+                'tt_content' => [
+                    'colPos' => 11,
+                    'CType' => 'bullets',
+                ],
+            ]
+        );
 
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
@@ -75,15 +79,19 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $_GET['defVals']['tt_content'] = [
-            'colPos' => 12,
-            'CType' => 'header',
-        ];
-        $formDataCompilerInput = [
-            'command' => 'new',
-            'tableName' => 'tt_content',
-            'vanillaUid' => 2,
-        ];
+        $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
+            [
+                'command' => 'new',
+                'tableName' => 'tt_content',
+                'vanillaUid' => 2,
+            ],
+            [
+                'tt_content' => [
+                    'colPos' => 12,
+                    'CType' => 'header',
+                ],
+            ]
+        );
 
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);

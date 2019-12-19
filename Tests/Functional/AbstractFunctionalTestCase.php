@@ -56,7 +56,12 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         );
 
         $this->setUpBackendUserFromFixture(1);
-        Bootstrap::getInstance()->initializeLanguageObject();
+        if (!method_exists(Bootstrap::class, 'getInstance')) {
+            Bootstrap::initializeLanguageObject();
+        } else {
+            // TODO: 8.7 legacy support
+            Bootstrap::getInstance()->initializeLanguageObject();
+        }
     }
 
     protected function assertNoProcessingErrorsInDataHandler(DataHandler $dataHandler)
@@ -66,5 +71,25 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 
         $this->assertSame(0, count($flashMessageQueue->getAllMessages()));
+    }
+
+    /**
+     * @param array $input
+     * @param array $defaultValues
+     * @return array
+     */
+    protected function mergeDefaultValuesWithCompilerInput(array $input, array $defaultValues)
+    {
+        if (version_compare(TYPO3_version, '10', '>=')) {
+            $input = array_merge($input, ['defaultValues' => $defaultValues]);
+        } else {
+            // TODO: 8.7 legacy support
+            if (!isset($_GET['defVals'])) {
+                $_GET['defVals'] = [];
+            }
+            $_GET['defVals'] = array_merge($_GET['defVals'], $defaultValues);
+        }
+
+        return $input;
     }
 }

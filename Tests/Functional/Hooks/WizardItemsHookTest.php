@@ -19,9 +19,8 @@ require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 
 use IchHabRecht\ContentDefender\Hooks\WizardItemsHook;
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
+use IchHabRecht\ContentDefender\Tests\Functional\Fixtures\Classes\ContentElement\NewContentElementController;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
-use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class WizardItemsHookTest extends AbstractFunctionalTestCase
@@ -67,6 +66,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
             '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts">'
         );
 
+        // TODO: 8.7 legacy support
         $_GET['id'] = 2;
         $_GET['colPos'] = $colPos;
 
@@ -78,9 +78,8 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         $serverRequest->getQueryParams()->willReturn([]);
         $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
-        Bootstrap::getInstance()->initializeLanguageObject();
         $newContentElementController = new NewContentElementController();
-        $wizardItems = $newContentElementController->wizardArray();
+        $wizardItems = $newContentElementController->getWizardArray();
 
         $wizardItemsHook = new WizardItemsHook();
         $wizardItemsHook->manipulateWizardItems($wizardItems, $newContentElementController);

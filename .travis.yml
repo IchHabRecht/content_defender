@@ -24,6 +24,8 @@ jobs:
     fast_finish: true
     allow_failures:
         -   if: type != cron
+            env: TYPO3=dev-master
+        -   if: type != cron
             env: TYPO3=9.5.x-dev
         -   if: type != cron
             env: TYPO3=8.7.x-dev
@@ -69,16 +71,25 @@ jobs:
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
             php: 7.4
+            env: TYPO3=~10.2.0
+        -   <<: *tests
+            php: 7.4
             env: TYPO3=^9.5
         -   <<: *tests
             php: 7.4
             env: TYPO3=^8.7
         -   <<: *tests
             php: 7.3
+            env: TYPO3=~10.2.0
+        -   <<: *tests
+            php: 7.3
             env: TYPO3=^9.5
         -   <<: *tests
             php: 7.3
             env: TYPO3=^8.7
+        -   <<: *tests
+            php: 7.2
+            env: TYPO3=~10.2.0
         -   <<: *tests
             php: 7.2
             env: TYPO3=^9.5
@@ -116,7 +127,7 @@ jobs:
             git:
                 depth: false
             php: 7.2
-            env: TYPO3="^8.7 ^9.5"
+            env: TYPO3="^8.7 ^9.5 ~10.2.0"
             before_script:
                 - mkdir -p .Log/coverage/ .Log/junit/
                 - export TYPO3_PATH_WEB=$PWD/.Build/public
@@ -183,16 +194,25 @@ jobs:
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
             php: 7.4
+            env: TYPO3=dev-master
+        -   <<: *dev-tests
+            php: 7.4
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
             php: 7.4
             env: TYPO3=8.7.x-dev
         -   <<: *dev-tests
             php: 7.3
+            env: TYPO3=dev-master
+        -   <<: *dev-tests
+            php: 7.3
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
             php: 7.3
             env: TYPO3=8.7.x-dev
+        -   <<: *dev-tests
+            php: 7.2
+            env: TYPO3=dev-master
         -   <<: *dev-tests
             php: 7.2
             env: TYPO3=9.5.x-dev
@@ -215,10 +235,22 @@ jobs:
                 - composer require --no-progress --no-suggest --prefer-lowest nimut/typo3-complete:"$TYPO3"
                 - git checkout composer.json
             php: 7.4
+            env: TYPO3=~10.2.0
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=dev-master
+        -   <<: *lowest-tests
+            php: 7.4
             env: TYPO3=^9.5
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=9.5.x-dev
+        -   <<: *lowest-tests
+            php: 7.3
+            env: TYPO3=~10.2.0
+        -   <<: *lowest-tests
+            php: 7.3
+            env: TYPO3=dev-master
         -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=^9.5
@@ -231,6 +263,12 @@ jobs:
         -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=8.7.x-dev
+        -   <<: *lowest-tests
+            php: 7.2
+            env: TYPO3=~10.2.0
+        -   <<: *lowest-tests
+            php: 7.2
+            env: TYPO3=dev-master
         -   <<: *lowest-tests
             php: 7.2
             env: TYPO3=^9.5

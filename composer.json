@@ -21,10 +21,10 @@
     ],
     "require": {
         "php": ">= 5.5, < 7.5",
-        "typo3/cms-backend": "^8.7 || ^9.5"
+        "typo3/cms-backend": "^8.7 || ^9.5 || ~10.2.0"
     },
     "require-dev": {
-        "nimut/testing-framework": "4.x-dev"
+        "nimut/testing-framework": "5.x-dev"
     },
     "autoload": {
         "psr-4": {
