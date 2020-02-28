@@ -58,16 +58,11 @@ class BackendLayoutConfiguration
      */
     public function getConfigurationByColPos($colPos)
     {
-        $configurationIdentifier = md5($this->backendLayout['config']);
-        if (isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
-            return self::$columnConfiguration[$configurationIdentifier][$colPos];
-        }
-
         if (empty($this->backendLayout['__config']['backend_layout.']['rowCount'])
             || empty($this->backendLayout['__config']['backend_layout.']['colCount'])
             || !in_array($colPos, array_map('intval', $this->backendLayout['__colPosList']), true)
         ) {
-            return self::$columnConfiguration[$configurationIdentifier][$colPos] = [];
+            return [];
         }
 
         $configuration = [];
@@ -84,6 +79,6 @@ class BackendLayoutConfiguration
             }
         }
 
-        return self::$columnConfiguration[$configurationIdentifier][$colPos] = $configuration;
+        return $configuration;
     }
 }
