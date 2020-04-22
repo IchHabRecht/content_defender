@@ -1,3 +1,12 @@
+2020-04-22         [RELEASE] Release of master 3.0.12 (Nicole Cordes)
+2020-04-22 5a5aee1 [TASK] Stabilize functional tests (Nicole Cordes)
+2020-04-22 460cf9a [TASK] Raise compatibility to TYPO3 10.4 (Nicole Cordes)
+2019-12-19 0f9f250 [TASK] Update community part of README.md (Nicole Cordes)
+2019-12-19 e001f3e [TASK] Raise TYPO3 dependencies to include 10.2 (Nicole Cordes)
+2019-12-18 6c4c957 [TASK] Raise PHP compatibility to 7.4 (Nicole Cordes)
+2019-12-18 1df9b0a [TASK] Update supporting files to EXT:my_skeleton 0.3.0 (Nicole Cordes)
+2019-08-03 1ec7056 [TASK] Update supporting files to EXT:my_skeleton 0.2.1 (Nicole Cordes)
+
 2019-05-15         [RELEASE] Release of content_defender 3.0.11 (Nicole Cordes)
 2019-04-09 776e4eb [FEATURE] Add functional test for select field with itemsProcFunc (Nicole Cordes)
 2019-04-09 b5d22d7 [BUGFIX] Process TcaCTypeItems after TcaSelectItems (Nicole Cordes)
