@@ -35,15 +35,6 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
      */
     public function disallowedCTypesAreRemovedFromCTypeList()
     {
-        $expected = [
-            0 => [
-                'Bullet List',
-                'bullets',
-                'content-bullets',
-                null,
-            ],
-        ];
-
         $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
             [
                 'command' => 'new',
@@ -62,7 +53,10 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, array_values($result['processedTca']['columns']['CType']['config']['items']));
+        $items = array_values($result['processedTca']['columns']['CType']['config']['items']);
+
+        $this->assertCount(1, $items);
+        $this->assertSame('bullets', $items[0][1]);
     }
 
     /**
@@ -70,15 +64,6 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
      */
     public function disallowedItemsAreRemovedFromListWithItemsProcFunc()
     {
-        $expected = [
-            0 => [
-                0 => 'tx_simpleselectboxsingle.I.5',
-                1 => '5',
-                2 => null,
-                3 => null,
-            ],
-        ];
-
         $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
             [
                 'command' => 'new',
@@ -97,6 +82,9 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, array_values($result['processedTca']['columns']['tx_simpleselectboxsingle']['config']['items']));
+        $items = array_values($result['processedTca']['columns']['tx_simpleselectboxsingle']['config']['items']);
+
+        $this->assertCount(1, $items);
+        $this->assertSame('5', $items[0][1]);
     }
 }

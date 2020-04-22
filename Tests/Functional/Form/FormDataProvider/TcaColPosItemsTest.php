@@ -67,7 +67,12 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
+        $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
+
+        $this->assertCount(3, $items);
+        $this->assertSame('0', $items[0][1]);
+        $this->assertSame('10', $items[1][1]);
+        $this->assertSame('12', $items[2][1]);
     }
 
     /**
@@ -102,27 +107,6 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
      */
     public function notAllowedColumnsAreRemovedFromColPosList()
     {
-        $expected = [
-            0 => [
-                'Left (maxitems = 3)',
-                '0',
-                null,
-                null,
-            ],
-            1 => [
-                'Footer2 (bullets)',
-                '11',
-                null,
-                null,
-            ],
-            2 => [
-                'Footer3 (all)',
-                '12',
-                null,
-                null,
-            ],
-        ];
-
         $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
             [
                 'command' => 'new',
@@ -140,7 +124,12 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertSame($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
+        $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
+
+        $this->assertCount(3, $items);
+        $this->assertSame('0', $items[0][1]);
+        $this->assertSame('11', $items[1][1]);
+        $this->assertSame('12', $items[2][1]);
     }
 
     /**
