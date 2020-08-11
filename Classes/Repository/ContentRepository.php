@@ -15,9 +15,12 @@ namespace IchHabRecht\ContentDefender\Repository;
  * LICENSE file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Versioning\VersionState;
 
 class ContentRepository
 {
@@ -44,7 +47,9 @@ class ContentRepository
         if (!isset(self::$colPosCount[$identifier])) {
             $this->initialize($record);
         }
-        self::$colPosCount[$identifier][$record['uid']] = $record['uid'];
+
+        $uid = ($record['t3ver_oid'] ?? 0) ?: $record['uid'];
+        self::$colPosCount[$identifier][$uid] = $uid;
 
         return count(self::$colPosCount[$identifier]);
     }
@@ -56,8 +61,10 @@ class ContentRepository
         if (!isset(self::$colPosCount[$identifier])) {
             $this->initialize($record);
         }
-        if (isset(self::$colPosCount[$identifier][$record['uid']])) {
-            unset(self::$colPosCount[$identifier][$record['uid']]);
+
+        $uid = ($record['t3ver_oid'] ?? 0) ?: $record['uid'];
+        if (isset(self::$colPosCount[$identifier][$uid])) {
+            unset(self::$colPosCount[$identifier][$uid]);
         }
 
         return count(self::$colPosCount[$identifier]);
@@ -71,7 +78,9 @@ class ContentRepository
             $this->initialize($record);
         }
 
-        return isset(self::$colPosCount[$identifier][$record['uid']]);
+        $uid = ($record['t3ver_oid'] ?? 0) ?: $record['uid'];
+
+        return isset(self::$colPosCount[$identifier][$uid]);
     }
 
     public function substituteNewIdsWithUids(array $newIdUidArray)
@@ -136,8 +145,9 @@ class ContentRepository
         if (!isset(self::$colPosCount[$identifier])) {
             $this->initialize($record);
         }
-        if (!empty($record['uid']) && isset(self::$colPosCount[$identifier][$record['uid']])) {
-            unset(self::$colPosCount[$identifier][$record['uid']]);
+        $uid = ($record['t3ver_oid'] ?? 0) ?: ($record['uid'] ?? 0);
+        if (!empty($uid) && isset(self::$colPosCount[$identifier][$uid])) {
+            unset(self::$colPosCount[$identifier][$uid]);
             $dec -= 1;
         }
         while ($dec > 0 && in_array(0, self::$colPosCount[$identifier], true)) {
@@ -151,20 +161,26 @@ class ContentRepository
 
     protected function initialize(array $record)
     {
-        $result = $this->fetchRecordsForColPos($record);
-
-        self::$colPosCount[$this->getIdentifier($record)] = array_combine($result, $result);
+        self::$colPosCount[$this->getIdentifier($record)] = $this->fetchRecordsForColPos($record);
     }
 
     protected function fetchRecordsForColPos(array $record): array
     {
+        $rows = [];
+
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
         $language = (array)$record[$languageField];
 
+        $selectFields = ['uid', 'pid'];
+        if (!empty($GLOBALS['TCA']['tt_content']['ctrl']['versioningWS'])) {
+            $selectFields[] = 't3ver_state';
+        }
+
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
 
-        return $queryBuilder->select('uid')
+        $statement = $queryBuilder->select(...$selectFields)
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -180,8 +196,16 @@ class ContentRepository
                     $queryBuilder->createNamedParameter($language[0], \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetchAll(\PDO::FETCH_COLUMN);
+            ->execute();
+
+        while ($row = $statement->fetch()) {
+            BackendUtility::workspaceOL('tt_content', $row, -99, true);
+            if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
+                $rows[$row['uid']] = $row['uid'];
+            }
+        }
+
+        return $rows;
     }
 
     protected function getIdentifier(array $record): string
