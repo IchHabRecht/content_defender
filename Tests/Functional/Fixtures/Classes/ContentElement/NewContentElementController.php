@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace IchHabRecht\ContentDefender\Tests\Functional\Fixtures\Classes\ContentElement;
 
 class NewContentElementController extends \TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController

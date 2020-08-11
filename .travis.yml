@@ -199,6 +199,9 @@ jobs:
             env: TYPO3=dev-master
         -   <<: *dev-tests
             php: 7.4
+            env: TYPO3=10.4.x-dev
+        -   <<: *dev-tests
+            php: 7.4
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
             php: 7.4
@@ -208,6 +211,9 @@ jobs:
             env: TYPO3=dev-master
         -   <<: *dev-tests
             php: 7.3
+            env: TYPO3=10.4.x-dev
+        -   <<: *dev-tests
+            php: 7.3
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
             php: 7.3
@@ -215,6 +221,9 @@ jobs:
         -   <<: *dev-tests
             php: 7.2
             env: TYPO3=dev-master
+        -   <<: *dev-tests
+            php: 7.2
+            env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.2
             env: TYPO3=9.5.x-dev
@@ -250,6 +259,12 @@ jobs:
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=9.5.x-dev
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=^8.7
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=8.7.x-dev
         -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=dev-master

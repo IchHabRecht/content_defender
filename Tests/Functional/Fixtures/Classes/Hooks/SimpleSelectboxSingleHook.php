@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace IchHabRecht\ContentDefender\Tests\Functional\Fixtures\Classes\Hooks;
 
 class SimpleSelectboxSingleHook
