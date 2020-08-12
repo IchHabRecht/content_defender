@@ -16,6 +16,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\ColumnConfigurationHookInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -77,6 +78,16 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 
                 $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
                 $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+                foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['columnConfigurationHook'] ?? [] as $className) {
+                    $hookObject = GeneralUtility::makeInstance($className);
+                    if (!$hookObject instanceof ColumnConfigurationHookInterface) {
+                        throw new \UnexpectedValueException(
+                            $className . ' must implement interface ' . ColumnConfigurationHookInterface::class,
+                            1597159148
+                        );
+                    }
+                    $columnConfiguration = $hookObject->manipulateForCmdmap((array)$columnConfiguration, (array)$value);
+                }
 
                 // Failing one of the conditions prevents a new record from being added to the database for the
                 // current command

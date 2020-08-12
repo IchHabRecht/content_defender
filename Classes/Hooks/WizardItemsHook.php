@@ -16,6 +16,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\ColumnConfigurationHookInterface;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
 use TYPO3\CMS\Backend\Wizard\NewContentElementWizardHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -34,6 +35,18 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
 
         $colPos = (int)GeneralUtility::_GP('colPos');
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['columnConfigurationHook'] ?? [] as $className) {
+            $hookObject = GeneralUtility::makeInstance($className);
+            if (!$hookObject instanceof ColumnConfigurationHookInterface) {
+                throw new \UnexpectedValueException(
+                    $className . ' must implement interface ' . ColumnConfigurationHookInterface::class,
+                    1597159147
+                );
+            }
+            $columnConfiguration = $hookObject->manipulateForWizardItems((array)$columnConfiguration);
+        }
+
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return;
         }

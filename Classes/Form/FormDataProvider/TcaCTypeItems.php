@@ -16,6 +16,7 @@ namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\ColumnConfigurationHookInterface;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -36,6 +37,18 @@ class TcaCTypeItems implements FormDataProviderInterface
 
         $colPos = (int)($result['databaseRow']['colPos'][0] ?? ($result['databaseRow']['colPos'] ?? 0));
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['columnConfigurationHook'] ?? [] as $className) {
+            $hookObject = GeneralUtility::makeInstance($className);
+            if (!$hookObject instanceof ColumnConfigurationHookInterface) {
+                throw new \UnexpectedValueException(
+                    $className . ' must implement interface ' . ColumnConfigurationHookInterface::class,
+                    1597159146
+                );
+            }
+            $columnConfiguration = $hookObject->manipulateForTcaCTypeItems((array)$columnConfiguration, $result);
+        }
+
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return $result;
         }

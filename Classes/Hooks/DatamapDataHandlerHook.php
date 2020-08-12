@@ -16,6 +16,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\ColumnConfigurationHookInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,6 +51,17 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['columnConfigurationHook'] ?? [] as $className) {
+                $hookObject = GeneralUtility::makeInstance($className);
+                if (!$hookObject instanceof ColumnConfigurationHookInterface) {
+                    throw new \UnexpectedValueException(
+                        $className . ' must implement interface ' . ColumnConfigurationHookInterface::class,
+                        1597159149
+                    );
+                }
+                $columnConfiguration = $hookObject->manipulateForDatamap((array)$columnConfiguration, (array)$incomingFieldArray);
+            }
 
             if (!$this->isRecordAllowedByRestriction($columnConfiguration, $incomingFieldArray)) {
                 unset($dataHandler->datamap['tt_content'][$id]);
