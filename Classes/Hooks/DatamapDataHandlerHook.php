@@ -51,7 +51,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
             $colPos = (int)$incomingFieldArray['colPos'];
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
 
             if (!$this->isRecordAllowedByRestriction($columnConfiguration, $incomingFieldArray)) {
                 unset($dataHandler->datamap['tt_content'][$id]);

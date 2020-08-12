@@ -78,7 +78,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 $currentRecord['colPos'] = $colPos;
 
                 $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
 
                 // Failing one of the conditions prevents a new record from being added to the database for the
                 // current command
