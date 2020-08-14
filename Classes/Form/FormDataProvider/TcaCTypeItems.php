@@ -37,7 +37,7 @@ class TcaCTypeItems implements FormDataProviderInterface
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
         $colPos = (int)($result['databaseRow']['colPos'][0] ?? ($result['databaseRow']['colPos'] ?? 0));
-        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $result['databaseRow']['uid']);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return $result;
         }

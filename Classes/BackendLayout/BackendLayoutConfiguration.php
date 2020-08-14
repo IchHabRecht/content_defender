@@ -17,6 +17,7 @@ namespace IchHabRecht\ContentDefender\BackendLayout;
  * LICENSE file that was distributed with this source code.
  */
 
+use IchHabRecht\ContentDefender\Exception\MissingInterfaceException;
 use TYPO3\CMS\Backend\View\BackendLayoutView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -56,34 +57,41 @@ class BackendLayoutConfiguration
 
     /**
      * @param int $colPos
+     * @param int|string|null $recordUid
      * @return array
      */
-    public function getConfigurationByColPos($colPos)
+    public function getConfigurationByColPos($colPos, $recordUid = null)
     {
         $configurationIdentifier = md5($this->backendLayout['config']);
         if (isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
             return self::$columnConfiguration[$configurationIdentifier][$colPos];
         }
 
-        if (empty($this->backendLayout['__config']['backend_layout.']['rowCount'])
-            || empty($this->backendLayout['__config']['backend_layout.']['colCount'])
-            || !in_array($colPos, array_map('intval', $this->backendLayout['__colPosList']), true)
-        ) {
-            return self::$columnConfiguration[$configurationIdentifier][$colPos] = [];
-        }
-
         $configuration = [];
-        foreach ($this->backendLayout['__config']['backend_layout.']['rows.'] as $row) {
-            if (empty($row['columns.'])) {
-                continue;
-            }
+        if (in_array($colPos, array_map('intval', $this->backendLayout['__colPosList']), true)) {
+            foreach ($this->backendLayout['__config']['backend_layout.']['rows.'] as $row) {
+                if (empty($row['columns.'])) {
+                    continue;
+                }
 
-            foreach ($row['columns.'] as $column) {
-                if ($column['colPos'] !== '' && $colPos === (int)$column['colPos']) {
-                    $configuration = $column;
-                    break 2;
+                foreach ($row['columns.'] as $column) {
+                    if ($column['colPos'] !== '' && $colPos === (int)$column['colPos']) {
+                        $configuration = $column;
+                        break 2;
+                    }
                 }
             }
+        }
+
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['content_defender']['ColumnConfigurationManipulationHook'] ?? [] as $className) {
+            $hookObject = GeneralUtility::makeInstance($className);
+            if (!$hookObject instanceof ColumnConfigurationManipulationInterface) {
+                throw new MissingInterfaceException(
+                    'Class ' . $className . ' must implement interface ' . ColumnConfigurationManipulationInterface::class,
+                    1597159146
+                );
+            }
+            $configuration = $hookObject->manipulateConfiguration($configuration, $colPos, $recordUid);
         }
 
         return self::$columnConfiguration[$configurationIdentifier][$colPos] = $configuration;
