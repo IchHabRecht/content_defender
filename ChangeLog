@@ -1,4 +1,11 @@
-2020-04-22         [RELEASE] Release of master 3.0.12 (Nicole Cordes)
+2020-08-14         [RELEASE] Release of content_defender 3.1.0 (Nicole Cordes)
+2020-08-12 82be5de [FEATURE] Provide column configuration hook (Nicole Cordes)
+2020-08-12 d97f052 [TASK] Raise minimum PHP compatibility to 7.0 (Nicole Cordes)
+2020-08-11 200e44c [TASK] Update supporting files to EXT:my_skeleton 0.4.0 (Nicole Cordes)
+2020-07-03 07252fd [BUGFIX] Handle workspace elements (Nicole Cordes)
+2020-01-29 ba6173f [TASK] Move extension icon location (Josef Glatz)
+
+2020-04-22         [RELEASE] Release of content_defender 3.0.12 (Nicole Cordes)
 2020-04-22 5a5aee1 [TASK] Stabilize functional tests (Nicole Cordes)
 2020-04-22 460cf9a [TASK] Raise compatibility to TYPO3 10.4 (Nicole Cordes)
 2019-12-19 0f9f250 [TASK] Update community part of README.md (Nicole Cordes)
