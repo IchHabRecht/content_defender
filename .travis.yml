@@ -24,8 +24,6 @@ jobs:
     fast_finish: true
     allow_failures:
         -   if: type != cron
-            env: TYPO3=dev-master
-        -   if: type != cron
             env: TYPO3=10.4.x-dev
         -   if: type != cron
             env: TYPO3=9.5.x-dev
@@ -36,8 +34,10 @@ jobs:
             stage: 🏃 tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
+                - composer self-update --1
             install:
-                - composer require --no-progress --no-suggest nimut/typo3-complete:"$TYPO3"
+                - composer require --no-progress --no-suggest --no-update nimut/typo3-complete:"$TYPO3"
+                - composer update
                 - git checkout composer.json
             before_script:
                 - mkdir -p .Build/public/typo3conf/ext/
@@ -130,6 +130,8 @@ jobs:
                 depth: false
             php: 7.2
             env: TYPO3="^8.7 ^9.5 ^10.4"
+            before_install:
+                - composer self-update --1
             before_script:
                 - mkdir -p .Log/coverage/ .Log/junit/
                 - export TYPO3_PATH_WEB=$PWD/.Build/public
@@ -147,7 +149,8 @@ jobs:
                             echo;
                             echo;
                             git clean -Xdf;
-                            composer require --dev --no-progress --no-suggest nimut/typo3-complete:"$TYPO3";
+                            composer require --dev --no-progress --no-suggest --no-update nimut/typo3-complete:"$TYPO3";
+                            composer update;
                             git checkout composer.json;
                             VERSION=${TYPO3//[!0-9]/};
 
@@ -175,7 +178,8 @@ jobs:
                         echo "Merging log and coverage files";
                         echo;
                         echo;
-                        composer require --no-progress --no-suggest --update-with-all-dependencies nimut/phpunit-merger;
+                        composer require --no-progress --no-suggest --no-update nimut/phpunit-merger;
+                        composer update;
                         .Build/bin/phpunit-merger coverage .Log/coverage/ .Log/coverage.xml;
                         .Build/bin/phpunit-merger log .Log/junit/ .Log/junit.xml;
                     fi
@@ -192,13 +196,11 @@ jobs:
             stage: 🏃 dev tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
+                - composer self-update --1
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
             php: 7.4
-            env: TYPO3=dev-master
-        -   <<: *dev-tests
-            php: 7.4
             env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.4
@@ -208,9 +210,6 @@ jobs:
             env: TYPO3=8.7.x-dev
         -   <<: *dev-tests
             php: 7.3
-            env: TYPO3=dev-master
-        -   <<: *dev-tests
-            php: 7.3
             env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.3
@@ -218,9 +217,6 @@ jobs:
         -   <<: *dev-tests
             php: 7.3
             env: TYPO3=8.7.x-dev
-        -   <<: *dev-tests
-            php: 7.2
-            env: TYPO3=dev-master
         -   <<: *dev-tests
             php: 7.2
             env: TYPO3=10.4.x-dev
@@ -243,12 +239,10 @@ jobs:
             if: type = cron
             install:
                 - composer require --no-progress --no-suggest --no-update typo3/cms-composer-installers:"^1.5 || ^2.0"
-                - composer require --no-progress --no-suggest --prefer-lowest nimut/typo3-complete:"$TYPO3"
+                - composer require --no-progress --no-suggest --no-update --prefer-lowest nimut/typo3-complete:"$TYPO3"
+                - composer update
                 - git checkout composer.json
             php: 7.4
-            env: TYPO3=dev-master
-        -   <<: *lowest-tests
-            php: 7.4
             env: TYPO3=^10.4
         -   <<: *lowest-tests
             php: 7.4
@@ -267,9 +261,6 @@ jobs:
             env: TYPO3=8.7.x-dev
         -   <<: *lowest-tests
             php: 7.3
-            env: TYPO3=dev-master
-        -   <<: *lowest-tests
-            php: 7.3
             env: TYPO3=^10.4
         -   <<: *lowest-tests
             php: 7.3
@@ -286,9 +277,6 @@ jobs:
         -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=8.7.x-dev
-        -   <<: *lowest-tests
-            php: 7.2
-            env: TYPO3=dev-master
         -   <<: *lowest-tests
             php: 7.2
             env: TYPO3=^10.4
