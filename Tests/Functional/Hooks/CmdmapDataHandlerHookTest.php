@@ -196,7 +196,14 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
     public function copyCommandGeneratesNewRecordInAllowedColPosAfterRecord()
     {
         $commandMap['tt_content'][2] = [
-            'copy' => -1,
+            'copy' => [
+                'action' => 'paste',
+                'target' => '-1',
+                'update' => [
+                    'colPos' => '0',
+                    'sys_language_uid' => '0',
+                ],
+            ],
         ];
 
         $dataHandler = new DataHandler();
@@ -264,7 +271,14 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
     public function copyCommandPreventsNewRecordInDisallowedColPosAfterRecord()
     {
         $commandMap['tt_content'][3] = [
-            'copy' => -1,
+            'copy' => [
+                'action' => 'paste',
+                'target' => '-1',
+                'update' => [
+                    'colPos' => '0',
+                    'sys_language_uid' => '0',
+                ],
+            ],
         ];
 
         $dataHandler = new DataHandler();
