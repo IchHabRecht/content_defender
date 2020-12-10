@@ -58,6 +58,8 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                     }
                 }
 
+                $checkId = $id;
+
                 if (is_array($value)
                     && !empty($value['action'])
                     && 'paste' === $value['action']
@@ -65,6 +67,12 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 ) {
                     $command = 'paste';
                     $pageId = (int)$value['target'];
+
+                    if ($pageId < 0) {
+                        $previousRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
+                        $pageId = (int)$previousRecord['pid'];
+                        $checkId = 'NEW_';
+                    }
                     $colPos = (int)$value['update']['colPos'];
                 } elseif ($value > 0) {
                     $pageId = (int)$value;
@@ -78,11 +86,10 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 $currentRecord['colPos'] = $colPos;
 
                 $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
+                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $checkId);
 
                 // Failing one of the conditions prevents a new record from being added to the database for the
                 // current command
-
                 if (!$this->isRecordAllowedByRestriction($columnConfiguration, $currentRecord)) {
                     unset($dataHandler->cmdmap['tt_content'][$id]);
                     $dataHandler->log(
