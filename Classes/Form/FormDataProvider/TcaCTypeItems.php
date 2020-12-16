@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\BackendLayout\Context;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -37,7 +38,8 @@ class TcaCTypeItems implements FormDataProviderInterface
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
         $colPos = (int)($result['databaseRow']['colPos'][0] ?? ($result['databaseRow']['colPos'] ?? 0));
-        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $result['databaseRow']['uid']);
+        $context = GeneralUtility::makeInstance(Context::class, $pageId, $colPos, (int)$result['databaseRow']['uid']);
+        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $context);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return $result;
         }

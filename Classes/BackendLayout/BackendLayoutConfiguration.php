@@ -57,10 +57,10 @@ class BackendLayoutConfiguration
 
     /**
      * @param int $colPos
-     * @param int|string|null $recordUid
+     * @param Context $context
      * @return array
      */
-    public function getConfigurationByColPos($colPos, $recordUid = null)
+    public function getConfigurationByColPos($colPos, Context $context)
     {
         $configurationIdentifier = md5($this->backendLayout['config']);
         if (isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
@@ -91,7 +91,7 @@ class BackendLayoutConfiguration
                     1597159146
                 );
             }
-            $configuration = $hookObject->manipulateConfiguration($configuration, $colPos, $recordUid);
+            $configuration = $hookObject->manipulateConfiguration($configuration, $context);
         }
 
         return self::$columnConfiguration[$configurationIdentifier][$colPos] = $configuration;

@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\BackendLayout\Context;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
 use TYPO3\CMS\Backend\Wizard\NewContentElementWizardHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +36,8 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
         $colPos = (int)GeneralUtility::_GP('colPos');
-        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+        $context = GeneralUtility::makeInstance(Context::class, $pageId, $colPos);
+        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $context);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return;
         }

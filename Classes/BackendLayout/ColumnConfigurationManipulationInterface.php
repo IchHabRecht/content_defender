@@ -19,5 +19,5 @@ namespace IchHabRecht\ContentDefender\BackendLayout;
 
 interface ColumnConfigurationManipulationInterface
 {
-    public function manipulateConfiguration(array $configuration, int $colPos, $recordUid): array;
+    public function manipulateConfiguration(array $configuration, Context $context): array;
 }

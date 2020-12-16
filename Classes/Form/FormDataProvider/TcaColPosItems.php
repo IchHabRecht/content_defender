@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\BackendLayout\Context;
 use IchHabRecht\ContentDefender\Form\Exception\AccessDeniedColPosException;
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
@@ -60,7 +61,8 @@ class TcaColPosItems implements FormDataProviderInterface
 
         foreach ($result['processedTca']['columns']['colPos']['config']['items'] as $key => $item) {
             $colPos = (int)$item[1];
-            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $record['uid']);
+            $context = GeneralUtility::makeInstance(Context::class, $pageId, $colPos, (int)$record['uid']);
+            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $context);
             if (empty($columnConfiguration)) {
                 continue;
             }

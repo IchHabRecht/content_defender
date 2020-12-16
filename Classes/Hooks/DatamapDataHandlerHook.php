@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\BackendLayout\Context;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,8 +51,9 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
             }
             $colPos = (int)$incomingFieldArray['colPos'];
 
+            $context = GeneralUtility::makeInstance(Context::class, $pageId, $colPos, (int)$id);
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
+            $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $context);
 
             if (!$this->isRecordAllowedByRestriction($columnConfiguration, $incomingFieldArray)) {
                 unset($dataHandler->datamap['tt_content'][$id]);

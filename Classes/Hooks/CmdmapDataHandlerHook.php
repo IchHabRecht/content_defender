@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
+use IchHabRecht\ContentDefender\BackendLayout\Context;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -77,8 +78,9 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 $currentRecord['pid'] = $pageId;
                 $currentRecord['colPos'] = $colPos;
 
+                $context = GeneralUtility::makeInstance(Context::class, $pageId, $colPos, (int)$id);
                 $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
-                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
+                $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $context);
 
                 // Failing one of the conditions prevents a new record from being added to the database for the
                 // current command
