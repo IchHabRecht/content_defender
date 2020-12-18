@@ -66,11 +66,12 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                     $command = 'paste';
                     $pageId = (int)$value['target'];
                     $colPos = (int)$value['update']['colPos'];
-                } elseif ($value > 0) {
+                } else {
                     $pageId = (int)$value;
                     $colPos = (int)$currentRecord['colPos'];
-                } else {
-                    $targetRecord = BackendUtility::getRecord('tt_content', abs($value));
+                }
+                if ($pageId < 0) {
+                    $targetRecord = BackendUtility::getRecord('tt_content', abs($pageId));
                     $pageId = (int)$targetRecord['pid'];
                     $colPos = (int)$targetRecord['colPos'];
                 }
