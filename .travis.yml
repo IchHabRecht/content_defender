@@ -108,6 +108,8 @@ jobs:
         -   stage: 🚢 to ter
             if: tag IS present AND env(TYPO3_ORG_USERNAME) IS present AND env(TYPO3_ORG_PASSWORD) IS present
             php: 7.0
+            before_install:
+                - composer self-update --1
             script:
                 - >
                     echo;
