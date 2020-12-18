@@ -1,3 +1,9 @@
+2020-12-18         [RELEASE] Release of content_defender 3.1.1 (Nicole Cordes)
+2020-12-18 72bad68 [TASK] Update supporting files to EXT:my_skeleton 0.4.2 (Nicole Cordes)
+2020-12-15 35b34fc [BUGFIX] Correctly handle record references in CmdmapDataHandlerHook (Nicole Cordes)
+2020-12-11 6055f81 [BUGFIX] Use correct command maps for DataHandler tests (Nicole Cordes)
+2020-11-03 97a5662 [TASK] Update supporting files to EXT:my_skeleton 0.4.1 (Nicole Cordes)
+
 2020-08-14         [RELEASE] Release of content_defender 3.1.0 (Nicole Cordes)
 2020-08-12 82be5de [FEATURE] Provide column configuration hook (Nicole Cordes)
 2020-08-12 d97f052 [TASK] Raise minimum PHP compatibility to 7.0 (Nicole Cordes)
