@@ -75,7 +75,7 @@ jobs:
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
             php: 7.4
-            env: TYPO3=^11.1
+            env: TYPO3=~11.1.0
         -   <<: *tests
             php: 7.4
             env: TYPO3=^10.4
@@ -136,7 +136,7 @@ jobs:
             git:
                 depth: false
             php: 7.2
-            env: TYPO3="^8.7 ^9.5 ^10.4 ^11.1"
+            env: TYPO3="^8.7 ^9.5 ^10.4 ~11.1.0"
             before_install:
                 - composer self-update --1
             before_script:
@@ -253,7 +253,10 @@ jobs:
                 - composer update
                 - git checkout composer.json
             php: 7.4
-            env: TYPO3=^11.1
+            env: TYPO3=~11.1.0
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=11.1.x-dev
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=^10.4
