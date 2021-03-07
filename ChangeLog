@@ -1,3 +1,9 @@
+2021-03-07         [RELEASE] Release of content_defender 3.1.2 (Nicole Cordes)
+2021-03-07 78148d5 [BUGFIX] Fix functional test for TYPO3 11.1 (Nicole Cordes)
+2021-03-07 30fae6a [TASK] Stick to TYPO3 11.1.x compatibility only (Nicole Cordes)
+2021-03-01 609a7b0 [TASK] Adjust travis for TYPO3 v11.1 (Kevin Appelt)
+2021-03-01 628dd5b [TASK] Allow usage of TYPO3 v11.1 (Kevin Appelt)
+
 2020-12-18         [RELEASE] Release of content_defender 3.1.1 (Nicole Cordes)
 2020-12-18 72bad68 [TASK] Update supporting files to EXT:my_skeleton 0.4.2 (Nicole Cordes)
 2020-12-15 35b34fc [BUGFIX] Correctly handle record references in CmdmapDataHandlerHook (Nicole Cordes)
