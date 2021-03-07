@@ -78,6 +78,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
             'colPos' => $colPos,
         ]);
         $serverRequest->getQueryParams()->willReturn([]);
+        $serverRequest->getAttribute('applicationType')->willReturn(2);
         $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
         $newContentElementController = new NewContentElementController();
