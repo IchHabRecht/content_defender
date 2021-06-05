@@ -1,3 +1,8 @@
+2021-06-05         [RELEASE] Release of content_defender 3.1.3 (Nicole Cordes)
+2021-06-05 a8aec3f [BUGFIX] Fix functional test for TYPO3 11.2 (Nicole Cordes)
+2021-06-05 d29b773 [TASK] Readd TYPO3 version 11.1.x support (Nicole Cordes)
+2021-05-26 a5e3e98 [TASK] Raise version 11 requirement to 11.2 (Kevin Appelt)
+
 2021-03-07         [RELEASE] Release of content_defender 3.1.2 (Nicole Cordes)
 2021-03-07 78148d5 [BUGFIX] Fix functional test for TYPO3 11.1 (Nicole Cordes)
 2021-03-07 30fae6a [TASK] Stick to TYPO3 11.1.x compatibility only (Nicole Cordes)
