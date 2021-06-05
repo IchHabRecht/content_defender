@@ -23,7 +23,12 @@ use IchHabRecht\ContentDefender\Hooks\WizardItemsHook;
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use IchHabRecht\ContentDefender\Tests\Functional\Fixtures\Classes\ContentElement\NewContentElementController;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class WizardItemsHookTest extends AbstractFunctionalTestCase
 {
@@ -79,9 +84,15 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         ]);
         $serverRequest->getQueryParams()->willReturn([]);
         $serverRequest->getAttribute('applicationType')->willReturn(2);
+        $serverRequest->getAttribute('route')->willReturn(null);
         $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
-        $newContentElementController = new NewContentElementController();
+        $newContentElementController = new NewContentElementController(
+            GeneralUtility::makeInstance(IconFactory::class),
+            GeneralUtility::makeInstance(PageRenderer::class),
+            GeneralUtility::makeInstance(UriBuilder::class),
+            (class_exists(ModuleTemplateFactory::class) ? GeneralUtility::makeInstance(ModuleTemplateFactory::class) : null)
+        );
         $wizardItems = $newContentElementController->getWizardArray();
 
         $wizardItemsHook = new WizardItemsHook();
