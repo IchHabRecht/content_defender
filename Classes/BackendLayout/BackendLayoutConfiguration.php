@@ -62,7 +62,7 @@ class BackendLayoutConfiguration
      */
     public function getConfigurationByColPos($colPos, $recordUid = null)
     {
-        $configurationIdentifier = md5($this->backendLayout['config']);
+        $configurationIdentifier = md5((string)$this->backendLayout['config']);
         if (isset(self::$columnConfiguration[$configurationIdentifier][$colPos])) {
             return self::$columnConfiguration[$configurationIdentifier][$colPos];
         }
