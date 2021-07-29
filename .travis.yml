@@ -74,6 +74,12 @@ jobs:
                     echo;
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
+            php: 8.0
+            env: TYPO3=~11.3.0
+        -   <<: *tests
+            php: 7.4
+            env: TYPO3=~11.3.0
+        -   <<: *tests
             php: 7.4
             env: TYPO3=~11.2.0
         -   <<: *tests
@@ -139,7 +145,7 @@ jobs:
             git:
                 depth: false
             php: 7.4
-            env: TYPO3="^9.5 ^10.4 ~11.1.0 ~11.2"
+            env: TYPO3="^9.5 ^10.4 ~11.1.0 ~11.2 ~11.3"
             before_install:
                 - composer self-update --1
             before_script:
@@ -210,6 +216,9 @@ jobs:
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
+            php: 8.0
+            env: TYPO3=dev-master
+        -   <<: *dev-tests
             php: 7.4
             env: TYPO3=dev-master
         -   <<: *dev-tests
@@ -255,8 +264,17 @@ jobs:
                 - composer require --no-progress --no-suggest --no-update --prefer-lowest nimut/typo3-complete:"$TYPO3"
                 - composer update
                 - git checkout composer.json
+            php: 8.0
+            env: TYPO3=dev-master
+        -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=dev-master
+        -   <<: *lowest-tests
+            php: 8.0
+            env: TYPO3=~11.3.0
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=~11.3.0
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=~11.2.0
