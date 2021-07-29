@@ -1,4 +1,10 @@
 {
+    "repositories": {
+        "testing-framework": {
+            "type": "vcs",
+            "url": "https://github.com/helhum/TYPO3-testing-framework/"
+        }
+    },
     "name": "ichhabrecht/content-defender",
     "description": "Define allowed or denied content element types in your backend layouts",
     "type": "typo3-cms-extension",
