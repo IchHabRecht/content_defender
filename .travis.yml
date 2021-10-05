@@ -75,22 +75,10 @@ jobs:
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
             php: 8.0
-            env: TYPO3=~11.4.0
+            env: TYPO3=^11.5
         -   <<: *tests
             php: 7.4
-            env: TYPO3=~11.4.0
-        -   <<: *tests
-            php: 8.0
-            env: TYPO3=~11.3.0
-        -   <<: *tests
-            php: 7.4
-            env: TYPO3=~11.3.0
-        -   <<: *tests
-            php: 7.4
-            env: TYPO3=~11.2.0
-        -   <<: *tests
-            php: 7.4
-            env: TYPO3=~11.1.0
+            env: TYPO3=^11.5
         -   <<: *tests
             php: 7.4
             env: TYPO3=^10.4
@@ -151,7 +139,7 @@ jobs:
             git:
                 depth: false
             php: 7.4
-            env: TYPO3="^9.5 ^10.4 ~11.1.0 ~11.2 ~11.3 ~11.4"
+            env: TYPO3="^9.5 ^10.4 ^11.5"
             before_install:
                 - composer self-update --1
             before_script:
@@ -277,22 +265,10 @@ jobs:
             env: TYPO3=dev-master
         -   <<: *lowest-tests
             php: 8.0
-            env: TYPO3=~11.4.0
+            env: TYPO3=^11.5
         -   <<: *lowest-tests
             php: 7.4
-            env: TYPO3=~11.4.0
-        -   <<: *lowest-tests
-            php: 8.0
-            env: TYPO3=~11.3.0
-        -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=~11.3.0
-        -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=~11.2.0
-        -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=~11.1.0
+            env: TYPO3=^11.5
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=^10.4
