@@ -1,10 +1,4 @@
 {
-    "repositories": {
-        "testing-framework": {
-            "type": "vcs",
-            "url": "https://github.com/helhum/TYPO3-testing-framework/"
-        }
-    },
     "name": "ichhabrecht/content-defender",
     "description": "Define allowed or denied content element types in your backend layouts",
     "type": "typo3-cms-extension",
@@ -26,11 +20,11 @@
         }
     ],
     "require": {
-        "php": ">= 7.0, < 7.5 || >= 8.0, < 8.1",
-        "typo3/cms-backend": "^8.7 || ^9.5 || ^10.4 || ^11.5"
+        "php": ">= 7.2, < 7.5 || >= 8.0, < 8.1",
+        "typo3/cms-backend": "^9.5 || ^10.4 || ^11.5"
     },
     "require-dev": {
-        "nimut/testing-framework": "5.x-dev || dev-php8"
+        "nimut/testing-framework": "6.x-dev"
     },
     "autoload": {
         "psr-4": {
