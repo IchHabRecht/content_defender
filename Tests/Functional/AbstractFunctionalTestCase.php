@@ -40,7 +40,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         'typo3conf/ext/content_defender',
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
