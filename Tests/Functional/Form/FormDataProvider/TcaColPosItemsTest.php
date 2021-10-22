@@ -101,7 +101,13 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput);
 
-        $this->assertArraySubset($expected, array_values($result['processedTca']['columns']['colPos']['config']['items']));
+        $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
+        foreach ($expected as $key => $valueArray) {
+            $this->assertArrayHasKey($key, $items);
+            foreach ($valueArray as $index => $value) {
+                $this->assertEquals($value, $valueArray[$index]);
+            }
+        }
     }
 
     /**

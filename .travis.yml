@@ -195,6 +195,8 @@ jobs:
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
+                - composer require --no-progress --no-suggest --no-update typo3/cms-fluid-styled-content:"@dev"
+                - composer require --no-progress --no-suggest --no-update typo3/cms-indexed-search:"@dev"
             php: 8.0
             env: TYPO3=dev-master
         -   <<: *dev-tests
