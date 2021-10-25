@@ -31,10 +31,10 @@ class WizardItemsHook implements NewContentElementWizardHookInterface
      */
     public function manipulateWizardItems(&$wizardItems, &$parentObject)
     {
-        $pageId = (int)GeneralUtility::_GP('id');
+        $pageId = (int)$parentObject->getPageInfo()['uid'];
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
-        $colPos = (int)GeneralUtility::_GP('colPos');
+        $colPos = (int)$parentObject->getColPos();
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return;

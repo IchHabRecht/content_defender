@@ -40,7 +40,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         'typo3conf/ext/content_defender',
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -58,12 +58,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         );
 
         $this->setUpBackendUserFromFixture(1);
-        if (!method_exists(Bootstrap::class, 'getInstance')) {
-            Bootstrap::initializeLanguageObject();
-        } else {
-            // TODO: 8.7 legacy support
-            Bootstrap::getInstance()->initializeLanguageObject();
-        }
+        Bootstrap::initializeLanguageObject();
     }
 
     protected function assertNoProcessingErrorsInDataHandler(DataHandler $dataHandler)
@@ -85,7 +80,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         if (version_compare(TYPO3_version, '10', '>=')) {
             $input = array_merge($input, ['defaultValues' => $defaultValues]);
         } else {
-            // TODO: 8.7 legacy support
+            // TODO: 9.5 legacy support
             if (!isset($_GET['defVals'])) {
                 $_GET['defVals'] = [];
             }

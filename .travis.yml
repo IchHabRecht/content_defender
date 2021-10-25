@@ -26,17 +26,17 @@ jobs:
         -   if: type != cron
             env: TYPO3=dev-master
         -   if: type != cron
+            env: TYPO3=11.5.x-dev
+        -   if: type != cron
             env: TYPO3=10.4.x-dev
         -   if: type != cron
             env: TYPO3=9.5.x-dev
-        -   if: type != cron
-            env: TYPO3=8.7.x-dev
     include:
         - &tests
             stage: 🏃 tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
-                - composer self-update --1
+                - composer self-update --stable
             install:
                 - composer require --no-progress --no-suggest --no-update nimut/typo3-complete:"$TYPO3"
                 - composer update
@@ -74,11 +74,11 @@ jobs:
                     echo;
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
-            php: 7.4
-            env: TYPO3=~11.2.0
+            php: 8.0
+            env: TYPO3=^11.5
         -   <<: *tests
             php: 7.4
-            env: TYPO3=~11.1.0
+            env: TYPO3=^11.5
         -   <<: *tests
             php: 7.4
             env: TYPO3=^10.4
@@ -86,38 +86,23 @@ jobs:
             php: 7.4
             env: TYPO3=^9.5
         -   <<: *tests
-            php: 7.4
-            env: TYPO3=^8.7
-        -   <<: *tests
             php: 7.3
             env: TYPO3=^10.4
         -   <<: *tests
             php: 7.3
             env: TYPO3=^9.5
         -   <<: *tests
-            php: 7.3
-            env: TYPO3=^8.7
-        -   <<: *tests
             php: 7.2
             env: TYPO3=^10.4
         -   <<: *tests
             php: 7.2
             env: TYPO3=^9.5
-        -   <<: *tests
-            php: 7.2
-            env: TYPO3=^8.7
-        -   <<: *tests
-            php: 7.1
-            env: TYPO3=^8.7
-        -   <<: *tests
-            php: 7.0
-            env: TYPO3=^8.7
 
         -   stage: 🚢 to ter
             if: tag IS present AND env(TYPO3_ORG_USERNAME) IS present AND env(TYPO3_ORG_PASSWORD) IS present
             php: 7.0
             before_install:
-                - composer self-update --1
+                - composer self-update --stable
             script:
                 - >
                     echo;
@@ -139,9 +124,9 @@ jobs:
             git:
                 depth: false
             php: 7.4
-            env: TYPO3="^9.5 ^10.4 ~11.1.0 ~11.2"
+            env: TYPO3="^9.5 ^10.4 ^11.5"
             before_install:
-                - composer self-update --1
+                - composer self-update --stable
             before_script:
                 - mkdir -p .Log/coverage/ .Log/junit/
                 - export TYPO3_PATH_WEB=$PWD/.Build/public
@@ -206,45 +191,41 @@ jobs:
             stage: 🏃 dev tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
-                - composer self-update --1
+                - composer self-update --stable
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
-            php: 7.4
+                - composer require --no-progress --no-suggest --no-update typo3/cms-fluid-styled-content:"@dev"
+                - composer require --no-progress --no-suggest --no-update typo3/cms-indexed-search:"@dev"
+            php: 8.0
             env: TYPO3=dev-master
         -   <<: *dev-tests
             php: 7.4
+            env: TYPO3=dev-master
+        -   <<: *dev-tests
+            php: 8.0
+            env: TYPO3=11.5.x-dev
+        -   <<: *dev-tests
+            php: 7.4
+            env: TYPO3=11.5.x-dev
+        -   <<: *dev-tests
+            php: 7.4
             env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.4
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
-            php: 7.4
-            env: TYPO3=8.7.x-dev
-        -   <<: *dev-tests
             php: 7.3
             env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.3
             env: TYPO3=9.5.x-dev
         -   <<: *dev-tests
-            php: 7.3
-            env: TYPO3=8.7.x-dev
-        -   <<: *dev-tests
             php: 7.2
             env: TYPO3=10.4.x-dev
         -   <<: *dev-tests
             php: 7.2
             env: TYPO3=9.5.x-dev
-        -   <<: *dev-tests
-            php: 7.2
-            env: TYPO3=8.7.x-dev
-        -   <<: *dev-tests
-            php: 7.1
-            env: TYPO3=8.7.x-dev
-        -   <<: *dev-tests
-            php: 7.0
-            env: TYPO3=8.7.x-dev
 
         - &lowest-tests
             <<: *dev-tests
@@ -255,14 +236,23 @@ jobs:
                 - composer require --no-progress --no-suggest --no-update --prefer-lowest nimut/typo3-complete:"$TYPO3"
                 - composer update
                 - git checkout composer.json
-            php: 7.4
+            php: 8.0
             env: TYPO3=dev-master
         -   <<: *lowest-tests
             php: 7.4
-            env: TYPO3=~11.2.0
+            env: TYPO3=dev-master
+        -   <<: *lowest-tests
+            php: 8.0
+            env: TYPO3=^11.5
+        -   <<: *lowest-tests
+            php: 8.0
+            env: TYPO3=11.5.x-dev
         -   <<: *lowest-tests
             php: 7.4
-            env: TYPO3=~11.1.0
+            env: TYPO3=^11.5
+        -   <<: *lowest-tests
+            php: 7.4
+            env: TYPO3=11.5.x-dev
         -   <<: *lowest-tests
             php: 7.4
             env: TYPO3=^10.4
@@ -276,12 +266,6 @@ jobs:
             php: 7.4
             env: TYPO3=9.5.x-dev
         -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=^8.7
-        -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=8.7.x-dev
-        -   <<: *lowest-tests
             php: 7.3
             env: TYPO3=^10.4
         -   <<: *lowest-tests
@@ -294,12 +278,6 @@ jobs:
             php: 7.3
             env: TYPO3=9.5.x-dev
         -   <<: *lowest-tests
-            php: 7.3
-            env: TYPO3=^8.7
-        -   <<: *lowest-tests
-            php: 7.3
-            env: TYPO3=8.7.x-dev
-        -   <<: *lowest-tests
             php: 7.2
             env: TYPO3=^10.4
         -   <<: *lowest-tests
@@ -311,21 +289,3 @@ jobs:
         -   <<: *lowest-tests
             php: 7.2
             env: TYPO3=9.5.x-dev
-        -   <<: *lowest-tests
-            php: 7.2
-            env: TYPO3=^8.7
-        -   <<: *lowest-tests
-            php: 7.2
-            env: TYPO3=8.7.x-dev
-        -   <<: *lowest-tests
-            php: 7.1
-            env: TYPO3=^8.7
-        -   <<: *lowest-tests
-            php: 7.1
-            env: TYPO3=8.7.x-dev
-        -   <<: *lowest-tests
-            php: 7.0
-            env: TYPO3=^8.7
-        -   <<: *lowest-tests
-            php: 7.0
-            env: TYPO3=8.7.x-dev

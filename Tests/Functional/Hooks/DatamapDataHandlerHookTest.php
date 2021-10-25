@@ -24,6 +24,14 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Ensure proper site configuration for DataHandler tests
+        $this->setUpFrontendRootPage(1);
+    }
+
     /**
      * @test
      */
