@@ -100,8 +100,10 @@ jobs:
 
         -   stage: 🚢 to ter
             if: tag IS present AND env(TYPO3_ORG_USERNAME) IS present AND env(TYPO3_ORG_PASSWORD) IS present
-            php: 7.0
+            php: 7.4
             before_install:
+                - sudo sed 's/mozilla.DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/' -i /etc/ca-certificates.conf
+                - sudo update-ca-certificates
                 - composer self-update --stable
             script:
                 - >
@@ -109,7 +111,7 @@ jobs:
                     echo "Preparing upload of release ${TRAVIS_TAG} to TER";
                     echo;
                     echo;
-                    composer global require helhum/ter-client;
+                    composer global require typo3/tailor;
 
                 - >
                     TAG_MESSAGE=`git tag -n10 -l $TRAVIS_TAG | sed 's/^[0-9.]*[ ]*//g'`;
@@ -117,7 +119,8 @@ jobs:
                     echo "Uploading release ${TRAVIS_TAG} to TER";
                     echo;
                     echo;
-                    $HOME/.composer/vendor/bin/ter-client upload content_defender . -u "$TYPO3_ORG_USERNAME" -p "$TYPO3_ORG_PASSWORD" -m "$TAG_MESSAGE";
+                    PATH=$PATH:$(composer global config bin-dir --absolute --quiet);
+                    TYPO3_API_USERNAME="$TYPO3_ORG_USERNAME" TYPO3_API_PASSWORD="$TYPO3_ORG_PASSWORD" tailor ter:publish --comment "$TAG_MESSAGE" ${TRAVIS_TAG} content_defender;
 
         -   stage: ✔ with sonarqube scanner
             if: type = push AND branch IN (master, pre-merge) AND env(SONAR_TOKEN) IS present AND fork = false
