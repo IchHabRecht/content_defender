@@ -1,3 +1,6 @@
+2021-11-10         [RELEASE] Release of content_defender 3.2.1 (Nicole Cordes)
+2021-11-10 a137775 [BUGFIX] Prevent core exception on cmd action (Nicole Cordes)
+
 2021-10-25         [RELEASE] Release of content_defender 3.2.0 (Nicole Cordes)
 2021-10-22 7643a32 [BUGFIX] Fix functional tests for TYPO3 11.5 (Nicole Cordes)
 2021-10-21 f0fd356 [TASK] Fix TestCase declarations (Nicole Cordes)
