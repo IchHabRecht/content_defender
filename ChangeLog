@@ -1,3 +1,7 @@
+2022-03-15         [RELEASE] Release of content_defender 3.2.2 (Nicole Cordes)
+2022-03-15 3fe3c5b [TASK] Adjust PHP dependency (Nicole Cordes)
+2022-01-14 f6c784a [TASK] #94 Allow PHP 8.1 for TYPO3 11.5 LTS (goldi42)
+
 2021-11-10         [RELEASE] Release of content_defender 3.2.1 (Nicole Cordes)
 2021-11-10 a137775 [BUGFIX] Prevent core exception on cmd action (Nicole Cordes)
 
