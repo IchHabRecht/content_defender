@@ -1,38 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.5/phpunit.xsd"
-    backupGlobals="true"
-    backupStaticAttributes="false"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertWarningsToExceptions="true"
-    executionOrder="depends,defects"
-    forceCoversAnnotation="false"
-    ignoreDeprecatedCodeUnitsFromCodeCoverage="true"
-    processIsolation="false"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    verbose="true"
->
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">Classes</directory>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="junit" target=".Log/junit/junit.xml" />
-        <log type="coverage-php" target=".Log/coverage/coverage.cov" />
-    </logging>
-    <testsuites>
-        <testsuite name="unit">
-            <directory suffix="Test.php">Tests/Unit</directory>
-        </testsuite>
-        <testsuite name="functional">
-            <directory suffix="Test.php">Tests/Functional</directory>
-        </testsuite>
-    </testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="true" backupStaticAttributes="false" beStrictAboutOutputDuringTests="true" beStrictAboutTodoAnnotatedTests="true" colors="true" convertErrorsToExceptions="true" convertWarningsToExceptions="true" executionOrder="depends,defects" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" verbose="true">
+  <coverage ignoreDeprecatedCodeUnits="true" processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">Classes</directory>
+    </include>
+    <report>
+      <php outputFile=".Log/coverage/coverage.cov"/>
+    </report>
+  </coverage>
+  <logging>
+    <junit outputFile=".Log/junit/junit.xml"/>
+  </logging>
+  <testsuites>
+    <testsuite name="unit">
+      <directory suffix="Test.php">Tests/Unit</directory>
+    </testsuite>
+    <testsuite name="functional">
+      <directory suffix="Test.php">Tests/Functional</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

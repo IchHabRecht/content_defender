@@ -11,7 +11,7 @@ addons:
 
 cache:
     directories:
-        - $HOME/.composer/cache
+        - $HOME/.config/composer/cache
         - $HOME/.sonar/cache
 
 jdk:
@@ -23,8 +23,7 @@ services:
 jobs:
     fast_finish: true
     allow_failures:
-        -   if: type != cron
-            env: TYPO3=dev-master
+        -   env: TYPO3=dev-main
         -   if: type != cron
             env: TYPO3=11.5.x-dev
         -   if: type != cron
@@ -36,7 +35,6 @@ jobs:
             stage: 🏃 tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
-                - composer self-update --stable
             install:
                 - composer require --no-progress --no-suggest --no-update nimut/typo3-complete:"$TYPO3"
                 - composer update
@@ -107,7 +105,6 @@ jobs:
             before_install:
                 - sudo sed 's/mozilla.DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/' -i /etc/ca-certificates.conf
                 - sudo update-ca-certificates
-                - composer self-update --stable
             script:
                 - >
                     echo;
@@ -126,13 +123,14 @@ jobs:
                     TYPO3_API_USERNAME="$TYPO3_ORG_USERNAME" TYPO3_API_PASSWORD="$TYPO3_ORG_PASSWORD" tailor ter:publish --comment "$TAG_MESSAGE" ${TRAVIS_TAG} content_defender;
 
         -   stage: ✔ with sonarqube scanner
-            if: type = push AND branch IN (master, pre-merge) AND env(SONAR_TOKEN) IS present AND fork = false
+            if: type = push AND branch IN (main, pre-merge) AND env(SONAR_TOKEN) IS present AND fork = false
             git:
                 depth: false
             php: 7.4
             env: TYPO3="^9.5 ^10.4 ^11.5"
             before_install:
-                - composer self-update --stable
+                - nvm install 12
+                - nvm use 12
             before_script:
                 - mkdir -p .Log/coverage/ .Log/junit/
                 - export TYPO3_PATH_WEB=$PWD/.Build/public
@@ -197,20 +195,13 @@ jobs:
             stage: 🏃 dev tests
             before_install:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
-                - composer self-update --stable
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-fluid-styled-content:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-indexed-search:"@dev"
             php: 8.1.0
-            env: TYPO3=dev-master
-        -   <<: *dev-tests
-            php: 8.0
-            env: TYPO3=dev-master
-        -   <<: *dev-tests
-            php: 7.4
-            env: TYPO3=dev-master
+            env: TYPO3=dev-main
         -   <<: *dev-tests
             php: 8.1.0
             env: TYPO3=11.5.x-dev
@@ -249,13 +240,7 @@ jobs:
                 - composer update
                 - git checkout composer.json
             php: 8.1.0
-            env: TYPO3=dev-master
-        -   <<: *lowest-tests
-            php: 8.0
-            env: TYPO3=dev-master
-        -   <<: *lowest-tests
-            php: 7.4
-            env: TYPO3=dev-master
+            env: TYPO3=dev-main
         -   <<: *lowest-tests
             php: 8.1.0
             env: TYPO3=^11.5
