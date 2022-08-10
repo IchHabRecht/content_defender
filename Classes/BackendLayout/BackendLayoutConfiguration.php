@@ -80,7 +80,7 @@ class BackendLayoutConfiguration
                 }
 
                 foreach ($row['columns.'] as $column) {
-                    if ($column['colPos'] !== '' && $colPos === (int)$column['colPos']) {
+                    if (isset($column['colPos']) && $column['colPos'] !== '' && $colPos === (int)$column['colPos']) {
                         $configuration = $column;
                         break 2;
                     }
