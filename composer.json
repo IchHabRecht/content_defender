@@ -26,7 +26,8 @@
     "require-dev": {
         "nimut/testing-framework": "6.x-dev",
         "typo3/cms-fluid-styled-content": "^9.5 || ^10.4 || ^11.5",
-        "typo3/cms-indexed-search": "^9.5 || ^10.4 || ^11.5"
+        "typo3/cms-indexed-search": "^9.5 || ^10.4 || ^11.5",
+        "phpspec/prophecy": "^1.12.1"
     },
     "autoload": {
         "psr-4": {
