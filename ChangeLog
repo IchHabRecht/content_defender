@@ -1,3 +1,9 @@
+2022-08-29         [RELEASE] Release of content_defender 3.2.3 (Nicole Cordes)
+2022-08-29 ca0c9c6 [TASK] Add dev dependency to phpspec/prophecy (Nicole Cordes)
+2022-08-10 4cf8c8e Allow empty colPos in PHP 8.1 (Albrecht Köhnlein)
+2022-08-05 5778596 [TASK] Update supporting files to EXT:my_skeleton 0.7.2 (Nicole Cordes)
+2022-04-11 1843e0d [TASK] Use correct branch name in README.md (Nicole Cordes)
+
 2022-03-15         [RELEASE] Release of content_defender 3.2.2 (Nicole Cordes)
 2022-03-15 3fe3c5b [TASK] Adjust PHP dependency (Nicole Cordes)
 2022-01-14 f6c784a [TASK] #94 Allow PHP 8.1 for TYPO3 11.5 LTS (goldi42)
