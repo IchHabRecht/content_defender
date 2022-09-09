@@ -121,6 +121,10 @@ abstract class AbstractDataHandlerHook
             return true;
         }
 
+        if ($record['t3ver_state'] !== 0) {
+            return true;
+        }
+
         return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->addRecordToColPos($record);
     }
 }
