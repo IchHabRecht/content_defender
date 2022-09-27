@@ -48,7 +48,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 $pageId = (int)$previousRecord['pid'];
                 $incomingFieldArray['pid'] = $pageId;
             }
-            $colPos = (int)$incomingFieldArray['colPos'];
+            $colPos = isset($incomingFieldArray['colPos']) ? (int)$incomingFieldArray['colPos'] : 0;
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
