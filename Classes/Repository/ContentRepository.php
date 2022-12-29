@@ -103,64 +103,6 @@ class ContentRepository
         }
     }
 
-    /**
-     * @param array $record
-     * @param int $inc
-     * @return int
-     * @deprecated since version 3.0.4, will be removed in version 4.0.0
-     * @codeCoverageIgnore
-     */
-    public function increaseColPosCountByRecord(array $record, int $inc = 1): int
-    {
-        trigger_error(
-            'Method "increaseColPosCountByRecord" is deprecated since version 3.0.4, will be removed in version 4.0.0',
-            E_USER_DEPRECATED
-        );
-        $identifier = $this->getIdentifier($record);
-
-        if (!isset(self::$colPosCount[$identifier])) {
-            $this->initialize($record);
-        }
-        self::$colPosCount[$identifier] = array_merge(
-            self::$colPosCount[$identifier],
-            array_fill(0, $inc, 0)
-        );
-
-        return count(self::$colPosCount[$identifier]);
-    }
-
-    /**
-     * @param array $record
-     * @param int $dec
-     * @return int
-     * @deprecated since version 3.0.4, will be removed in version 4.0.0
-     * @codeCoverageIgnore
-     */
-    public function decreaseColPosCountByRecord(array $record, int $dec = 1): int
-    {
-        trigger_error(
-            'Method "decreaseColPosCountByRecord" is deprecated since version 3.0.4, will be removed in version 4.0.0',
-            E_USER_DEPRECATED
-        );
-        $identifier = $this->getIdentifier($record);
-
-        if (!isset(self::$colPosCount[$identifier])) {
-            $this->initialize($record);
-        }
-        $uid = ($record['t3ver_oid'] ?? 0) ?: ($record['uid'] ?? 0);
-        if (!empty($uid) && isset(self::$colPosCount[$identifier][$uid])) {
-            unset(self::$colPosCount[$identifier][$uid]);
-            $dec -= 1;
-        }
-        while ($dec > 0 && in_array(0, self::$colPosCount[$identifier], true)) {
-            $index = array_search(0, self::$colPosCount[$identifier], true);
-            unset(self::$colPosCount[$identifier][$index]);
-            $dec -= 1;
-        }
-
-        return count(self::$colPosCount[$identifier]);
-    }
-
     protected function initialize(array $record)
     {
         self::$colPosCount[$this->getIdentifier($record)] = $this->fetchRecordsForColPos($record);
