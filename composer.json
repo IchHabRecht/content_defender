@@ -20,14 +20,14 @@
         }
     ],
     "require": {
-        "php": ">= 7.2, < 7.5 || ^8.0",
-        "typo3/cms-backend": "^9.5 || ^10.4 || ^11.5"
+        "php": "^7.4 || ^8.0",
+        "typo3/cms-backend": "^10.4 || ^11.5"
     },
     "require-dev": {
-        "nimut/testing-framework": "6.x-dev",
-        "typo3/cms-fluid-styled-content": "^9.5 || ^10.4 || ^11.5",
-        "typo3/cms-indexed-search": "^9.5 || ^10.4 || ^11.5",
-        "phpspec/prophecy": "^1.12.1"
+        "typo3/cms-fluid-styled-content": "^10.4 || ^11.5",
+        "typo3/cms-indexed-search": "^10.4 || ^11.5",
+        "phpspec/prophecy": "^1.12.1",
+        "typo3/testing-framework": "^6.16"
     },
     "autoload": {
         "psr-4": {

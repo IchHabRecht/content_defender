@@ -115,7 +115,21 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=0');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $count = $queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'colPos',
+                    $queryBuilder->createNamedParameter(0)
+                )
+            )
+            ->execute()
+            ->fetchOne();
 
         $this->assertSame(3, $count);
     }
@@ -140,7 +154,25 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'Text & Media\'');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $count = $queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'colPos',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'header',
+                    $queryBuilder->createNamedParameter('Text & Media')
+                )
+            )
+            ->execute()
+            ->fetchOne();
 
         $this->assertSame(0, $count);
     }
@@ -161,7 +193,25 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'pid=3 AND colPos=3 AND header=\'New Header\'');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $count = $queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'colPos',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'header',
+                    $queryBuilder->createNamedParameter('New Header')
+                )
+            )
+            ->execute()
+            ->fetchOne();
 
         $this->assertSame(1, $count);
     }
@@ -183,7 +233,22 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $count = $this->getDatabaseConnection()->selectCount('*', 'tt_content', 'uid=6 AND header=\'New Header\'');
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeAll();
+        $count = $queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter(6)
+                ),
+                $queryBuilder->expr()->eq(
+                    'header',
+                    $queryBuilder->createNamedParameter('New Header')
+                )
+            )
+            ->execute()
+            ->fetchOne();
 
         $this->assertSame(1, $count);
     }

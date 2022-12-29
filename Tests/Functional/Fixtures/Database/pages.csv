@@ -1,0 +1,6 @@
+"pages",,,,,,,
+,"uid","pid","title","deleted","perms_everybody","backend_layout","backend_layout_next_level"
+,1,0,"Root",0,15,,
+,2,1,"Content elements",0,15,"pagets__default","pagets__subpage"
+,3,2,"Content elements subpage",0,15,,
+,4,2,"Subpage with textmedia",0,15,,

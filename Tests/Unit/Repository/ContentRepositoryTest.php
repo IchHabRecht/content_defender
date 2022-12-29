@@ -17,8 +17,12 @@ namespace IchHabRecht\ContentDefender\Tests\Unit\Repository;
  * LICENSE file that was distributed with this source code.
  */
 
+use IchHabRecht\ContentDefender\Repository\ColPosCountState;
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ContentRepositoryTest extends UnitTestCase
 {
@@ -43,7 +47,14 @@ class ContentRepositoryTest extends UnitTestCase
 
         $GLOBALS['TCA']['tt_content']['ctrl']['languageField'] = 'sys_language_uid';
 
+        $logger = new Logger('content_defender');
+        $backend = new TransientMemoryBackend('production', ['logger' => $logger]);
+        $frontend = new VariableFrontend('runtime', $backend);
+
+        $colPosCount = new ColPosCountState($frontend);
+
         $subject = $this->getMockBuilder(ContentRepository::class)
+            ->setConstructorArgs([$colPosCount])
             ->setMethods(['fetchRecordsForColpos'])
             ->getMock();
         $subject->expects($this->once())
@@ -53,10 +64,6 @@ class ContentRepositoryTest extends UnitTestCase
                 2 => 2,
                 3 => 3,
             ]);
-
-        \Closure::bind(function () use ($subject) {
-            $subject::$colPosCount = [];
-        }, null, ContentRepository::class)();
 
         $this->subject = $subject;
     }
