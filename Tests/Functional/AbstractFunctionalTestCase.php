@@ -17,12 +17,14 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
  * LICENSE file that was distributed with this source code.
  */
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
@@ -44,20 +46,21 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
     {
         parent::setUp();
 
-        $this->importDataSet('ntf://Database/sys_language.xml');
-
         $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';
-        $this->importDataSet($fixturePath . 'pages.xml');
-        $this->importDataSet($fixturePath . 'tt_content.xml');
+        $this->importCSVDataSet($fixturePath . 'be_users.csv');
+        $this->importCSVDataSet($fixturePath . 'sys_language.csv');
+        $this->importCSVDataSet($fixturePath . 'pages.csv');
+        $this->importCSVDataSet($fixturePath . 'tt_content.csv');
+
         if (!empty($GLOBALS['TCA']['pages_language_overlay'])) {
-            $this->importDataSet($fixturePath . 'pages_language_overlay.xml');
+            $this->importCSVDataSet($fixturePath . 'pages_language_overlay.csv');
         }
 
         ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="DIR:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/BackendLayouts" extensions="ts">'
         );
 
-        $this->setUpBackendUserFromFixture(1);
+        $this->setUpBackendUser(1);
         Bootstrap::initializeLanguageObject();
     }
 
@@ -68,6 +71,15 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 
         $this->assertSame(0, count($flashMessageQueue->getAllMessages()));
+    }
+
+    protected function getQueryBuilderForTable(string $table)
+    {
+        $queryBuilder  = $this->getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeAll();
+        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+
+        return $queryBuilder;
     }
 
     /**
@@ -88,5 +100,20 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
         }
 
         return $input;
+    }
+
+    protected function setUpFrontendRootPage($pageId, array $typoScriptFiles = [], array $templateValues = [])
+    {
+        parent::setUpFrontendRootPage($pageId, $typoScriptFiles, $templateValues);
+
+        $path = Environment::getConfigPath() . '/sites/' . $pageId . '/';
+        $target = $path . 'config.yaml';
+        $file = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Frontend/site.yaml';
+        if (!file_exists($target)) {
+            GeneralUtility::mkdir_deep($path);
+            $fileContent = file_get_contents($file);
+            $fileContent = str_replace('\'{rootPageId}\'', (string)$pageId, $fileContent);
+            GeneralUtility::writeFile($target, $fileContent);
+        }
     }
 }

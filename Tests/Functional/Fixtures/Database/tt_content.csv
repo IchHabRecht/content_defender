@@ -1,0 +1,9 @@
+"tt_content",,,,,,,
+,"uid","pid","header","CType","colPos","sorting","deleted"
+,1,2,"Text &amp; Media","textmedia",,,
+,2,2,"Header","header",3,128,
+,3,2,"Bullet List","bullets",3,256,
+,4,3,"Text &amp; Media on subpage","textmedia",3,,
+,5,4,"Text &amp; Media","textmedia",,128,
+,6,4,"Text &amp; Media (deleted)","textmedia",,256,1
+,7,4,"Header without list_type","header",,64,
