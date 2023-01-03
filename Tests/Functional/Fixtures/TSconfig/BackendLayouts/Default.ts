@@ -13,8 +13,7 @@ mod.web_layout.BackendLayouts.default {
                     }
 
                     2 {
-                        name = Disabled
-                        colPos =
+                        name = unused
                     }
                 }
             }

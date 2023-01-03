@@ -12,7 +12,7 @@ class NewContentElementController extends \TYPO3\CMS\Backend\Controller\ContentE
 {
     public function getWizardArray(ServerRequestInterface $request): ResponseInterface
     {
-        // TODO: 9.5 legacy support
+        // TODO: 10.4 legacy support
         if (method_exists($this, 'init')) {
             $this->init($request);
 
