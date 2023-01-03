@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    IchHabRecht\ContentDefender\Hooks\WizardItemsHook:
+        tags:
+            -   name: event.listener
+                identifier: 'contentdefenderModifyNewContentElementWizardEventListener'
+                event: TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent
+                method: modifyWizardItems
+
+    IchHabRecht\ContentDefender\Tests\Functional\Fixtures\Classes\ContentElement\NewContentElementController:
+        public: true

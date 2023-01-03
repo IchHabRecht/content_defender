@@ -29,7 +29,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         // Ensure proper site configuration for DataHandler tests
-        $this->setUpFrontendRootPage(1);
+        $this->setUpFrontendPage(1);
     }
 
     /**
@@ -51,7 +51,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)(int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -92,7 +92,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -129,7 +129,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -170,7 +170,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -208,7 +208,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -245,7 +245,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -287,7 +287,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $recordUid = $dataHandler->copyMappingArray['tt_content'][2];
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -329,7 +329,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $recordUid = $dataHandler->copyMappingArray['tt_content'][2];
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -368,7 +368,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -454,7 +454,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -495,7 +495,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $recordUid = $dataHandler->copyMappingArray['tt_content'][4];
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -529,7 +529,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeAll();
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -562,7 +562,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -599,7 +599,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_cmdmap();
 
         $queryBuilder = $this->getQueryBuilderForTable('tt_content');
-        $count = $queryBuilder->count('*')
+        $count = (int)$queryBuilder->count('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(

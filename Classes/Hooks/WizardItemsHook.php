@@ -19,11 +19,51 @@ namespace IchHabRecht\ContentDefender\Hooks;
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
+use TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent;
 use TYPO3\CMS\Backend\Wizard\NewContentElementWizardHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class WizardItemsHook implements NewContentElementWizardHookInterface
 {
+    public function modifyWizardItems(ModifyNewContentElementWizardItemsEvent $event)
+    {
+        $pageInfo = $event->getPageInfo();
+        $pageId = (int)$pageInfo['uid'];
+        $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
+
+        $colPos = (int)$event->getColPos();
+        $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
+        if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
+            return;
+        }
+
+        $wizardItems = $event->getWizardItems();
+
+        $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
+        foreach ($allowedConfiguration as $field => $value) {
+            $allowedValues = GeneralUtility::trimExplode(',', $value);
+            $wizardItems = $this->removeDisallowedValues($wizardItems, $field, $allowedValues);
+        }
+
+        $disallowedConfiguration = $columnConfiguration['disallowed.'] ?? [];
+        foreach ($disallowedConfiguration as $field => $value) {
+            $disAllowedValues = GeneralUtility::trimExplode(',', $value);
+            $wizardItems = $this->removeDisallowedValues($wizardItems, $field, $disAllowedValues, false);
+        }
+
+        $availableWizardItems = [];
+        foreach ($wizardItems as $key => $_) {
+            $keyParts = explode('_', $key, 2);
+            if (count($keyParts) === 1) {
+                continue;
+            }
+            $availableWizardItems[$keyParts[0]] = $key;
+            $availableWizardItems[$key] = $key;
+        }
+
+        $event->setWizardItems(array_intersect_key($wizardItems, $availableWizardItems));
+    }
+
     /**
      * @param array $wizardItems
      * @param NewContentElementController $parentObject

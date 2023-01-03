@@ -28,19 +28,18 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
-    /**
-     * @var array
-     */
-    protected $coreExtensionsToLoad = [
-        'fluid_styled_content',
-    ];
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        $this->coreExtensionsToLoad = [
+            'fluid_styled_content',
+        ];
 
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/content_defender',
-    ];
+        $this->testExtensionsToLoad = [
+            'typo3conf/ext/content_defender',
+        ];
+
+        parent::__construct($name, $data, $dataName);
+    }
 
     protected function setUp(): void
     {
@@ -48,9 +47,12 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
         $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';
         $this->importCSVDataSet($fixturePath . 'be_users.csv');
-        $this->importCSVDataSet($fixturePath . 'sys_language.csv');
         $this->importCSVDataSet($fixturePath . 'pages.csv');
         $this->importCSVDataSet($fixturePath . 'tt_content.csv');
+
+        if (!empty($GLOBALS['TCA']['sys_language'])) {
+            $this->importCSVDataSet($fixturePath . 'sys_language.csv');
+        }
 
         if (!empty($GLOBALS['TCA']['pages_language_overlay'])) {
             $this->importCSVDataSet($fixturePath . 'pages_language_overlay.csv');
@@ -75,7 +77,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
     protected function getQueryBuilderForTable(string $table)
     {
-        $queryBuilder  = $this->getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeAll();
         $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 
@@ -89,24 +91,14 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
      */
     protected function mergeDefaultValuesWithCompilerInput(array $input, array $defaultValues)
     {
-        if (version_compare(TYPO3_version, '10', '>=')) {
-            $input = array_merge($input, ['defaultValues' => $defaultValues]);
-        } else {
-            // TODO: 9.5 legacy support
-            if (!isset($_GET['defVals'])) {
-                $_GET['defVals'] = [];
-            }
-            $_GET['defVals'] = array_merge($_GET['defVals'], $defaultValues);
-        }
-
-        return $input;
+        return array_merge($input, ['defaultValues' => $defaultValues]);
     }
 
-    protected function setUpFrontendRootPage($pageId, array $typoScriptFiles = [], array $templateValues = [])
+    protected function setUpFrontendPage($pageId, array $typoScriptFiles = [], array $templateValues = [])
     {
         parent::setUpFrontendRootPage($pageId, $typoScriptFiles, $templateValues);
 
-        $path = Environment::getConfigPath() . '/sites/' . $pageId . '/';
+        $path = Environment::getConfigPath() . '/sites/page_' . $pageId . '/';
         $target = $path . 'config.yaml';
         $file = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Frontend/site.yaml';
         if (!file_exists($target)) {
