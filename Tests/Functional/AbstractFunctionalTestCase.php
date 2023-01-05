@@ -54,10 +54,6 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
             $this->importCSVDataSet($fixturePath . 'sys_language.csv');
         }
 
-        if (!empty($GLOBALS['TCA']['pages_language_overlay'])) {
-            $this->importCSVDataSet($fixturePath . 'pages_language_overlay.csv');
-        }
-
         ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="DIR:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/BackendLayouts" extensions="ts">'
         );

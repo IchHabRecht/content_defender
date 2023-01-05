@@ -1,6 +1,14 @@
 "pages",,,,,,,
-,"uid","pid","title","deleted","perms_everybody","backend_layout","backend_layout_next_level"
-,1,0,"Root",0,15,,
-,2,1,"Content elements",0,15,"pagets__default","pagets__subpage"
-,3,2,"Content elements subpage",0,15,,
-,4,2,"Subpage with textmedia",0,15,,
+,"uid","pid","title","deleted","sys_language_uid","l10n_parent","l10n_source","perms_everybody","backend_layout","backend_layout_next_level"
+,1,0,"Root",0,0,0,0,15,,
+,2,1,"Content elements",0,0,0,0,15,"pagets__default","pagets__subpage"
+,3,2,"Content elements subpage",0,0,0,0,15,,
+,4,2,"Subpage with textmedia",0,0,0,0,15,,
+,5,0,"Root [Dansk]",0,1,1,1,,,
+,6,0,"Root [Deutsch]",0,2,1,1,,,
+,7,1,"Content elements [Dansk]",0,1,2,2,,,
+,8,1,"Content elements [Deutsch]",0,2,2,2,,,
+,9,2,"Content elements subpage [Dansk]",0,1,3,3,,,
+,10,2,"Content elements subpage [Deutsch]",0,2,3,3,,,
+,11,3,"Subpage with textmedia [Dansk]",0,1,4,4,,,
+,12,3,"Subpage with textmedia [Deutsch]",0,2,4,4,,,
