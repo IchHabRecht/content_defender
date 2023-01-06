@@ -27,6 +27,7 @@
     "require-dev": {
         "typo3/cms-fluid-styled-content": "^10.4 || ^11.5 || ~12.0 || ~12.1",
         "typo3/cms-indexed-search": "^10.4 || ^11.5 || ~12.0 || ~12.1",
+        "typo3/cms-workspaces": "^10.4 || ^11.5 || ~12.0 || ~12.1",
         "phpspec/prophecy": "^1.12.1",
         "typo3/testing-framework": "^6.16 || 7.*@dev",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.1.0",
