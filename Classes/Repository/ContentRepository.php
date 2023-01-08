@@ -52,8 +52,7 @@ class ContentRepository
             $this->initialize($record);
         }
 
-        $uid = ($record['t3ver_oid'] ?? 0) ?: $record['uid'];
-        $this->colPosCount[$identifier][$uid] = $uid;
+        $this->colPosCount[$identifier][$record['uid']] = $record['uid'];
 
         return count($this->colPosCount[$identifier]);
     }
@@ -123,8 +122,8 @@ class ContentRepository
         }
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class)
+            ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class, null, false));
 
         $statement = $queryBuilder->select(...$selectFields)
             ->from('tt_content')
@@ -147,7 +146,8 @@ class ContentRepository
         while ($row = $statement->fetch()) {
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
-                $rows[$row['uid']] = $row['uid'];
+                $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];
+                $rows[$uid] = $uid;
             }
         }
 
