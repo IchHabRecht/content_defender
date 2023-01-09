@@ -29,7 +29,9 @@ class TcaCTypeItems implements FormDataProviderInterface
      */
     public function addData(array $result)
     {
-        if ('tt_content' !== $result['tableName']) {
+        if ('tt_content' !== $result['tableName']
+            || !empty($result['isInlineChild'])
+        ) {
             return $result;
         }
 
