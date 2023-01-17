@@ -48,6 +48,9 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 $pageId = (int)$previousRecord['pid'];
                 $incomingFieldArray['pid'] = $pageId;
             }
+            
+            if (array_key_exists('colPos', $incomingFieldArray) && is_integer($incomingFieldArray['colPos'])) {
+
             $colPos = (int)$incomingFieldArray['colPos'];
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
@@ -91,6 +94,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                         $columnConfiguration['maxitems'],
                     ]
                 );
+            }
             }
         }
     }
