@@ -29,15 +29,13 @@ class ContentRepository
 {
     protected ColPosCountState $colPosCount;
 
-    protected PackageManager $packageManager;
-
     protected bool $isContainerExtensionInstalled;
 
-    public function __construct(ColPosCountState $colPosCount = null, PackageManager $packageManager)
+    public function __construct(ColPosCountState $colPosCount = null)
     {
         $this->colPosCount = $colPosCount ?? GeneralUtility::makeInstance(ColPosCountState::class);
-        $this->packageManager = $packageManager;
-        $this->isContainerExtensionInstalled = $this->packageManager->isPackageActive('b13/container');
+        $this->isContainerExtensionInstalled = GeneralUtility::makeInstance(PackageManager::class)
+            ->isPackageActive('b13/container');
     }
 
     public function countColPosByRecord(array $record): int
