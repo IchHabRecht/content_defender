@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Service\DependencyOrderingService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Versioning\VersionState;
 
@@ -34,7 +35,10 @@ class ContentRepository
     public function __construct(ColPosCountState $colPosCount = null)
     {
         $this->colPosCount = $colPosCount ?? GeneralUtility::makeInstance(ColPosCountState::class);
-        $this->isContainerExtensionInstalled = GeneralUtility::makeInstance(PackageManager::class)
+        $this->isContainerExtensionInstalled = GeneralUtility::makeInstance(
+            PackageManager::class,
+            GeneralUtility::makeInstance(DependencyOrderingService::class)
+        )
             ->isPackageActive('b13/container');
     }
 
