@@ -17,20 +17,18 @@ namespace IchHabRecht\ContentDefender\Repository;
  * LICENSE file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
-use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Versioning\VersionState;
 
 class ContentRepository
 {
     protected ColPosCountState $colPosCount;
 
-    public function __construct(ColPosCountState $colPosCount = null)
+    protected array $recordRepositories;
+
+    public function __construct(ColPosCountState $colPosCount = null, array $recordRepositories = [])
     {
         $this->colPosCount = $colPosCount ?? GeneralUtility::makeInstance(ColPosCountState::class);
+        $this->recordRepositories = $recordRepositories;
     }
 
     public function countColPosByRecord(array $record): int
@@ -107,51 +105,17 @@ class ContentRepository
 
     protected function initialize(array $record)
     {
-        $this->colPosCount[$this->getIdentifier($record)] = $this->fetchRecordsForColPos($record);
-    }
-
-    protected function fetchRecordsForColPos(array $record): array
-    {
         $rows = [];
-
-        $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = (array)$record[$languageField];
-
-        $selectFields = ['uid', 'pid'];
-        if (!empty($GLOBALS['TCA']['tt_content']['ctrl']['versioningWS'])) {
-            $selectFields[] = 't3ver_state';
-        }
-
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
-
-        $statement = $queryBuilder->select(...$selectFields)
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $queryBuilder->createNamedParameter($record['pid'], \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->eq(
-                    'colPos',
-                    $queryBuilder->createNamedParameter($record['colPos'], \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->eq(
-                    $languageField,
-                    $queryBuilder->createNamedParameter($language[0], \PDO::PARAM_INT)
-                )
-            )
-            ->execute();
-
-        while ($row = $statement->fetch()) {
-            BackendUtility::workspaceOL('tt_content', $row, -99, true);
-            if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
-                $rows[$row['uid']] = $row['uid'];
+        foreach ($this->recordRepositories as $recordRepository) {
+            if (!$recordRepository instanceof RecordRepositoryInterface
+                || !$recordRepository->canHandle($record)
+            ) {
+                continue;
             }
+            $rows = $recordRepository->getExistingRecords($record);
+            break;
         }
-
-        return $rows;
+        $this->colPosCount[$this->getIdentifier($record)] = $rows;
     }
 
     protected function getIdentifier(array $record): string

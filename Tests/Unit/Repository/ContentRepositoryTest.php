@@ -19,6 +19,7 @@ namespace IchHabRecht\ContentDefender\Tests\Unit\Repository;
 
 use IchHabRecht\ContentDefender\Repository\ColPosCountState;
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
+use IchHabRecht\ContentDefender\Repository\RecordRepository;
 use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Log\Logger;
@@ -52,18 +53,19 @@ class ContentRepositoryTest extends UnitTestCase
         $frontend = new VariableFrontend('runtime', $backend);
 
         $colPosCount = new ColPosCountState($frontend);
-
-        $subject = $this->getMockBuilder(ContentRepository::class)
-            ->setConstructorArgs([$colPosCount])
-            ->setMethods(['fetchRecordsForColpos'])
+        $recordRepository = $this->getMockBuilder(RecordRepository::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getExistingRecords'])
             ->getMock();
-        $subject->expects($this->once())
-            ->method('fetchRecordsForColpos')
+        $recordRepository->expects($this->once())
+            ->method('getExistingRecords')
             ->willReturn([
                 1 => 1,
                 2 => 2,
                 3 => 3,
             ]);
+
+        $subject = new ContentRepository($colPosCount, [$recordRepository]);
 
         $this->subject = $subject;
     }
