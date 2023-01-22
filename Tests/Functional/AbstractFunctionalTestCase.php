@@ -19,6 +19,7 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
 
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -54,10 +55,6 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
             $this->importCSVDataSet($fixturePath . 'sys_language.csv');
         }
 
-        if (!empty($GLOBALS['TCA']['pages_language_overlay'])) {
-            $this->importCSVDataSet($fixturePath . 'pages_language_overlay.csv');
-        }
-
         ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="DIR:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/BackendLayouts" extensions="ts">'
         );
@@ -78,8 +75,9 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
     protected function getQueryBuilderForTable(string $table)
     {
         $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable('tt_content');
-        $queryBuilder->getRestrictions()->removeAll();
-        $queryBuilder->getRestrictions()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class))
+            ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class, null, false));
 
         return $queryBuilder;
     }

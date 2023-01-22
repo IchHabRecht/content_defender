@@ -186,10 +186,12 @@ jobs:
                 - if php -i | grep -v TRAVIS_CMD | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
                 - composer config minimum-stability dev
                 - composer config prefer-stable true
+                - composer require --no-progress --no-suggest --no-update typo3/minimal:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-core:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-backend:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-fluid-styled-content:"@dev"
                 - composer require --no-progress --no-suggest --no-update typo3/cms-indexed-search:"@dev"
+                - composer require --no-progress --no-suggest --no-update typo3/cms-workspaces:"@dev"
             php: 8.1.0
             env: TYPO3=dev-main
         -   <<: *dev-tests
