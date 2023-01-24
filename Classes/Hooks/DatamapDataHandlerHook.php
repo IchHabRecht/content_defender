@@ -40,6 +40,8 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
             $incomingFieldArray['uid'] = $id;
             if (MathUtility::canBeInterpretedAsInteger($id)) {
                 $incomingFieldArray = array_merge(BackendUtility::getRecord('tt_content', $id), $incomingFieldArray);
+            } else {
+                $incomingFieldArray = array_merge($dataHandler->defaultValues['tt_content'] ?? [], $incomingFieldArray);
             }
 
             $pageId = (int)$incomingFieldArray['pid'];
