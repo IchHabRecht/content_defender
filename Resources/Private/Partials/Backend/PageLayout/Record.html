@@ -1,0 +1,11 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cd="http://typo3.org/ns/IchHabRecht/ContentDefender/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+<cd:extendPartial>
+    <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
+        <div class="t3-cd-badge-container" data-maxitems="{maxitems}">
+            <f:render partial="PageLayout/Record" arguments="{_all}" />
+        </div>
+    </f:alias>
+</cd:extendPartial>
+</html>

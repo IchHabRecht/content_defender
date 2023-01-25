@@ -1,0 +1,2 @@
+
+module.tx_backend.view.partialRootPaths.100 = {$module.tx_contentdefender.view.partialRootPath}
