@@ -114,7 +114,7 @@ class ContentRepository
         $rows = [];
 
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = (array)$record[$languageField];
+        $language = (array)($record[$languageField] ?? 0);
 
         $selectFields = ['uid', 'pid'];
         if (!empty($GLOBALS['TCA']['tt_content']['ctrl']['versioningWS'])) {
@@ -157,7 +157,7 @@ class ContentRepository
     protected function getIdentifier(array $record): string
     {
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
-        $language = (array)$record[$languageField];
+        $language = (array)($record[$languageField] ?? 0);
 
         return implode('_', [$record['pid'], $language[0], $record['colPos']]);
     }

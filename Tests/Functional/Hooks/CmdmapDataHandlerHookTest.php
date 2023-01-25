@@ -406,7 +406,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $this->assertEmpty($dataHandler->copyMappingArray['tt_content'][3]);
+        $this->assertArrayNotHasKey('tt_content', $dataHandler->copyMappingArray);
     }
 
     /**
@@ -430,7 +430,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
 
-        $this->assertEmpty($dataHandler->copyMappingArray['tt_content'][3]);
+        $this->assertArrayNotHasKey('tt_content', $dataHandler->copyMappingArray);
     }
 
     /**

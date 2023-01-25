@@ -55,8 +55,7 @@ mod.wizards.newContentElement.wizardItems {
                 iconIdentifier = content-special-menu
                 title = Special Menus
                 tt_content_defValues {
-                    CType = menu
-                    menu_type = 0
+                    CType = menu_pages
                 }
             }
 

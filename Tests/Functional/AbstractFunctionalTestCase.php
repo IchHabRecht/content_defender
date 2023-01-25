@@ -31,6 +31,12 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
+        $this->configurationToUseInTestInstance = [
+            'SYS' => [
+                'exceptionalErrors' => 12290,
+            ],
+        ];
+
         $this->coreExtensionsToLoad = [
             'fluid_styled_content',
         ];
