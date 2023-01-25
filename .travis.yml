@@ -24,6 +24,7 @@ jobs:
     fast_finish: true
     allow_failures:
         -   env: TYPO3=dev-main
+        -   env: TYPO3=~12.0.0
         -   if: type != cron
             env: TYPO3=11.5.x-dev
         -   if: type != cron
