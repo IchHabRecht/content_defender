@@ -35,6 +35,50 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function newRecordWithDefValsColPosIsSaved()
+    {
+        $defVals['tt_content'] = [
+            'CType' => 'header',
+            'colPos' => 0,
+        ];
+        $datamap['tt_content']['NEW123'] = [
+            'pid' => 2,
+            'header' => 'Header',
+            'sys_language_uid' => 0,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->defaultValues = $defVals;
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $count = (int)$queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(2)
+                ),
+                $queryBuilder->expr()->eq(
+                    'colPos',
+                    $queryBuilder->createNamedParameter(0)
+                ),
+                $queryBuilder->expr()->eq(
+                    'header',
+                    $queryBuilder->createNamedParameter('Header')
+                )
+            )
+            ->execute()
+            ->fetchOne();
+
+        $this->assertSame(1, $count);
+    }
+
+    /**
+     * @test
+     */
     public function newRecordWithDisallowedCTypeIsNotSaved()
     {
         $datamap['tt_content']['NEW123'] = [
@@ -46,6 +90,31 @@ class DatamapDataHandlerHookTest extends AbstractFunctionalTestCase
         ];
 
         $dataHandler = new DataHandler();
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $this->assertEmpty($dataHandler->substNEWwithIDs);
+    }
+
+    /**
+     * @test
+     */
+    public function newRecordWithDisallowedCTypeWithDefValsIsNotSaved()
+    {
+        $defVals['tt_content'] = [
+            'CType' => 'bullets',
+            'colPos' => 0,
+        ];
+
+        $datamap['tt_content']['NEW123'] = [
+            'pid' => 2,
+            'header' => 'Bullet List',
+            'sys_language_uid' => 0,
+        ];
+
+        $dataHandler = new DataHandler();
+        $dataHandler->defaultValues = $defVals;
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
