@@ -8,7 +8,7 @@
     <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
         <div class="t3-cd-badge-container" data-maxitems="{maxitems}">
             <f:switch expression="{maxitems}">
-                <f:case value="-1"></f:case>
+                <f:case value="-9999"></f:case>
                 <f:case value="1">
                     <span class="badge text-bg-warning t3-cd-badge">{maxitems}</span>
                 </f:case>
@@ -16,7 +16,14 @@
                     <span class="badge text-bg-danger t3-cd-badge">{maxitems}</span>
                 </f:case>
                 <f:defaultCase>
-                    <span class="badge text-bg-success t3-cd-badge">{maxitems}</span>
+                    <f:if condition="{maxitems} < 0">
+                        <f:then>
+                            <span class="badge text-bg-danger t3-cd-badge">{maxitems}</span>
+                        </f:then>
+                        <f:else>
+                            <span class="badge text-bg-success t3-cd-badge">{maxitems}</span>
+                        </f:else>
+                    </f:if>
                 </f:defaultCase>
             </f:switch>
             <f:render partial="PageLayout/Grid/ColumnHeader" arguments="{_all}" />

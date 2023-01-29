@@ -24,7 +24,7 @@ class MaxitemsViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $maxitems = -1;
+        $maxitems = -9999;
 
         /** @var GridColumn $column */
         $column = $arguments['column'];
