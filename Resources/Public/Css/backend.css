@@ -11,7 +11,7 @@ body[style="cursor: move;"].t3js-page-column .t3-cd-badge-container[data-maxitem
     visibility: hidden;
 }
 
-.t3-cd-badge-container:not([data-maxitems="-1"]) .t3-page-column-header {
+.t3-cd-badge-container:not([data-maxitems="-1"]).t3-cd-badge-container-length-1 .t3-page-column-header {
     padding-left: 25px;
 }
 
