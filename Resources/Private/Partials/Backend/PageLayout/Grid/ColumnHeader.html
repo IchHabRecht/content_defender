@@ -6,19 +6,21 @@
 
 <cd:extendPartial>
     <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
-        <div class="t3-cd-badge-container" data-maxitems="{maxitems}">
-            <f:switch expression="{maxitems}">
-                <f:case value="-1"></f:case>
-                <f:case value="1">
-                    <span class="badge text-bg-warning t3-cd-badge">{maxitems}</span>
-                </f:case>
-                <f:case value="0">
-                    <span class="badge text-bg-danger t3-cd-badge">{maxitems}</span>
-                </f:case>
-                <f:defaultCase>
-                    <span class="badge text-bg-success t3-cd-badge">{maxitems}</span>
-                </f:defaultCase>
-            </f:switch>
+
+        <f:if condition="{maxitems} > 9">
+            <f:variable name="length" value="2"/>
+        </f:if>
+
+        <f:if condition="{maxitems} > 99">
+            <f:variable name="length" value="3"/>
+        </f:if>
+
+        <div class="t3-cd-badge-container{f:if(condition: '{length} > 1', then: ' t3-cd-badge-container-length-{length}')}" data-maxitems="{maxitems}">
+            <f:if condition="{maxitems} >= 0">
+                <span class="badge t3-cd-badge">
+                    {f:if(condition: '{maxitems} > 99', then: '&#43;99', else: '{maxitems}')}
+                </span>
+            </f:if>
             <f:render partial="PageLayout/Grid/ColumnHeader" arguments="{_all}" />
         </div>
     </f:alias>

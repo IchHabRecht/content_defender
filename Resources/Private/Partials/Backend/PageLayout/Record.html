@@ -3,7 +3,16 @@
     data-namespace-typo3-fluid="true">
 <cd:extendPartial>
     <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
-        <div class="t3-cd-badge-container" data-maxitems="{maxitems}">
+
+        <f:if condition="{maxitems} > 9">
+            <f:variable name="length" value="2"/>
+        </f:if>
+
+        <f:if condition="{maxitems} > 99">
+            <f:variable name="length" value="3"/>
+        </f:if>
+
+        <div class="t3-cd-badge-container{f:if(condition: '{length} > 1', then: ' t3-cd-badge-container-length-{length}')}" data-maxitems="{maxitems}">
             <f:render partial="PageLayout/Record" arguments="{_all}" />
         </div>
     </f:alias>
