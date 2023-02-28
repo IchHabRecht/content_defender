@@ -143,7 +143,7 @@ class ContentRepository
             )
             ->execute();
 
-        while ($row = $statement->fetch()) {
+        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
                 $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];
