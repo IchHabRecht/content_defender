@@ -125,7 +125,7 @@ class ContentRepository
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class)
             ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class, null, false));
 
-        $statement = $queryBuilder->select(...$selectFields)
+        $result = $queryBuilder->select(...$selectFields)
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
@@ -141,9 +141,9 @@ class ContentRepository
                     $queryBuilder->createNamedParameter($language[0], \PDO::PARAM_INT)
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        while ($row = $statement->fetch()) {
+        while ($row = $result->fetchAssociative()) {
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
                 $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];
