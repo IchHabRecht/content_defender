@@ -72,6 +72,9 @@ jobs:
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
             php: 8.1.0
+            env: TYPO3=~12.2.0
+        -   <<: *tests
+            php: 8.1.0
             env: TYPO3=~12.1.0
         -   <<: *tests
             php: 8.1.0
@@ -117,7 +120,7 @@ jobs:
             git:
                 depth: false
             php: 8.1
-            env: TYPO3="^11.5 ~12.0.0 ~12.1.0"
+            env: TYPO3="^11.5 ~12.0.0 ~12.1.0 ~12.2.0"
             before_install:
                 - nvm install 12
                 - nvm use 12
