@@ -17,7 +17,7 @@
             <f:variable name="length" value="3"/>
         </f:if>
 
-        <div class="t3-cd-badge-container t3-cd-badge-container-length-{length}" data-maxitems="{maxitems}">
+        <div class="t3-cd-badge-container typo3-version-{cd:getVersion()} t3-cd-badge-container-length-{length}" data-maxitems="{maxitems}">
             <f:if condition="{maxitems} >= 0">
                 <span class="badge t3-cd-badge">
                     {f:if(condition: '{maxitems} > 99', then: '&#43;99', else: '{maxitems}')}
