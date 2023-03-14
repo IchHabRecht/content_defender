@@ -3,11 +3,7 @@ module.tx_contentdefender {
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template root
         templateRootPath = EXT:content_defender/Resources/Private/Backend/Templates/
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template partials
-<<<<<<< HEAD
         partialRootPath = EXT:content_defender/Resources/Private/Backend/Partials/
-=======
-        partialRootPath = EXT:content_defender/Resources/Private/Partials/Backend/Partials/
->>>>>>> 276fa1323685df7099a52a12042adb4fb324ca7d
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template layouts
         layoutRootPath = EXT:content_defender/Resources/Private/Backend/Layouts/
     }

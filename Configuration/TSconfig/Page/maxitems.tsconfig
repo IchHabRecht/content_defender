@@ -1,6 +1,2 @@
 
-<<<<<<< HEAD
 templates.typo3/cms-backend.100 = ichhabrecht/content-defender:Resources/Private/Backend/
-=======
-templates.typo3/cms-backend.100 = ichhabrecht/content-defender:Resources/Private/Partials/Backend/
->>>>>>> 276fa1323685df7099a52a12042adb4fb324ca7d
