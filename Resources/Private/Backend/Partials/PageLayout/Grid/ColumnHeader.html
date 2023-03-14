@@ -4,6 +4,11 @@
 
 <f:be.pageRenderer includeCssFiles="{0: 'EXT:content_defender/Resources/Public/Css/backend.css'}" />
 
+<f:if condition="{cd:getVersion()} == 12">
+    <f:be.pageRenderer includeCssFiles="{1: 'EXT:content_defender/Resources/Public/Css/backend_v12.css'}" />    
+</f:if>
+
+
 <cd:extendPartial>
     <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
 
