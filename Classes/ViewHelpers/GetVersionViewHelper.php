@@ -2,8 +2,6 @@
 
 namespace IchHabRecht\ContentDefender\ViewHelpers;
 
-use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
-use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumn;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
@@ -23,10 +21,6 @@ class GetVersionViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        $version = NULL;
-
-        $version = (new Typo3Version())->getMajorVersion();
-
-        return $version;
+        return (new Typo3Version())->getMajorVersion();
     }
 }
