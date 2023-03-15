@@ -2,10 +2,10 @@
 
 namespace IchHabRecht\ContentDefender\ViewHelpers;
 
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
-use TYPO3\CMS\Core\Information\Typo3Version;
 
 class GetVersionViewHelper extends AbstractViewHelper
 {
