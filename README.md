@@ -10,13 +10,13 @@ Content Defender adds more options to define allowed or denied content element t
 
 This extension can be installed using Composer or the Extension Manager.
 
-# Composer
+### Composer
 
 ```
 composer require ichhabrecht/content-defender
 ```
 
-# Extension Manager
+### Extension Manager
 
 See [TYPO3 Documentation - Managing Extensions - Legacy Guide](https://docs.typo3.org/m/typo3/tutorial-getting-started/main/en-us/Extensions/LegacyManagement.html)
 
