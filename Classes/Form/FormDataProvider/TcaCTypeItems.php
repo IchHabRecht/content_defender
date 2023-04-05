@@ -54,7 +54,7 @@ class TcaCTypeItems implements FormDataProviderInterface
             $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
                 $result['processedTca']['columns'][$field]['config']['items'],
                 function ($item) use ($allowedValues) {
-                    return in_array($item[1], $allowedValues);
+                    return in_array($item['value'], $allowedValues);
                 }
             );
         }
@@ -65,7 +65,7 @@ class TcaCTypeItems implements FormDataProviderInterface
             $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
                 $result['processedTca']['columns'][$field]['config']['items'],
                 function ($item) use ($disallowedValues) {
-                    return !in_array($item[1], $disallowedValues);
+                    return !in_array($item['value'], $disallowedValues);
                 }
             );
         }
