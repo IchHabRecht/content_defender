@@ -89,14 +89,23 @@ class TcaCTypeItems implements FormDataProviderInterface
     protected function filterAllowedItems($items, $filterItems, $disallow, $currentRecordValue)
     {
         foreach ($items as $key => $item) {
-            if ($disallow ? in_array($item[1], $filterItems) : !in_array($item[1], $filterItems)) {
-                if ($item[1] !== $currentRecordValue) {
+            // Associative array since TYPO3 v12.3
+            $value = $item['value'] ?? $item[1];
+            if ($disallow ? in_array($value, $filterItems) : !in_array($value, $filterItems)) {
+                if ($value !== $currentRecordValue) {
                     unset($items[$key]);
                 } else {
-                    $items[$key][0] = sprintf(
-                        $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
-                        $item[0]
-                    );
+                    if (array_key_exists('label', $item)) {
+                        $items[$key]['label'] = sprintf(
+                            $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                            $item['label']
+                        );
+                    } else {
+                        $items[$key][0] = sprintf(
+                            $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                            $item[0]
+                        );
+                    }
                 }
             }
         }
