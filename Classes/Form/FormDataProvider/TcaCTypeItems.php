@@ -100,6 +100,7 @@ class TcaCTypeItems implements FormDataProviderInterface
                 }
             }
         }
+
         return $items;
     }
 
