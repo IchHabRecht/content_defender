@@ -19,6 +19,7 @@ namespace IchHabRecht\ContentDefender\Form\FormDataProvider;
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaCTypeItems implements FormDataProviderInterface
@@ -50,26 +51,60 @@ class TcaCTypeItems implements FormDataProviderInterface
 
         $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($allowedConfiguration as $field => $value) {
+            $currentRecordValue = is_array($result['databaseRow'][$field]) ? $result['databaseRow'][$field][0] : $result['databaseRow'][$field];
             $allowedValues = GeneralUtility::trimExplode(',', $value);
-            $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+            $result['processedTca']['columns'][$field]['config']['items'] = $this->filterAllowedItems(
                 $result['processedTca']['columns'][$field]['config']['items'],
-                function ($item) use ($allowedValues) {
-                    return in_array($item[1], $allowedValues);
-                }
+                $allowedValues,
+                false,
+                $currentRecordValue
             );
         }
 
         $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($disallowedConfiguration as $field => $value) {
+            $currentRecordValue = is_array($result['databaseRow'][$field]) ? $result['databaseRow'][$field][0] : $result['databaseRow'][$field];
             $disallowedValues = GeneralUtility::trimExplode(',', $value);
-            $result['processedTca']['columns'][$field]['config']['items'] = array_filter(
+            $result['processedTca']['columns'][$field]['config']['items'] = $this->filterAllowedItems(
                 $result['processedTca']['columns'][$field]['config']['items'],
-                function ($item) use ($disallowedValues) {
-                    return !in_array($item[1], $disallowedValues);
-                }
+                $disallowedValues,
+                true,
+                $currentRecordValue
             );
         }
 
         return $result;
+    }
+
+    /**
+     * Remove items not in filter list, unless it matches the current record value, then label it as 'invalid value'
+     * Remove items in filter list if $disallow=true
+     *
+     * @param $items
+     * @param $filterItems
+     * @param $disallow
+     * @param $currentRecordValue
+     * @return array
+     */
+    protected function filterAllowedItems($items, $filterItems, $disallow, $currentRecordValue)
+    {
+        foreach ($items as $key => $item) {
+            if ($disallow ? in_array($item[1], $filterItems) : !in_array($item[1], $filterItems)) {
+                if ($item[1] !== $currentRecordValue) {
+                    unset($items[$key]);
+                } else {
+                    $items[$key][0] = sprintf(
+                        $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                        $item[0]
+                    );
+                }
+            }
+        }
+        return $items;
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }
