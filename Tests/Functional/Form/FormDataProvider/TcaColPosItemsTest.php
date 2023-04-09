@@ -72,9 +72,9 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
 
         $this->assertCount(3, $items);
-        $this->assertSame('0', $items[0][1]);
-        $this->assertSame('10', $items[1][1]);
-        $this->assertSame('12', $items[2][1]);
+        $this->assertSame('0', $items[0]['value'] ?? $items[0][1]);
+        $this->assertSame('10', $items[1]['value'] ?? $items[1][1]);
+        $this->assertSame('12', $items[2]['value'] ?? $items[2][1]);
     }
 
     /**
@@ -135,9 +135,9 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
 
         $this->assertCount(3, $items);
-        $this->assertSame('0', $items[0][1]);
-        $this->assertSame('11', $items[1][1]);
-        $this->assertSame('12', $items[2][1]);
+        $this->assertSame('0', $items[0]['value'] ?? $items[0][1]);
+        $this->assertSame('11', $items[1]['value'] ?? $items[1][1]);
+        $this->assertSame('12', $items[2]['value'] ?? $items[2][1]);
     }
 
     /**

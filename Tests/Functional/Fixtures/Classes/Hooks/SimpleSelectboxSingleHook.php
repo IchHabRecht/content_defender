@@ -10,6 +10,7 @@ class SimpleSelectboxSingleHook
     {
         $parameters['items'] = [
             0 => [
+                0 => '',
                 1 => '0',
             ],
             1 => [
