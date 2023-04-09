@@ -61,7 +61,7 @@ class TcaColPosItems implements FormDataProviderInterface
         $originalRecordColPos = $record['colPos'][0];
 
         foreach ($result['processedTca']['columns']['colPos']['config']['items'] as $key => $item) {
-            $colPos = (int)$item[1];
+            $colPos = (int)($item['value'] ?? $item[1]);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $record['uid']);
             if (empty($columnConfiguration)) {
                 continue;

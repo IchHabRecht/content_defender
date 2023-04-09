@@ -71,7 +71,7 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $items = array_values($result['processedTca']['columns']['CType']['config']['items']);
 
         $this->assertCount(1, $items);
-        $this->assertSame('bullets', $items[0][1]);
+        $this->assertSame('bullets', $items[0]['value'] ?? $items[0][1]);
     }
 
     /**
@@ -100,6 +100,6 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
         $items = array_values($result['processedTca']['columns']['tx_simpleselectboxsingle']['config']['items']);
 
         $this->assertCount(1, $items);
-        $this->assertSame('5', $items[0][1]);
+        $this->assertSame('5', $items[0]['value'] ?? $items[0][1]);
     }
 }
