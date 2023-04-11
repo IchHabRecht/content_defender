@@ -134,7 +134,12 @@ class TcaColPosItems implements FormDataProviderInterface
     protected function unsetIfNotCurrent($items, $key, $recordColPos)
     {
         if (array_key_exists($key, $items)) {
-            if (array_key_exists(1, $items[$key]) && $recordColPos === $items[$key][1]) {
+            if (array_key_exists('value', $items[$key]) && $recordColPos === $items[$key]['value']) {
+                $items[$key]['label'] = sprintf(
+                    $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                    $items[$key]['label']
+                );
+            } elseif (array_key_exists(1, $items[$key]) && $recordColPos === $items[$key][1]) {
                 $items[$key][0] = sprintf(
                     $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
                     $items[$key][0]
