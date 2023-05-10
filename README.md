@@ -4,11 +4,21 @@
 [![Build Status](https://img.shields.io/travis/IchHabRecht/content_defender/main.svg)](https://travis-ci.org/IchHabRecht/content_defender)
 [![StyleCI](https://styleci.io/repos/90545143/shield?branch=main)](https://styleci.io/repos/90545143)
 
-Define allowed or denied content element types in your backend layouts
+Content Defender adds more options to define allowed or denied content element types in your backend layouts
 
 ## Installation
 
-Simply install the extension with Composer or the Extension Manager.
+This extension can be installed using Composer or the Extension Manager.
+
+### Composer
+
+```
+composer require ichhabrecht/content-defender
+```
+
+### Extension Manager
+
+See [TYPO3 Documentation - Managing Extensions - Legacy Guide](https://docs.typo3.org/m/typo3/tutorial-getting-started/main/en-us/Extensions/LegacyManagement.html)
 
 ## Usage
 
