@@ -24,7 +24,6 @@ jobs:
     fast_finish: true
     allow_failures:
         -   env: TYPO3=dev-main
-        -   env: TYPO3=~12.0.0
         -   if: type != cron
             env: TYPO3=11.5.x-dev
         -   if: type != cron
@@ -72,16 +71,7 @@ jobs:
                     echo;
                     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;;
             php: 8.1.0
-            env: TYPO3=~12.3.0
-        -   <<: *tests
-            php: 8.1.0
-            env: TYPO3=~12.2.0
-        -   <<: *tests
-            php: 8.1.0
-            env: TYPO3=~12.1.0
-        -   <<: *tests
-            php: 8.1.0
-            env: TYPO3=~12.0.0
+            env: TYPO3=^12.4
         -   <<: *tests
             php: 8.1.0
             env: TYPO3=^11.5
@@ -123,7 +113,7 @@ jobs:
             git:
                 depth: false
             php: 8.1
-            env: TYPO3="^11.5 ~12.0.0 ~12.1.0 ~12.2.0 ~12.3.0"
+            env: TYPO3="^11.5 ^12.4"
             before_install:
                 - nvm install 12
                 - nvm use 12
@@ -203,6 +193,9 @@ jobs:
             env: TYPO3=dev-main
         -   <<: *dev-tests
             php: 8.1.0
+            env: TYPO3=12.4.x-dev
+        -   <<: *dev-tests
+            php: 8.1.0
             env: TYPO3=11.5.x-dev
         -   <<: *dev-tests
             php: 8.0
@@ -228,6 +221,9 @@ jobs:
         -   <<: *lowest-tests
             php: 8.1.0
             env: TYPO3=^12.0
+        -   <<: *lowest-tests
+            php: 8.1.0
+            env: TYPO3=12.4.x-dev
         -   <<: *lowest-tests
             php: 8.1.0
             env: TYPO3=^11.5

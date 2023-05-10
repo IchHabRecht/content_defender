@@ -17,6 +17,8 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
  * LICENSE file that was distributed with this source code.
  */
 
+use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
@@ -29,6 +31,8 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
+    use ProphecyTrait;
+
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         $this->configurationToUseInTestInstance = [
@@ -51,6 +55,11 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $serverRequest = $this->prophesize(ServerRequestInterface::class);
+        $serverRequest->getAttribute('applicationType')->willReturn(2);
+        $serverRequest->getAttribute('route')->willReturn(null);
+        $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
         $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';
         $this->importCSVDataSet($fixturePath . 'be_users.csv');
