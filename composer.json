@@ -31,7 +31,6 @@
         "phpspec/prophecy": "^1.12.1",
         "phpspec/prophecy-phpunit": "^2.0",
         "typo3/testing-framework": "^6.16 || 7.*@dev",
-        "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.1.0",
         "typo3/minimal": "^10.4 || ^11.5 || ^12.0"
     },
     "autoload": {
@@ -52,8 +51,7 @@
         "bin-dir": ".Build/bin",
         "allow-plugins": {
             "typo3/class-alias-loader": true,
-            "typo3/cms-composer-installers": true,
-            "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": true
+            "typo3/cms-composer-installers": true
         }
     },
     "extra": {
