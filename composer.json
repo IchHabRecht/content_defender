@@ -30,7 +30,7 @@
         "typo3/cms-workspaces": "^10.4 || ^11.5 || ^12.4",
         "phpspec/prophecy": "^1.12.1",
         "phpspec/prophecy-phpunit": "^2.0",
-        "typo3/testing-framework": "^6.16 || 7.*@dev",
+        "typo3/testing-framework": "^6.16 || ^7.0.2",
         "typo3/minimal": "^10.4 || ^11.5 || ^12.0"
     },
     "autoload": {
