@@ -150,10 +150,9 @@ abstract class AbstractDataHandlerHook
             $referencedRecord = BackendUtility::getRecord('tt_content', $referenceParts[count($referenceParts) - 1]);
             if ($referencedRecord['CType'] == 'shortcut') {
                 return $this->checkShortcut($referencedRecord, $field, $values, $allowed);
-            } else {
-                if (!$this->isAllowedValue($referencedRecord, $field, $values, $allowed)) {
-                    return false;
-                }
+            }
+            if (!$this->isAllowedValue($referencedRecord, $field, $values, $allowed)) {
+                return false;
             }
         }
 
