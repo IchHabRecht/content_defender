@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+.t3-cd-badge-container {
+    position: relative;
+}
+
+.t3-cd-badge-container[data-maxitems="0"] .t3-page-ce .t3js-page-new-ce,
+.t3-cd-badge-container[data-maxitems="0"] .t3-page-ce .t3-page-ce-dropzone {
+    display: none;
+}
+
+.t3-cd-badge {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 0);
+    background-color: #ff0000;
+    z-index: 100;
+}
+
+.t3-cd-badge.text-bg-success {
+    background-color: #107c10;
+    color: #ffffff;
+}
+
+.t3-cd-badge.text-bg-warning {
+    background-color: #e8a33d;
+    color: #ffffff;
+}
+
+.t3-cd-badge.text-bg-danger {
+    background-color: #ff0000;
+    color: #ffffff;
+}

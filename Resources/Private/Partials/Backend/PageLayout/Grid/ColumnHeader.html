@@ -1,0 +1,27 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:cd="http://typo3.org/ns/IchHabRecht/ContentDefender/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<f:be.pageRenderer includeCssFiles="{0: 'EXT:content_defender/Resources/Public/Css/backend.css'}" />
+
+<cd:extendPartial>
+    <f:alias map="{maxitems: '{cd:maxitems(column: column)}'}">
+        <div class="t3-cd-badge-container" data-maxitems="{maxitems}">
+            <f:switch expression="{maxitems}">
+                <f:case value="-1"></f:case>
+                <f:case value="1">
+                    <span class="badge text-bg-warning t3-cd-badge">{maxitems}</span>
+                </f:case>
+                <f:case value="0">
+                    <span class="badge text-bg-danger t3-cd-badge">{maxitems}</span>
+                </f:case>
+                <f:defaultCase>
+                    <span class="badge text-bg-success t3-cd-badge">{maxitems}</span>
+                </f:defaultCase>
+            </f:switch>
+            <f:render partial="PageLayout/Grid/ColumnHeader" arguments="{_all}" />
+        </div>
+    </f:alias>
+</cd:extendPartial>
+
+</html>

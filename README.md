@@ -128,6 +128,20 @@ columns {
 }
 ```
 
+**Enable maxitems count in page module (*!experimental!*)**
+
+- To show the count of remaiing content elements that can be created in a column, you can enable an integration of 
+content_defender in the page module
+- Please understand that this feature is very experimental and does not have high priority for bug fixing
+
+*TYPO3 10 and 11*
+
+- Add the provided TypoScript template
+
+*TYPO3 12 and above*
+
+- Add the provided Page TSconfig in your page.tsconfig_includes field
+
 ## Community
 
 - Thanks to [b13](https://b13.com) that sponsored the maintenance of this extension with a sponsorship
