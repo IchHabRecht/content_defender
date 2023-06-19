@@ -1,3 +1,13 @@
+2023-06-19         [RELEASE] Release of content_defender 3.4.0 (Nicole Cordes)
+2023-06-19 83136ac [TASK] Add known issue section to README (Nicole Cordes)
+2023-06-06 d2c6b43 [TASK] TYPO3 dependencies in ext_emconf.php (#141) (Sven Jürgens)
+2023-05-12 585c814 [TASK] Depend on stable typo3/testing-framework (Nicole Cordes)
+2023-05-12 0e50d3f [TASK] Remove obsolete testingframework-bridge package (Nicole Cordes)
+2023-05-10 2ad9067 [TASK] Raise compatibility to TYPO3 12.4 (Nicole Cordes)
+2023-05-10 bad2ede Adds details on how to install the extension (#129) (mkroener)
+2023-04-09 12f52ba [TASK] Raise compatibility to TYPO3 12.3 (Nicole Cordes)
+2023-04-09 a6a9a08 [BUGFIX] Use associative array for fetching colPos value (#133) (Thomas Löffler)
+
 2023-03-08         [RELEASE] Release of content_defender 3.3.0 (Nicole Cordes)
 2023-03-01 cc5c326 [TASK] Raise compatibility to TYPO3 12.2 (Nicole Cordes)
 2023-03-01 b48fd64 [BUGFIX] Set explicit fetch mode for ResultStatement (#128) (DavidR93)
