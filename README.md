@@ -128,6 +128,14 @@ columns {
 }
 ```
 
+## Known issues
+
+### TypeError
+*count(): Argument #1 ($value) must be of type Countable|array, null given*
+
+Content Defender needs the runtime cache to be available. Please ensure that this cache **doesn't use** a
+\TYPO3\CMS\Core\Cache\Backend\NullBackend backend.
+
 ## Community
 
 - Thanks to [b13](https://b13.com) that sponsored the maintenance of this extension with a sponsorship
