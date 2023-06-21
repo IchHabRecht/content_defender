@@ -147,7 +147,12 @@ abstract class AbstractDataHandlerHook
         $references = GeneralUtility::trimExplode(',', $shortcut['records']);
         foreach ($references as $reference) {
             $referenceParts = GeneralUtility::revExplode('_', $reference, 2);
-            $referencedRecord = BackendUtility::getRecord('tt_content', $referenceParts[count($referenceParts) - 1]);
+            $uid = $referenceParts[count($referenceParts) - 1];
+            $table = 'tt_content';
+            if (count($referenceParts) == 2) {
+                $table = $referenceParts[0];
+            }
+            $referencedRecord = BackendUtility::getRecord($table, $uid);
             if ($referencedRecord['CType'] == 'shortcut') {
                 return $this->checkShortcut($referencedRecord, $field, $values, $allowed);
             }
