@@ -44,13 +44,13 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 $incomingFieldArray = array_merge($dataHandler->defaultValues['tt_content'] ?? [], $incomingFieldArray);
             }
 
-            $pageId = (int)$incomingFieldArray['pid'];
+            $pageId = (int)$incomingFieldArray['pid'] ?? 0;
             if ($pageId < 0) {
                 $previousRecord = BackendUtility::getRecord('tt_content', abs($pageId), 'pid');
                 $pageId = (int)$previousRecord['pid'];
                 $incomingFieldArray['pid'] = $pageId;
             }
-            $colPos = (int)$incomingFieldArray['colPos'];
+            $colPos = (int)$incomingFieldArray['colPos'] ?? 0;
 
             $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
             $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos, $id);
