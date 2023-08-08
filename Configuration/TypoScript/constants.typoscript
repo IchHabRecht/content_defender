@@ -8,4 +8,3 @@ module.tx_contentdefender {
         layoutRootPath = EXT:content_defender/Resources/Private/Backend/Layouts/
     }
 }
-`
