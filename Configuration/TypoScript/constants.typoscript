@@ -1,10 +1,10 @@
 module.tx_contentdefender {
     view {
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template root
-        templateRootPath = EXT:content_defender/Resources/Private/Templates/Backend/
+        templateRootPath = EXT:content_defender/Resources/Private/Backend/Templates/
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template partials
-        partialRootPath = EXT:content_defender/Resources/Private/Partials/Backend/
+        partialRootPath = EXT:content_defender/Resources/Private/Backend/Partials/
         # cat=plugin.tx_contentdefender/file; type=string; label=Path to template layouts
-        layoutRootPath = EXT:content_defender/Resources/Private/Layouts/Backend/
+        layoutRootPath = EXT:content_defender/Resources/Private/Backend/Layouts/
     }
 }
