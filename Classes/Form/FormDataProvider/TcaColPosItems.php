@@ -45,9 +45,12 @@ class TcaColPosItems implements FormDataProviderInterface
      */
     public function addData(array $result)
     {
+        // colPos items (e.g. from backend layout) are processed by an itemsProcFunc only
+        // This function only gets called for config type IN (checkbox, radio, select)
         if ('tt_content' !== $result['tableName']
-            || empty($result['processedTca']['columns']['colPos']['config']['items'])
             || !empty($result['isInlineChild'])
+            || empty($result['processedTca']['columns']['colPos']['config']['type'])
+            || !in_array($result['processedTca']['columns']['colPos']['config']['type'], ['checkbox', 'radio', 'select'], true)
         ) {
             return $result;
         }
