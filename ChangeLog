@@ -1,3 +1,6 @@
+2023-09-08         [RELEASE] Release of content_defender 3.4.1 (Nicole Cordes)
+2023-09-07 19e2371 [BUGFIX] Prevent TcaColPosItems dataProvider for non-item fields (Nicole Cordes)
+
 2023-06-19         [RELEASE] Release of content_defender 3.4.0 (Nicole Cordes)
 2023-06-19 83136ac [TASK] Add known issue section to README (Nicole Cordes)
 2023-06-06 d2c6b43 [TASK] TYPO3 dependencies in ext_emconf.php (#141) (Sven Jürgens)
