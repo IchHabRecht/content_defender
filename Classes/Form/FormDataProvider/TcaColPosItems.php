@@ -21,6 +21,7 @@ use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use IchHabRecht\ContentDefender\Form\Exception\AccessDeniedColPosException;
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaColPosItems implements FormDataProviderInterface
@@ -60,6 +61,7 @@ class TcaColPosItems implements FormDataProviderInterface
 
         $record = $result['databaseRow'];
         $record['pid'] = $pageId;
+        $originalRecordColPos = $record['colPos'][0];
 
         foreach ($result['processedTca']['columns']['colPos']['config']['items'] as $key => $item) {
             $colPos = (int)($item['value'] ?? $item[1]);
@@ -78,7 +80,11 @@ class TcaColPosItems implements FormDataProviderInterface
 
                 $allowedValues = GeneralUtility::trimExplode(',', $value);
                 if ($this->fieldContainsDisallowedValues($record[$field], $allowedValues)) {
-                    unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
+                    $result['processedTca']['columns']['colPos']['config']['items'] = $this->unsetIfNotCurrent(
+                        $result['processedTca']['columns']['colPos']['config']['items'],
+                        $key,
+                        $originalRecordColPos
+                    );
                 }
             }
 
@@ -90,7 +96,11 @@ class TcaColPosItems implements FormDataProviderInterface
 
                 $disallowedValues = GeneralUtility::trimExplode(',', $value);
                 if ($this->fieldContainsDisallowedValues($record[$field], $disallowedValues, false)) {
-                    unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
+                    $result['processedTca']['columns']['colPos']['config']['items'] = $this->unsetIfNotCurrent(
+                        $result['processedTca']['columns']['colPos']['config']['items'],
+                        $key,
+                        $originalRecordColPos
+                    );
                 }
             }
 
@@ -104,7 +114,11 @@ class TcaColPosItems implements FormDataProviderInterface
                         1494605357
                     );
                 } elseif (!$isCurrentColPos) {
-                    unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
+                    $result['processedTca']['columns']['colPos']['config']['items'] = $this->unsetIfNotCurrent(
+                        $result['processedTca']['columns']['colPos']['config']['items'],
+                        $key,
+                        $originalRecordColPos
+                    );
                 }
             }
         }
@@ -129,5 +143,39 @@ class TcaColPosItems implements FormDataProviderInterface
         }
 
         return false;
+    }
+
+    /**
+     * Unset array item $items[$key] if colPos doesn't match current records colPos, otherwise add 'invalid' label
+     *
+     * @param $items
+     * @param $key
+     * @param $recordColPos
+     * @return array
+     */
+    protected function unsetIfNotCurrent($items, $key, $recordColPos)
+    {
+        if (array_key_exists($key, $items)) {
+            if (array_key_exists('value', $items[$key]) && $recordColPos === $items[$key]['value']) {
+                $items[$key]['label'] = sprintf(
+                    $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                    $items[$key]['label']
+                );
+            } elseif (array_key_exists(1, $items[$key]) && $recordColPos === $items[$key][1]) {
+                $items[$key][0] = sprintf(
+                    $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noMatchingValue'),
+                    $items[$key][0]
+                );
+            } else {
+                unset($items[$key]);
+            }
+        }
+
+        return $items;
+    }
+
+    protected function getLanguageService(): LanguageService
+    {
+        return $GLOBALS['LANG'];
     }
 }
