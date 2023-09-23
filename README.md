@@ -130,6 +130,20 @@ columns {
 
 ## Known issues
 
+### No active tab in New Content Element wizard
+
+Make sure that none of the group keys is containing an underscore:
+
+```
+mod.wizards.newContentElement.wizardItems.my_mask_elements {
+  header = My mask elements
+  show = my_mask_element_1, my_mask_element_2
+  ...
+}
+```
+
+Change `my_mask_elements` to e.g. `my-mask-elements` to solve this.
+
 ### TypeError
 *count(): Argument #1 ($value) must be of type Countable|array, null given*
 
