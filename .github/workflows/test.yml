@@ -1,0 +1,74 @@
+name: 🏃 tests
+
+on: [ push, pull_request, workflow_call ]
+
+concurrency:
+    group: ${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+jobs:
+    test:
+        name: 'TYPO3: ${{ matrix.typo3 }} - PHP: ${{ matrix.php }}'
+
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ 'ubuntu-latest' ]
+                typo3: [ '^10.4', '^11.5', '^12.4' ]
+                php: [ '7.4', '8.0', '8.1' ]
+                exclude:
+                    -   typo3: '^10.4'
+                        php: '8.0'
+                    -   typo3: '^10.4'
+                        php: '8.1'
+                    -   typo3: '^12.4'
+                        php: '7.4'
+                    -   typo3: '^12.4'
+                        php: '8.0'
+
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Store Composer cache directory
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -   uses: actions/cache/restore@v4
+                id: restore-composer-cache
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ matrix.typo3 }}-${{ matrix.php }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-${{ matrix.typo3 }}-
+                        ${{ runner.os }}-composer-
+
+            -   name: Set up PHP Version ${{ matrix.php }}
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: mbstring, intl, pdo_sqlite, pdo_mysql
+                    tools: composer:v2
+                    coverage: none
+
+            -   name: Environment Check
+                run: |
+                    php --version
+                    composer --version
+
+            -   name: Validate composer.json
+                run: composer validate
+
+            -   name: Composer install
+                run: composer update --with "typo3/cms-core:${{ matrix.typo3 }}" --no-interaction
+
+            -   name: Save composer cache
+                uses: actions/cache/save@v4
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ steps.restore-composer-cache.outputs.cache-primary-key }}
+
+            -   name: Lint PHP
+                run: php .Build/bin/parallel-lint --exclude .Build .
