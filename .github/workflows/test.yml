@@ -72,3 +72,7 @@ jobs:
 
             -   name: Lint PHP
                 run: php .Build/bin/parallel-lint --exclude .Build .
+
+            -   name: Unit Tests
+                if: ${{ success() || failure() }} && ${{ hashFiles('Tests/Unit/') != '' }}
+                run: .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php --testsuite unit
