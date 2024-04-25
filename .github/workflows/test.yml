@@ -76,3 +76,16 @@ jobs:
             -   name: Unit Tests
                 if: ${{ success() || failure() }} && ${{ hashFiles('Tests/Unit/') != '' }}
                 run: .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php --testsuite unit
+
+            -   name: Functional Tests
+                if: ${{ success() || failure() }} && ${{ hashFiles('Tests/Functional/') != '' }}
+                env:
+                    typo3DatabaseHost: '127.0.0.1'
+                    typo3DatabaseName: 'typo3'
+                    typo3DatabasePassword: 'root'
+                    typo3DatabaseUsername: 'root'
+                run: |
+                    sudo /etc/init.d/mysql start                
+                    mkdir -p .Build/public/typo3conf/ext/
+                    if [ ! -L .Build/public/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/content_defender; fi
+                    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php {}'
