@@ -25,14 +25,15 @@
         "typo3/cms-backend": "^10.4 || ^11.5 || ^12.4"
     },
     "require-dev": {
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "phpspec/prophecy": "^1.12.1",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^8.4 || ^9.0",
         "typo3/cms-fluid-styled-content": "^10.4 || ^11.5 || ^12.4",
         "typo3/cms-indexed-search": "^10.4 || ^11.5 || ^12.4",
         "typo3/cms-workspaces": "^10.4 || ^11.5 || ^12.4",
-        "phpspec/prophecy": "^1.12.1",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "typo3/testing-framework": "^6.16 || ^7.0.2",
         "typo3/minimal": "^10.4 || ^11.5 || ^12.0",
-        "php-parallel-lint/php-parallel-lint": "^1.4"
+        "typo3/testing-framework": "^6.16 || ^7.0.2"
     },
     "autoload": {
         "psr-4": {
@@ -48,12 +49,13 @@
         "typo3-ter/content-defender": "self.version"
     },
     "config": {
-        "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin",
         "allow-plugins": {
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true
-        }
+        },
+        "bin-dir": ".Build/bin",
+        "vendor-dir": ".Build/vendor",
+        "sort-packages": true
     },
     "extra": {
         "typo3/cms": {
