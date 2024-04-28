@@ -2,9 +2,12 @@ risky: true
 
 preset: psr12
 
+disabled:
+    - binary_operator_at_least_one_space
+
 enabled:
     - alpha_ordered_imports
-    - binary_operator_spaces
+    - binary_operator_exactly_one_space
     - blank_line_before_return
     - hash_to_slash_comment
     - linebreak_after_opening_tag

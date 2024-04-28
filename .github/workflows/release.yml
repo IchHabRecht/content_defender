@@ -1,0 +1,67 @@
+name: 🚢 to TER
+
+on:
+    push:
+        tags:
+            - "v?[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+    test:
+        uses: ./.github/workflows/test.yaml
+
+    release:
+        name: '🚢 to TER'
+
+        env:
+            php: '8.2'
+            typo3: '^12.4'
+            typo3_org_username: ${{ secrets.TYPO3_ORG_USERNAME }}
+            typo3_org_password: ${{ secrets.TYPO3_ORG_PASSWORD }}
+
+        if: github.repository == 'IchHabRecht/content_defender'
+
+        needs: [ test ]
+
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Store Composer cache directory
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -   uses: actions/cache/restore@v4
+                id: restore-composer-cache
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ env.typo3 }}-${{ env.php }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-${{ env.typo3 }}-
+                        ${{ runner.os }}-composer-
+
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ env.php }}
+                    tools: composer:v2
+                    coverage: none
+
+            -   name: Extract tag and version from GITHUB_REF
+                id: github-ref
+                run: |
+                    echo "tag=$(echo $GITHUB_REF | sed -E -n 's#^refs/tags/(.*)$#\1#p')" >> $GITHUB_OUTPUT
+                    echo "version=$(echo $GITHUB_REF | sed -E -n 's#^refs/tags/v?([0-9]+\.)([0-9]+\.)([0-9]+)#\1\2\3#p')" >> $GITHUB_OUTPUT
+
+            -   name: Composer install
+                run: |
+                    composer global require typo3/tailor
+                    export PATH=$PATH:$(composer global config bin-dir --absolute --quiet)
+
+            -   name: Uploading release ${{ steps.github-ref.outputs.version }} to TER
+                if: ${{ env.typo3_org_username != '' }} && ${{ env.typo3_org_password != '' }}
+                run: |
+                    export TAG_MESSAGE=$(git tag -n10 -l ${{ steps.github-ref.outputs.tag }} | sed 's/^[v]*[0-9.]*[ ]*//g')
+                    echo $TAG_MESSAGE
+                    TYPO3_API_USERNAME="${{ secrets.TYPO3_ORG_USERNAME }}" TYPO3_API_PASSWORD="${{ secrets.TYPO3_ORG_PASSWORD }}" tailor ter:publish --comment "$TAG_MESSAGE" "${{ steps.github-ref.outputs.version }}" content_defender

@@ -58,7 +58,9 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
         $serverRequest = $this->prophesize(ServerRequestInterface::class);
         $serverRequest->getAttribute('applicationType')->willReturn(2);
+        $serverRequest->getAttribute('normalizedParams')->willReturn(null);
         $serverRequest->getAttribute('route')->willReturn(null);
+        $serverRequest->getServerParams()->willReturn([]);
         $GLOBALS['TYPO3_REQUEST'] = $serverRequest->reveal();
 
         $fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/content_defender/Tests/Functional/Fixtures/Database/';

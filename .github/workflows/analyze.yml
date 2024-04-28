@@ -1,0 +1,74 @@
+name: ✔ with code analysis
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+            - premerge/*
+            - pre-merge
+
+jobs:
+    test:
+        uses: ./.github/workflows/test.yml
+
+    sonar:
+        name: '✔ with SonarCloud'
+
+        env:
+            php: '8.2'
+            typo3: '^12.4'
+            sonar_token: ${{ secrets.SONAR_TOKEN }}
+
+        if: github.repository == 'IchHabRecht/content_defender'
+
+        needs: [ test ]
+
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+
+            -   name: Download PHPUnit logs
+                uses: actions/download-artifact@v4
+                with:
+                    path: .Log
+                    pattern: phpunit-logs-*
+                    merge-multiple: true
+
+            -   name: Store Composer cache directory
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -   uses: actions/cache/restore@v4
+                id: restore-composer-cache
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ env.typo3 }}-${{ env.php }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-${{ env.typo3 }}-
+                        ${{ runner.os }}-composer-
+
+            -   name: Set up PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ env.php }}
+                    tools: composer:v2
+
+            -   name: Composer install
+                run: composer require --no-progress --no-suggest typo3/cms-core:"${{ env.typo3 }}" nimut/phpunit-merger
+
+            -   name: Merging log and coverage files
+                run: |
+                    .Build/bin/phpunit-merger coverage .Log/coverage/ .Log/coverage.xml;
+                    .Build/bin/phpunit-merger log .Log/junit/ .Log/junit.xml;
+
+            -   name: SonarCloud Scan
+                if: ${{ env.sonar_token != '' }}
+                uses: sonarsource/sonarcloud-github-action@master
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
