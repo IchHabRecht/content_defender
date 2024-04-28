@@ -1,3 +1,16 @@
+2024-04-29         [RELEASE] Release of content_defender 3.4.2 (Nicole Cordes)
+2024-04-29 0b0c598 [BUGFIX] Remove superfluous conditions in GitHub Actions workflows (Nicole Cordes)
+2024-04-29 bb453f1 [BUGFIX] Use correct test file in release workflow (Nicole Cordes)
+2024-04-28 7da7d28 [FEATURE] Add TER release to GitHub Actions (Nicole Cordes)
+2024-04-27 02449e1 [FEATURE] Add dev tests to GitHub Actions (Nicole Cordes)
+2024-04-27 3b981d1 [FEATURE] Add SonarCloud analysis to GitHub Actions (Nicole Cordes)
+2024-04-25 23090d4 [BUGFIX] Adjust ServerRequest to TYPO3 11.5.33 security updates (Nicole Cordes)
+2024-04-25 74b5191 [FEATURE] Add functional tests to GitHub Actions (Nicole Cordes)
+2024-04-25 3dc5622 [BUGFIX] Fix StyleCI configuration (Nicole Cordes)
+2024-04-25 dd57f66 [BUGFIX] Pin phpunit/phpunit dependency (Nicole Cordes)
+2024-04-25 e3235f6 [FEATURE] Add unit tests to GitHub Actions (Nicole Cordes)
+2024-04-24 4ffdd4d [FEATURE] Introduce GitHub Actions PHP linting (Nicole Cordes)
+
 2023-09-08         [RELEASE] Release of content_defender 3.4.1 (Nicole Cordes)
 2023-09-07 19e2371 [BUGFIX] Prevent TcaColPosItems dataProvider for non-item fields (Nicole Cordes)
 
