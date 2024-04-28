@@ -15,8 +15,6 @@ jobs:
         env:
             php: '8.2'
             typo3: '^12.4'
-            typo3_org_username: ${{ secrets.TYPO3_ORG_USERNAME }}
-            typo3_org_password: ${{ secrets.TYPO3_ORG_PASSWORD }}
 
         if: github.repository == 'IchHabRecht/content_defender'
 
@@ -60,7 +58,6 @@ jobs:
                     export PATH=$PATH:$(composer global config bin-dir --absolute --quiet)
 
             -   name: Uploading release ${{ steps.github-ref.outputs.version }} to TER
-                if: ${{ env.typo3_org_username != '' }} && ${{ env.typo3_org_password != '' }}
                 run: |
                     export TAG_MESSAGE=$(git tag -n10 -l ${{ steps.github-ref.outputs.tag }} | sed 's/^[v]*[0-9.]*[ ]*//g')
                     echo $TAG_MESSAGE
