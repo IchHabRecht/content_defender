@@ -1,3 +1,6 @@
+2024-04-29         [RELEASE] Release of content_defender 3.4.3 (Nicole Cordes)
+2024-04-29 a376487 [BUGFIX] Ensure correct tag message in release workflow (Nicole Cordes)
+
 2024-04-29         [RELEASE] Release of content_defender 3.4.2 (Nicole Cordes)
 2024-04-29 0b0c598 [BUGFIX] Remove superfluous conditions in GitHub Actions workflows (Nicole Cordes)
 2024-04-29 bb453f1 [BUGFIX] Use correct test file in release workflow (Nicole Cordes)
