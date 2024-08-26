@@ -7,24 +7,21 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    compute:
+        uses: ./.github/workflows/compute.yml
+
     test:
         name: 'TYPO3: ${{ matrix.typo3 }} - PHP: ${{ matrix.php }}'
+
+        needs: [ compute ]
 
         strategy:
             fail-fast: false
             matrix:
-                os: [ 'ubuntu-latest' ]
-                typo3: [ '^10.4', '^11.5', '^12.4' ]
-                php: [ '7.4', '8.0', '8.1' ]
-                exclude:
-                    -   typo3: '^10.4'
-                        php: '8.0'
-                    -   typo3: '^10.4'
-                        php: '8.1'
-                    -   typo3: '^12.4'
-                        php: '7.4'
-                    -   typo3: '^12.4'
-                        php: '8.0'
+                os: ${{ fromJson(needs.compute.outputs.os)  }}
+                php: ${{ fromJson(needs.compute.outputs.php)  }}
+                typo3: ${{ fromJson(needs.compute.outputs.typo3)  }}
+                exclude: ${{ fromJson(needs.compute.outputs.exclude)  }}
 
         runs-on: ${{ matrix.os }}
 

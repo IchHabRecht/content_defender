@@ -3,30 +3,25 @@ name: 🏃 dev tests
 on: [ push, pull_request ]
 
 jobs:
+    compute:
+        uses: ./.github/workflows/compute.yml
+
     test:
         uses: ./.github/workflows/test.yml
 
     dev:
         name: 'TYPO3: ${{ matrix.typo3 }} - PHP: ${{ matrix.php }} - ${{ matrix.dependency-version }}'
 
-        needs: [ test ]
+        needs: [ compute, test ]
 
         strategy:
             fail-fast: false
             matrix:
-                os: [ 'ubuntu-latest' ]
-                typo3: [ '10.4.x-dev', '11.5.x-dev', '12.4.x-dev' ]
-                php: [ '7.4', '8.0', '8.1' ]
+                os: ${{ fromJson(needs.compute.outputs.os)  }}
+                php: ${{ fromJson(needs.compute.outputs.php)  }}
+                typo3: ${{ fromJson(needs.compute.outputs.typo3_dev)  }}
                 dependency-version: [ 'lowest', 'stable' ]
-                exclude:
-                    -   typo3: '10.4.x-dev'
-                        php: '8.0'
-                    -   typo3: '10.4.x-dev'
-                        php: '8.1'
-                    -   typo3: '12.4.x-dev'
-                        php: '7.4'
-                    -   typo3: '12.4.x-dev'
-                        php: '8.0'
+                exclude: ${{ fromJson(needs.compute.outputs.exclude)  }}
 
         runs-on: ${{ matrix.os }}
 

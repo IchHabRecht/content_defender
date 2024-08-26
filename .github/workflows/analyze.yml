@@ -15,13 +15,13 @@ jobs:
     sonar:
         name: '✔ with SonarCloud'
 
+        needs: [ test ]
+
         env:
             php: '8.2'
             typo3: '^12.4'
 
         if: github.repository == 'IchHabRecht/content_defender'
-
-        needs: [ test ]
 
         runs-on: ubuntu-latest
 
