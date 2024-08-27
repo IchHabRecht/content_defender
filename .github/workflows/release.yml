@@ -6,21 +6,24 @@ on:
             - "v?[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
+    compute:
+        uses: ./.github/workflows/compute.yml
+
     test:
         uses: ./.github/workflows/test.yml
 
     release:
         name: '🚢 to TER'
 
-        needs: [ test ]
+        needs: [ compute, test ]
 
         env:
-            php: '8.2'
-            typo3: '^12.4'
+            php: ${{ fromJson(needs.compute.outputs.php-single) }}
+            typo3: ${{ fromJson(needs.compute.outputs.typo3-single) }}
 
         if: github.repository == 'IchHabRecht/content_defender'
 
-        runs-on: ubuntu-latest
+        runs-on: ${{ fromJson(needs.compute.outputs.os-single) }}
 
         steps:
             -   name: Checkout

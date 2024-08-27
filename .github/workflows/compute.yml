@@ -56,10 +56,16 @@ on:
         outputs:
             os:
                 value: ${{ jobs.compute.outputs.os }}
+            os-single:
+                value: ${{ jobs.compute.outputs.os-single }}
             php:
                 value: ${{ jobs.compute.outputs.php }}
+            php-single:
+                value: ${{ jobs.compute.outputs.php-single }}
             typo3:
                 value: ${{ jobs.compute.outputs.typo3 }}
+            typo3-single:
+                value: ${{ jobs.compute.outputs.typo3-single }}
             typo3_dev:
                 value: ${{ jobs.compute.outputs.typo3_dev }}
             exclude:
@@ -71,8 +77,11 @@ jobs:
 
         outputs:
             os: ${{ steps.build-matrix.outputs.os }}
+            os-single: ${{ steps.build-matrix.outputs.os-single }}
             php: ${{ steps.build-matrix.outputs.php }}
+            php-single: ${{ steps.build-matrix.outputs.php-single }}
             typo3: ${{ steps.build-matrix.outputs.typo3 }}
+            typo3-single: ${{ steps.build-matrix.outputs.typo3-single }}
             typo3_dev: ${{ steps.build-matrix.outputs.typo3_dev }}
             exclude: ${{ steps.build-matrix.outputs.exclude }}
 
@@ -82,18 +91,46 @@ jobs:
             -   name: Build matrix
                 id: build-matrix
                 run: |
-                    echo $OS | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.' 
-                    echo "os=$(echo $OS | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')" >> "$GITHUB_OUTPUT" 
-                    echo $PHP | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.'
-                    echo "php=$(echo $PHP | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')" >> "$GITHUB_OUTPUT" 
-                    echo $TYPO3 | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.'
-                    echo "typo3=$(echo $TYPO3 | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')" >> "$GITHUB_OUTPUT" 
-                    echo $TYPO3_DEV | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.' 
-                    echo "typo3_dev=$(echo $TYPO3_DEV | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')" >> "$GITHUB_OUTPUT"
-                    cat <<EOF | jq -nc -f /dev/stdin | jq -c 'to_entries | map_values(.value)'
+                    echo ""
+                    echo "::group::OS"
+                    os=$(echo $OS | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
+                    echo "os = $os"
+                    echo "os-single = $(echo $os | jq '.'[0])"
+                    echo "os=$os" >> "$GITHUB_OUTPUT" 
+                    echo "os-single=$(echo $os | jq '.'[0])" >> "$GITHUB_OUTPUT" 
+                    echo "::endgroup::"
+                    
+                    echo ""
+                    echo "::group::PHP"
+                    php=$(echo $PHP | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
+                    echo "php = $php"
+                    echo "php-single = $(echo $php | jq '.'[-1])"
+                    echo "php=$php" >> "$GITHUB_OUTPUT" 
+                    echo "php-single=$(echo $php | jq '.'[-1])" >> "$GITHUB_OUTPUT"                    
+                    echo "::endgroup::"
+                
+                    echo ""
+                    echo "::group::TYPO3"
+                    typo3=$(echo $TYPO3 | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
+                    echo "typo3 = $typo3"
+                    echo "typo3-single = $(echo $typo3 | jq '.'[-1])"
+                    echo "typo3=$typo3" >> "$GITHUB_OUTPUT" 
+                    echo "typo3-single=$(echo $typo3 | jq '.'[-1])" >> "$GITHUB_OUTPUT"
+                    echo "::endgroup::"
+                    
+                    echo ""
+                    echo "::group::TYPO3_DEV"
+                    typo3_dev=$(echo $TYPO3_DEV | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
+                    echo "typo3_dev = $typo3_dev"
+                    echo "typo3_dev=$typo3_dev" >> "$GITHUB_OUTPUT"
+                    echo "::endgroup::" 
+                    
+                    echo ""
+                    echo "::group::EXCLUDE"
+                    exclude=$(cat <<EOF | jq -nc -f /dev/stdin | jq -c 'to_entries | map_values(.value)'
                         $EXCLUDE
                     EOF
-                    echo "exclude=$(cat <<EOF | jq -nc -f /dev/stdin | jq -c 'to_entries | map_values(.value)'
-                        $EXCLUDE
-                    EOF
-                    )" >> "$GITHUB_OUTPUT"
+                    )
+                    echo "exclude = $exclude"
+                    echo "exclude=$exclude)" >> "$GITHUB_OUTPUT"
+                    echo "::endgroup::"
