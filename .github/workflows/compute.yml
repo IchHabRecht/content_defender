@@ -4,52 +4,45 @@ env:
     OS: |
         "ubuntu-latest"
     PHP: |
-        "7.4" 
-        "8.0" 
         "8.1"
         "8.2"
         "8.3"
     TYPO3: |
-        "^10.4"
         "^11.5"
         "^12.4"
+        "~13.0.0"
+        "~13.1.0"
+        "~13.2.0"
     TYPO3_DEV: |
-        "10.4.x-dev"
         "11.5.x-dev"
         "12.4.x-dev"
+        "13.0.x-dev"
+        "13.1.x-dev"
+        "13.3.x-dev"
     EXCLUDE: |
-        {
-            "10.4-8.0": {
-                "typo3": "^10.4",
-                "php": "8.0",
-            },
-            "10.4-8.1": {
-                "typo3": "^10.4",
+        {   "13.0.0-8.1": {
+                "typo3": "~13.0.0",
                 "php": "8.1",
             },
-            "10.4-dev-8.0": {
-                "typo3": "10.4.x-dev",
-                "php": "8.0",
-            },
-            "10.4-dev-8.1": {
-                "typo3": "10.4.x-dev",
+            "13.1.0-8.1": {
+                "typo3": "~13.1.0",
                 "php": "8.1",
             },
-            "12.4-7.4": {
-                "typo3": "^12.4",
-                "php": "7.4",
+            "13.2.0-8.1": {
+                "typo3": "~13.2.0",
+                "php": "8.1",
             },
-            "12.4-8.0": {
-                "typo3": "^12.4",
-                "php": "8.0",
+            "13.0.x-dev-8.1": {
+                "typo3": "13.0.x-dev",
+                "php": "8.1",
             },
-            "12.4-dev-7.4": {
-                "typo3": "12.4.x-dev",
-                "php": "7.4",
+            "13.1.x-dev-8.1": {
+                "typo3": "13.1.x-dev",
+                "php": "8.1",
             },
-            "12.4-dev-8.0": {
-                "typo3": "12.4.x-dev",
-                "php": "8.0",
+            "13.3.x-dev-8.1": {
+                "typo3": "13.3.x-dev",
+                "php": "8.1",
             },
         }
 
@@ -97,8 +90,8 @@ jobs:
                     echo "::group::OS"
                     os=$(echo $OS | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
                     echo "os = $os"
-                    echo "os-single = $(echo $os | jq '.'[0])"
                     echo "os=$os" >> "$GITHUB_OUTPUT" 
+                    echo "os-single = $(echo $os | jq '.'[0])"
                     echo "os-single=$(echo $os | jq '.'[0])" >> "$GITHUB_OUTPUT" 
                     echo "::endgroup::"
                     
@@ -106,18 +99,18 @@ jobs:
                     echo "::group::PHP"
                     php=$(echo $PHP | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
                     echo "php = $php"
-                    echo "php-single = $(echo $php | jq '.'[-1])"
                     echo "php=$php" >> "$GITHUB_OUTPUT" 
-                    echo "php-single=$(echo $php | jq '.'[-1])" >> "$GITHUB_OUTPUT"                    
+                    echo "php-single = $(echo $php | jq '.'[-1])"
+                    echo "php-single=$(echo $php | jq '.'[-1])" >> "$GITHUB_OUTPUT"
                     echo "::endgroup::"
                 
                     echo ""
                     echo "::group::TYPO3"
                     typo3=$(echo $TYPO3 | jq --compact-output --raw-input --raw-output '.' | jq --compact-output --slurp '.')
                     echo "typo3 = $typo3"
-                    echo "typo3-single = $(echo $typo3 | jq '.'[-1])"
                     echo "typo3=$typo3" >> "$GITHUB_OUTPUT" 
-                    echo "typo3-single=$(echo $typo3 | jq '.'[-1])" >> "$GITHUB_OUTPUT"
+                    echo "typo3-single = $(echo $typo3 | jq --compact-output '.[] | select( contains("^"))' | jq --slurp '.'[-1])"
+                    echo "typo3-single=$(echo $typo3 | jq --compact-output '.[] | select( contains("^"))' | jq --slurp '.'[-1])" >> "$GITHUB_OUTPUT"
                     echo "::endgroup::"
                     
                     echo ""

@@ -20,25 +20,20 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
-        "typo3/cms-core": "^10.4 || ^11.5 || ^12.4",
-        "typo3/cms-backend": "^10.4 || ^11.5 || ^12.4"
+        "php": "^8.1",
+        "typo3/cms-backend": "^11.5 || ^12.4 || ~13.0.0 || ~13.1.0 || ~13.2.0 || ~13.3.0",
+        "typo3/cms-core": "^11.5 || ^12.4 || ~13.0.0 || ~13.1.0 || ~13.2.0 || ~13.3.0"
     },
     "require-dev": {
-        "doctrine/dbal": "^2.11 || ^3.8",
         "php-parallel-lint/php-parallel-lint": "^1.4",
         "phpspec/prophecy": "^1.12.1",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^8.4 || ^9.0",
-        "typo3/cms-fluid-styled-content": "^10.4 || ^11.5 || ^12.4",
-        "typo3/cms-indexed-search": "^10.4 || ^11.5 || ^12.4",
-        "typo3/cms-workspaces": "^10.4 || ^11.5 || ^12.4",
-        "typo3/minimal": "^10.4 || ^11.5 || ^12.0",
-        "typo3/testing-framework": "^6.16 || ^7.0.2"
-    },
-    "conflict": {
-        "psr/container": "<1.1",
-        "typo3/testing-framework": ">=7.0.0 <7.0.4"
+        "phpunit/phpunit": "^10.5",
+        "typo3/cms-fluid-styled-content": "^11.5 || ^12.4 || ~13.0.0 || ~13.1.0 || ~13.2.0 || ~13.3.0",
+        "typo3/cms-indexed-search": "^11.5 || ^12.4 || ~13.0.0 || ~13.1.0 || ~13.2.0 || ~13.3.0",
+        "typo3/cms-workspaces": "^11.5 || ^12.4 || ~13.0.0 || ~13.1.0 || ~13.2.0 || ~13.3.0",
+        "typo3/minimal": "^11.5 || ^12.0 || ^13.0",
+        "typo3/testing-framework": "^7.0.4 || ^8.2.1"
     },
     "autoload": {
         "psr-4": {
@@ -69,5 +64,6 @@
             "app-dir": ".Build",
             "web-dir": ".Build/public"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
