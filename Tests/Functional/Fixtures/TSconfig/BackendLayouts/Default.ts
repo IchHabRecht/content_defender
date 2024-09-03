@@ -21,14 +21,14 @@ mod.web_layout.BackendLayouts.default {
             2 {
                 columns {
                     1 {
-                        name = Normal (header, textmedia, list[-indexed_search_pi2])
+                        name = Normal (header, textmedia, list[-indexedsearch_pi2])
                         colPos = 0
                         colspan = 6
                         allowed {
                             CType = header, textmedia, list
                         }
                         disallowed {
-                            list_type = indexed_search_pi2
+                            list_type = indexedsearch_pi2
                         }
                     }
                 }

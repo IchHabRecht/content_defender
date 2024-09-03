@@ -81,7 +81,7 @@ jobs:
 
             -   name: Unit Tests
                 if: ${{ hashFiles('Tests/Unit/') != '' }}
-                run: .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php --testsuite unit
+                run: .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php --no-coverage --no-logging --testsuite unit
 
             -   name: Functional Tests
                 if: ${{ success() || failure() }} && ${{ hashFiles('Tests/Functional/') != '' }}
@@ -94,4 +94,4 @@ jobs:
                     sudo /etc/init.d/mysql start                
                     mkdir -p .Build/public/typo3conf/ext/
                     if [ ! -L .Build/public/typo3conf/ext/content_defender ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/content_defender; fi
-                    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php {}'
+                    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo ""; echo ""; echo; echo "Running functional test suite {}"; .Build/bin/phpunit --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php --no-coverage --no-logging {}'

@@ -1,22 +1,22 @@
-"tt_content",,,,,,,
-,"uid","pid","header","CType","colPos","sorting","deleted","sys_language_uid","l18n_parent","l10n_source","t3_origuid","t3ver_oid","t3ver_wsid","t3ver_state"
-,1,2,"Text &amp; Media","textmedia",,,0,0,0,0,0,0,0,0
-,2,2,"Header","header",3,128,0,0,0,0,0,0,0,0
-,3,2,"Bullet List","bullets",3,256,0,0,0,0,0,0,0,0
-,4,3,"Text &amp; Media on subpage","textmedia",3,,0,0,0,0,0,0,0,0
-,5,4,"Text &amp; Media","textmedia",,128,0,0,0,0,0,0,0,0
-,6,4,"Text &amp; Media (deleted)","textmedia",,256,1,0,0,0,0,0,0,0
-,7,4,"Header without list_type","header",,64,0,0,0,0,0,0,0,0
-,8,2,"Text &amp; Media [Dansk]","textmedia",,,0,1,1,1,1,0,1,1
-,9,2,"Text &amp; Media [Dansk]","textmedia",,,0,1,1,1,1,8,1,-1
-,10,2,"Header [Dansk]","header",3,128,0,1,2,2,2,0,1,1
-,11,2,"Header [Dansk]","header",3,128,0,1,2,2,2,10,1,-1
-,12,2,"Bullet List [Dansk]","bullets",3,256,0,1,3,3,3,0,1,1
-,13,2,"Bullet List [Dansk]","bullets",3,256,0,1,3,3,3,12,1,-1
-,14,2,"Text &amp; Media [Dansk]","textmedia",,,0,2,1,1,1,0,2,1
-,15,2,"Text &amp; Media [Dansk]","textmedia",,,0,2,1,1,1,14,2,-1
-,16,2,"Header [Dansk]","header",3,128,0,2,2,2,2,0,2,1
-,17,2,"Header [Dansk]","header",3,128,0,2,2,2,2,16,2,-1
-,18,2,"Bullet List [Dansk]","bullets",3,256,0,2,3,3,3,0,2,1
-,19,2,"Bullet List [Dansk]","bullets",3,256,0,2,3,3,3,18,2,-1
-,20,3,"Text &amp; Media on subpage DEV","textmedia",3,,0,0,0,0,4,4,2,0
+"tt_content",,,,,,,,,,,
+,"uid","pid","header","CType","colPos","sorting","deleted","sys_language_uid","l18n_parent","l10n_source","t3ver_oid","t3ver_wsid","t3ver_state"
+,1,2,"Text &amp; Media","textmedia",,,0,0,0,0,0,0,0
+,2,2,"Header","header",3,128,0,0,0,0,0,0,0
+,3,2,"Bullet List","bullets",3,256,0,0,0,0,0,0,0
+,4,3,"Text &amp; Media on subpage","textmedia",3,,0,0,0,0,0,0,0
+,5,4,"Text &amp; Media","textmedia",,128,0,0,0,0,0,0,0
+,6,4,"Text &amp; Media (deleted)","textmedia",,256,1,0,0,0,0,0,0
+,7,4,"Header without list_type","header",,64,0,0,0,0,0,0,0
+,8,2,"Text &amp; Media [Dansk]","textmedia",,,0,1,1,1,0,1,1
+,9,2,"Text &amp; Media [Dansk]","textmedia",,,0,1,1,1,8,1,-1
+,10,2,"Header [Dansk]","header",3,128,0,1,2,2,0,1,1
+,11,2,"Header [Dansk]","header",3,128,0,1,2,2,10,1,-1
+,12,2,"Bullet List [Dansk]","bullets",3,256,0,1,3,3,0,1,1
+,13,2,"Bullet List [Dansk]","bullets",3,256,0,1,3,3,12,1,-1
+,14,2,"Text &amp; Media [Dansk]","textmedia",,,0,2,1,1,0,2,1
+,15,2,"Text &amp; Media [Dansk]","textmedia",,,0,2,1,1,14,2,-1
+,16,2,"Header [Dansk]","header",3,128,0,2,2,2,0,2,1
+,17,2,"Header [Dansk]","header",3,128,0,2,2,2,16,2,-1
+,18,2,"Bullet List [Dansk]","bullets",3,256,0,2,3,3,0,2,1
+,19,2,"Bullet List [Dansk]","bullets",3,256,0,2,3,3,18,2,-1
+,20,3,"Text &amp; Media on subpage DEV","textmedia",3,,0,0,0,0,4,2,0

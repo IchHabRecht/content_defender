@@ -25,12 +25,12 @@ mod.web_layout.BackendLayouts.subpage {
             2 {
                 columns {
                     1 {
-                        name = Footer1 (header, list[indexed_search_pi2])
+                        name = Footer1 (header, list[indexedsearch_pi2])
                         colPos = 10
                         colspan = 2
                         allowed {
                             CType = header, list
-                            list_type = indexed_search_pi2
+                            list_type = indexedsearch_pi2
                         }
                     }
 

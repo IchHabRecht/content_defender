@@ -55,7 +55,7 @@ class ContentRepositoryTest extends UnitTestCase
 
         $subject = $this->getMockBuilder(ContentRepository::class)
             ->setConstructorArgs([$colPosCount])
-            ->setMethods(['fetchRecordsForColpos'])
+            ->onlyMethods(['fetchRecordsForColpos'])
             ->getMock();
         $subject->expects($this->once())
             ->method('fetchRecordsForColpos')

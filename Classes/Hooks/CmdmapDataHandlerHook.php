@@ -20,7 +20,6 @@ namespace IchHabRecht\ContentDefender\Hooks;
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 {
@@ -46,7 +45,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                 if ($command === 'move') {
                     // New colPos is passed as datamap array and already processed in processDatamap_beforeStart
                     $data = isset($dataHandler->datamap['tt_content'][$id])
-                        ? $dataHandler->datamap : GeneralUtility::_GP('data');
+                        ? $dataHandler->datamap : ($_POST['data'] ?? $_GET['data'] ?? null);
                     if (isset($data['tt_content'][$id])) {
                         if (isset($data['tt_content'][$id]['colPos'])
                             && (int)$currentRecord['colPos'] !== (int)$data['tt_content'][$id]['colPos']
@@ -128,7 +127,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
         }
 
         if (count($cmdmap['tt_content']) !== count($dataHandler->cmdmap['tt_content'])
-            && empty(GeneralUtility::_GP('prErr'))
+            && empty($_POST['prErr'] ?? $_GET['prErr'] ?? null)
         ) {
             $dataHandler->printLogErrorMessages();
         }

@@ -10,18 +10,6 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class NewContentElementController extends \TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController
 {
-    public function getWizardArray(ServerRequestInterface $request): ResponseInterface
-    {
-        // TODO: 10.4 legacy support
-        if (method_exists($this, 'init')) {
-            $this->init($request);
-
-            return $this->wizardAction();
-        }
-
-        return $this->handleRequest($request);
-    }
-
     public function wizardAction(ServerRequestInterface $request = null): ResponseInterface
     {
         return new JsonResponse([
