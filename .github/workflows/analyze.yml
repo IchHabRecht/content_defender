@@ -60,6 +60,11 @@ jobs:
                     php-version: ${{ env.php }}
                     tools: composer:v2
 
+            -   name: Environment Check
+                run: |
+                    php --version
+                    composer --version
+
             -   name: Composer install
                 run: composer require --no-progress --no-suggest typo3/cms-core:"${{ env.typo3 }}" nimut/phpunit-merger
 

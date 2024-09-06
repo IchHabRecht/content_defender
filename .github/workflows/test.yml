@@ -98,4 +98,5 @@ jobs:
                 with:
                     name: phpunit-logs-${{ runner.os }}-${{ matrix.typo3 }}-${{ matrix.php }}
                     path: .Log/*
+                    include-hidden-files: true
                     retention-days: 1
