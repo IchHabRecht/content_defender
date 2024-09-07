@@ -18,9 +18,11 @@ namespace IchHabRecht\ContentDefender\Repository;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Versioning\VersionState;
 
@@ -121,29 +123,31 @@ class ContentRepository
             $selectFields[] = 't3ver_state';
         }
 
+        $context = GeneralUtility::makeInstance(Context::class);
+        $workspaceId = $context->getPropertyFromAspect('workspace', 'id');
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class)
-            ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class, null, false));
+            ->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, (int)$workspaceId, false));
 
         $statement = $queryBuilder->select(...$selectFields)
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
                     'pid',
-                    $queryBuilder->createNamedParameter($record['pid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($record['pid'], Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'colPos',
-                    $queryBuilder->createNamedParameter($record['colPos'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($record['colPos'], Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     $languageField,
-                    $queryBuilder->createNamedParameter($language[0], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($language[0], Connection::PARAM_INT)
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+        while ($row = $statement->fetchAssociative()) {
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
                 $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];

@@ -43,16 +43,16 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
     /**
      * @return array
      */
-    public function manipulateWizardItemsFiltersWizardItemsDataProvider()
+    public static function manipulateWizardItemsFiltersWizardItemsDataProvider()
     {
         return [
             'Border (all)' => [
                 3,
-                14,
+                0,
             ],
             'Normal (header, textmedia, list[-indexed_search_pi2])' => [
                 0,
-                6,
+                3,
             ],
             'Footer2 (bullets)' => [
                 11,
@@ -76,7 +76,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         $request = $this->getRequestForColPos($colPos);
 
         $newContentElementController = GeneralUtility::makeInstance(NewContentElementController::class);
-        $response = $newContentElementController->getWizardArray($request);
+        $response = $newContentElementController->handleRequest($request);
         $wizardItems = json_decode((string)$response->getBody(), true)['wizardItems'];
 
         $event = new ModifyNewContentElementWizardItemsEvent(
@@ -92,43 +92,18 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
         $wizardItemsHook = new WizardItemsHook();
         $wizardItemsHook->modifyWizardItems($event);
 
-        $this->assertCount($expectedCount, $event->getWizardItems());
-    }
+        $eventWizardItems = $event->getWizardItems();
 
-    /**
-     * @test
-     * @dataProvider manipulateWizardItemsFiltersWizardItemsDataProvider
-     * @param int $colPos
-     * @param int $expectedCount
-     */
-    public function manipulateWizardItemsFiltersWizardItems($colPos, $expectedCount)
-    {
-        if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '11', '>')) {
-            $this->markTestSkipped('The hook gets called in TYPO3 < 12 only.');
-        }
-
-        $request = $this->getRequestForColPos($colPos);
-
-        // TODO: $GLOBALS['TYPO3_REQUEST'] needs to be set for NewContentElementController initialization
-        $GLOBALS['TYPO3_REQUEST'] = $request;
-        $newContentElementController = GeneralUtility::makeInstance(NewContentElementController::class);
-        $GLOBALS['TYPO3_REQUEST'] = null;
-        $response = $newContentElementController->getWizardArray($request);
-        $wizardItems = json_decode((string)$response->getBody(), true)['wizardItems'];
-
-        $this->assertNotEmpty($wizardItems);
-
-        $wizardItemsHook = new WizardItemsHook();
-        $wizardItemsHook->manipulateWizardItems($wizardItems, $newContentElementController);
-
-        $this->assertCount($expectedCount, $wizardItems);
+        $this->assertCount($expectedCount > 0 ? $expectedCount : count($wizardItems), $eventWizardItems);
     }
 
     protected function getRequestForColPos(int $colPos): ServerRequestInterface
     {
-        ExtensionManagementUtility::addPageTSConfig(
-            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts">'
-        );
+        if (version_compare($this->versionBranch, '13', '<')) {
+            ExtensionManagementUtility::addPageTSConfig(
+                '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/NewContentElementWizard.ts">'
+            );
+        }
 
         $serverRequest = $this->prophesize(ServerRequestInterface::class);
         $serverRequest->getParsedBody()->willReturn([

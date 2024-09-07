@@ -8,6 +8,10 @@ on:
             - premerge/*
             - pre-merge
 
+concurrency:
+    group: ${{ github.head_ref || github.ref }}
+    cancel-in-progress: true
+
 jobs:
     compute:
         uses: ./.github/workflows/compute.yml
@@ -58,7 +62,13 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ env.php }}
+                    extensions: mbstring, intl, pdo_sqlite, pdo_mysql
                     tools: composer:v2
+
+            -   name: Environment Check
+                run: |
+                    php --version
+                    composer --version
 
             -   name: Composer install
                 run: composer require --no-progress --no-suggest typo3/cms-core:"${{ env.typo3 }}" nimut/phpunit-merger
