@@ -46,7 +46,7 @@ class BackendLayoutConfiguration
     {
         // TODO: Mitigate a problem in \TYPO3\CMS\Backend\Configuration\TypoScript\ConditionMatching\ConditionMatcher::determinePageId
         // @see: https://github.com/IchHabRecht/content_defender/issues/91
-        if (GeneralUtility::_GP('id') === null) {
+        if (($_POST['id'] ?? $_GET['id'] ?? null) === null) {
             $_GET['id'] = $pageId;
         }
         $backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);

@@ -20,18 +20,12 @@ namespace IchHabRecht\ContentDefender\Tests\Functional\Hooks;
 require_once __DIR__ . '/../AbstractFunctionalTestCase.php';
 
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Ensure proper site configuration for DataHandler tests
-        $this->setUpFrontendPage(1);
-    }
-
     /**
      * @test
      */
@@ -45,7 +39,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'move' => -3,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($dataMap, $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -67,7 +61,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(512)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -86,7 +80,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'move' => 2,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($dataMap, $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -104,7 +98,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(0)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -123,7 +117,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'move' => 4,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($dataMap, $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -145,7 +139,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(64)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -164,7 +158,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'move' => 2,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($dataMap, $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -182,7 +176,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(0)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(0, $count);
@@ -202,7 +196,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -220,7 +214,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -239,7 +233,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'move' => 4,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($dataMap, $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -257,7 +251,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -279,7 +273,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -292,14 +286,14 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($recordUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($recordUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'colPos',
                     $queryBuilder->createNamedParameter(0)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -321,7 +315,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -334,14 +328,14 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($recordUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($recordUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'colPos',
                     $queryBuilder->createNamedParameter(0)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -362,7 +356,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -380,7 +374,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(10)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -401,7 +395,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -425,7 +419,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -448,7 +442,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -466,7 +460,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -487,7 +481,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -500,14 +494,14 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($recordUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($recordUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'colPos',
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -522,7 +516,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'delete' => true,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -541,7 +535,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(1)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -556,7 +550,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'localize' => 2,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -578,7 +572,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);
@@ -593,7 +587,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
             'copyToLanguage' => 2,
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commandMap);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -615,7 +609,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
                     $queryBuilder->createNamedParameter(3)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchOne();
 
         $this->assertSame(1, $count);

@@ -19,11 +19,13 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
 
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,6 +33,8 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 {
+    protected string $versionBranch;
+
     use ProphecyTrait;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
@@ -49,6 +53,8 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
             'typo3conf/ext/content_defender',
         ];
 
+        $this->versionBranch = (new Typo3Version())->getBranch();
+
         parent::__construct($name, $data, $dataName);
     }
 
@@ -58,6 +64,7 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
         $serverRequest = $this->prophesize(ServerRequestInterface::class);
         $serverRequest->getAttribute('applicationType')->willReturn(2);
+        $serverRequest->getAttribute('frontend.user')->willReturn(null);
         $serverRequest->getAttribute('normalizedParams')->willReturn(null);
         $serverRequest->getAttribute('route')->willReturn(null);
         $serverRequest->getServerParams()->willReturn([]);
@@ -76,8 +83,10 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
             '<INCLUDE_TYPOSCRIPT: source="DIR:EXT:content_defender/Tests/Functional/Fixtures/TSconfig/BackendLayouts" extensions="ts">'
         );
 
+        $this->setUpFrontendPage(1);
+
         $this->setUpBackendUser(1);
-        Bootstrap::initializeLanguageObject();
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageServiceFactory::class)->create('default');
     }
 
     protected function assertNoProcessingErrorsInDataHandler(DataHandler $dataHandler)
@@ -91,10 +100,12 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
 
     protected function getQueryBuilderForTable(string $table)
     {
+        $context = GeneralUtility::makeInstance(Context::class);
+        $workspaceId = $context->getPropertyFromAspect('workspace', 'id');
         $queryBuilder = $this->getConnectionPool()->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeAll()
             ->add(GeneralUtility::makeInstance(DeletedRestriction::class))
-            ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class, null, false));
+            ->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, (int)$workspaceId, true));
 
         return $queryBuilder;
     }

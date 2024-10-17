@@ -18,24 +18,27 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
-use TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent;
+use TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController;
+use TYPO3\CMS\Backend\Wizard\NewContentElementWizardHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class WizardItemsHook
+class NewContentElementWizardHook extends WizardItemsHook implements NewContentElementWizardHookInterface
 {
-    public function modifyWizardItems(ModifyNewContentElementWizardItemsEvent $event)
+    /**
+     * @param array $wizardItems
+     * @param NewContentElementController $parentObject
+     * @return void
+     */
+    public function manipulateWizardItems(&$wizardItems, &$parentObject)
     {
-        $pageInfo = $event->getPageInfo();
-        $pageId = (int)$pageInfo['uid'];
+        $pageId = (int)$parentObject->getPageInfo()['uid'];
         $backendLayoutConfiguration = BackendLayoutConfiguration::createFromPageId($pageId);
 
-        $colPos = (int)$event->getColPos();
+        $colPos = (int)$parentObject->getColPos();
         $columnConfiguration = $backendLayoutConfiguration->getConfigurationByColPos($colPos);
         if (empty($columnConfiguration) || (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.']))) {
             return;
         }
-
-        $wizardItems = $event->getWizardItems();
 
         $allowedConfiguration = $columnConfiguration['allowed.'] ?? [];
         foreach ($allowedConfiguration as $field => $value) {
@@ -59,7 +62,7 @@ class WizardItemsHook
             $availableWizardItems[$key] = $key;
         }
 
-        $event->setWizardItems(array_intersect_key($wizardItems, $availableWizardItems));
+        $wizardItems = array_intersect_key($wizardItems, $availableWizardItems);
     }
 
     /**
@@ -71,31 +74,18 @@ class WizardItemsHook
      */
     protected function removeDisallowedValues(array $wizardItems, $field, array $values, $allowed = true)
     {
-        $group = '';
         foreach ($wizardItems as $key => $configuration) {
             $keyParts = explode('_', $key, 2);
-            if (count($keyParts) === 1 || (!isset($configuration['defaultValues'][$field]) && !isset($configuration['tt_content_defValues'][$field]))) {
-                if (!empty($group)) {
-                    unset($wizardItems[$group]);
-                }
-                $group = $keyParts[0];
+            if (count($keyParts) === 1 || !isset($configuration['tt_content_defValues'][$field])) {
                 continue;
             }
 
-            $defaultValue = $configuration['defaultValues'][$field] ?? $configuration['tt_content_defValues'][$field] ?? '';
-
-            if (($allowed && !in_array($defaultValue, $values))
-                || (!$allowed && in_array($defaultValue, $values))
+            if (($allowed && !in_array($configuration['tt_content_defValues'][$field], $values))
+                || (!$allowed && in_array($configuration['tt_content_defValues'][$field], $values))
             ) {
                 unset($wizardItems[$key]);
                 continue;
             }
-
-            $group = '';
-        }
-
-        if (!empty($group)) {
-            unset($wizardItems[$group]);
         }
 
         return $wizardItems;
