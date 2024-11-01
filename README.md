@@ -1,8 +1,8 @@
 # TYPO3 Extension content_defender
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/ichhabrecht/content-defender.svg)](https://packagist.org/packages/ichhabrecht/content-defender)
-[![Build Status](https://img.shields.io/travis/IchHabRecht/content_defender/main.svg)](https://travis-ci.org/IchHabRecht/content_defender)
 [![StyleCI](https://styleci.io/repos/90545143/shield?branch=main)](https://styleci.io/repos/90545143)
+![GitHub Actions](https://github.com/IchHabRecht/content_defender/actions/workflows/test.yml/badge.svg?event=push)
 
 Content Defender adds more options to define allowed or denied content element types in your backend layouts
 
