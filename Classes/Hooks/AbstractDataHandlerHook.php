@@ -27,6 +27,7 @@ use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessShowitem;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsRemoveUnused;
 use TYPO3\CMS\Backend\Form\FormDataProvider\UserTsConfig;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractDataHandlerHook
@@ -80,6 +81,11 @@ abstract class AbstractDataHandlerHook
         $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($allowedConfiguration as $field => $value) {
             $allowedValues = GeneralUtility::trimExplode(',', $value);
+
+            if (($record['CType'] == 'shortcut') && (!$this->checkShortcut($record, $field, $allowedValues))) {
+                return false;
+            }
+
             if (!$this->isAllowedValue($record, $field, $allowedValues)) {
                 return false;
             }
@@ -88,6 +94,11 @@ abstract class AbstractDataHandlerHook
         $disallowedConfiguration = array_intersect_key($columnConfiguration['disallowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($disallowedConfiguration as $field => $value) {
             $disallowedValues = GeneralUtility::trimExplode(',', $value);
+
+            if (($record['CType'] == 'shortcut') && (!$this->checkShortcut($record, $field, $disallowedValues, false))) {
+                return false;
+            }
+
             if (!$this->isAllowedValue($record, $field, $disallowedValues, false)) {
                 return false;
             }
@@ -122,5 +133,34 @@ abstract class AbstractDataHandlerHook
         }
 
         return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->addRecordToColPos($record);
+    }
+
+    /**
+     * @param array $shortcut
+     * @param string $field
+     * @param array $values
+     * @param bool $allowed
+     * @return bool
+     */
+    protected function checkShortcut(array $shortcut, $field, array $values, $allowed = true)
+    {
+        $references = GeneralUtility::trimExplode(',', $shortcut['records']);
+        foreach ($references as $reference) {
+            $referenceParts = GeneralUtility::revExplode('_', $reference, 2);
+            $uid = $referenceParts[count($referenceParts) - 1];
+            $table = 'tt_content';
+            if (count($referenceParts) == 2) {
+                $table = $referenceParts[0];
+            }
+            $referencedRecord = BackendUtility::getRecord($table, $uid);
+            if ($referencedRecord['CType'] == 'shortcut') {
+                return $this->checkShortcut($referencedRecord, $field, $values, $allowed);
+            }
+            if (!$this->isAllowedValue($referencedRecord, $field, $values, $allowed)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
