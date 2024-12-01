@@ -1,3 +1,14 @@
+2024-12-01         [RELEASE] Release of content_defender 3.5.0 (Nicole Hummel)
+2024-12-01 6e0d2cf [TASK] Raise typo3/testing-framework dependency to 8.2.3 (Nicole Hummel)
+2024-10-17 7bad6e2 [FEATURE] Raise compatibility to TYPO3 13.4 (Nicole Hummel)
+2024-09-03 06af8ac [FEATURE] Raise compatibility to TYPO3 13.2 (Nicole Hummel)
+2024-09-01 7bcbeeb [TASK] Raise testing compatibility to TYPO3 13.2 (Nicole Hummel)
+2024-09-01 9c685a1 [TASK] Raise testing compatibility to PHP 8.3 (Nicole Hummel)
+2024-11-01 3ab95a4 [TASK] Update build status in Readme.md (Nicole Hummel)
+2024-09-06 291de53 [BUGFIX] Re-enable archive PHPUnit logs (Nicole Hummel)
+2024-08-27 f3aed00 [TASK] Use single computed matrix values in GitHub actions (Nicole Hummel)
+2024-08-26 2f09b09 [TASK] Compute matrix values in GitHub actions (Nicole Hummel)
+
 2024-04-29         [RELEASE] Release of content_defender 3.4.3 (Nicole Cordes)
 2024-04-29 a376487 [BUGFIX] Ensure correct tag message in release workflow (Nicole Cordes)
 
