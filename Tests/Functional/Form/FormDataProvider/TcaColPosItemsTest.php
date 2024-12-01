@@ -23,6 +23,7 @@ use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaColPosItemsTest extends AbstractFunctionalTestCase
 {
@@ -55,6 +56,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
             [
                 'command' => 'new',
+                'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
                 'tableName' => 'tt_content',
                 'vanillaUid' => 3,
             ],
@@ -65,9 +67,13 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             ]
         );
 
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
-        $result = $formDataCompiler->compile($formDataCompilerInput);
+        $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
         $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
 
@@ -93,13 +99,18 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
 
         $formDataCompilerInput = [
             'command' => 'edit',
+            'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
             'tableName' => 'tt_content',
             'vanillaUid' => 4,
         ];
 
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
-        $result = $formDataCompiler->compile($formDataCompilerInput);
+        $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
         $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
         foreach ($expected as $key => $valueArray) {
@@ -118,6 +129,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
         $formDataCompilerInput = $this->mergeDefaultValuesWithCompilerInput(
             [
                 'command' => 'new',
+                'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
                 'tableName' => 'tt_content',
                 'vanillaUid' => 3,
             ],
@@ -128,9 +140,13 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             ]
         );
 
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
-        $result = $formDataCompiler->compile($formDataCompilerInput);
+        $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
         $items = array_values($result['processedTca']['columns']['colPos']['config']['items']);
 
@@ -147,14 +163,19 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
     {
         $formDataCompilerInput = [
             'command' => 'edit',
+            'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
             'tableName' => 'tt_content',
             'vanillaUid' => 4,
         ];
 
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
-        $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput));
+        $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));
     }
 
     /**
@@ -171,7 +192,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             ],
         ];
 
-        $dataHandler = new DataHandler();
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($datamap, []);
         $dataHandler->process_datamap();
         $dataHandler->process_cmdmap();
@@ -180,13 +201,18 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
 
         $formDataCompilerInput = [
             'command' => 'edit',
+            'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
             'tableName' => 'tt_content',
             'vanillaUid' => (int)$dataHandler->substNEWwithIDs['NEW123'],
         ];
 
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
         $formDataGroup = new TcaDatabaseRecord();
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
-        $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput));
+        $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));
     }
 }

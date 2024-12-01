@@ -20,7 +20,6 @@ namespace IchHabRecht\ContentDefender\Hooks;
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 class DatamapDataHandlerHook extends AbstractDataHandlerHook
@@ -75,7 +74,7 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 // DataHandler copies a record by first add a new content element (in the old colPos) and then adjust
                 // the colPos information to the target colPos. This means we have to allow this element to be added
                 // even if the maxitems is reached already. The copy command was checked in CmdmapDataHandlerHook.
-                if (empty($dataHandler->cmdmap) && !empty(GeneralUtility::_GP('CB')['paste'])) {
+                if (empty($dataHandler->cmdmap) && !empty($_POST['CB']['paste'] ?? $_GET['CB']['paste'] ?? null)) {
                     continue;
                 }
 

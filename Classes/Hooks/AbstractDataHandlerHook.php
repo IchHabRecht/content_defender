@@ -18,6 +18,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
  */
 
 use IchHabRecht\ContentDefender\Repository\ContentRepository;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\OnTheFly;
 use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRecordTypeValue;
@@ -27,6 +28,7 @@ use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessCommon;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsProcessShowitem;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaColumnsRemoveUnused;
 use TYPO3\CMS\Backend\Form\FormDataProvider\UserTsConfig;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractDataHandlerHook
@@ -36,12 +38,15 @@ abstract class AbstractDataHandlerHook
      */
     protected $contentRepository;
 
+    protected string $versionBranch;
+
     /**
      * @param ContentRepository $contentRepository
      */
     public function __construct(ContentRepository $contentRepository = null)
     {
         $this->contentRepository = $contentRepository ?? GeneralUtility::makeInstance(ContentRepository::class);
+        $this->versionBranch = (new Typo3Version())->getBranch();
     }
 
     /**
@@ -52,6 +57,10 @@ abstract class AbstractDataHandlerHook
     protected function isRecordAllowedByRestriction(array $columnConfiguration, array $record)
     {
         if (empty($columnConfiguration['allowed.']) && empty($columnConfiguration['disallowed.'])) {
+            return true;
+        }
+
+        if (!($GLOBALS['TYPO3_REQUEST'] ?? null instanceof ServerRequestInterface) && version_compare($this->versionBranch, '13', '>=')) {
             return true;
         }
 
@@ -70,12 +79,18 @@ abstract class AbstractDataHandlerHook
         $formDataCompiler = GeneralUtility::makeInstance(FormDataCompiler::class, $formDataGroup);
         $formDataCompilerInput = [
             'command' => 'edit',
+            'request' => $GLOBALS['TYPO3_REQUEST'] ?? null,
             'databaseRow' => $record,
             'effectivePid' => $record['pid'],
             'tableName' => 'tt_content',
             'vanillaUid' => (int)$record['uid'],
         ];
-        $result = $formDataCompiler->compile($formDataCompilerInput);
+
+        if (version_compare($this->versionBranch, '13', '<')) {
+            unset($formDataCompilerInput['request']);
+        }
+
+        $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
         $allowedConfiguration = array_intersect_key($columnConfiguration['allowed.'] ?? [], $result['processedTca']['columns']);
         foreach ($allowedConfiguration as $field => $value) {

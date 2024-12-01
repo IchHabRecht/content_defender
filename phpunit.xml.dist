@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="true" backupStaticAttributes="false" beStrictAboutOutputDuringTests="true" beStrictAboutTodoAnnotatedTests="true" colors="true" convertErrorsToExceptions="true" convertWarningsToExceptions="true" executionOrder="depends,defects" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" verbose="true">
-  <coverage ignoreDeprecatedCodeUnits="true" processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">Classes</directory>
-    </include>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    backupGlobals="true"
+    backupStaticProperties="false"
+    beStrictAboutOutputDuringTests="true"
+    cacheResult="false"
+    colors="true"
+    executionOrder="depends,defects"
+    processIsolation="false"
+    requireCoverageMetadata="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+>
+  <coverage ignoreDeprecatedCodeUnits="true">
     <report>
       <php outputFile=".Log/coverage/coverage.cov"/>
     </report>
@@ -19,4 +29,9 @@
       <directory suffix="Test.php">Tests/Functional</directory>
     </testsuite>
   </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">Classes</directory>
+    </include>
+  </source>
 </phpunit>
