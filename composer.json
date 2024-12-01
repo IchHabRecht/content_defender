@@ -33,7 +33,7 @@
         "typo3/cms-indexed-search": "^11.5 || ^12.4 || ^13.4",
         "typo3/cms-workspaces": "^11.5 || ^12.4 || ^13.4",
         "typo3/minimal": "^11.5 || ^12.0 || ^13.0",
-        "typo3/testing-framework": "^7.0.4 || ^8.2.1"
+        "typo3/testing-framework": "^7.0.4 || ^8.2.3"
     },
     "autoload": {
         "psr-4": {
