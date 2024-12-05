@@ -75,7 +75,7 @@ class WizardItemsHook
         foreach ($wizardItems as $key => $configuration) {
             $keyParts = explode('_', $key, 2);
             if (count($keyParts) === 1 || (!isset($configuration['defaultValues'][$field]) && !isset($configuration['tt_content_defValues'][$field]))) {
-                if (!empty($group)) {
+                if (!empty($group) && empty($wizardItems[$group])) {
                     unset($wizardItems[$group]);
                 }
                 $group = $keyParts[0];
@@ -90,8 +90,6 @@ class WizardItemsHook
                 unset($wizardItems[$key]);
                 continue;
             }
-
-            $group = '';
         }
 
         if (!empty($group)) {
