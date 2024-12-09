@@ -1,3 +1,6 @@
+2024-12-09         [RELEASE] Release of content_defender 3.5.1 (Nicole Hummel)
+2024-12-09 66dfc80 [BUGFIX] Preserve grouping of NewContentWizard items (Nicole Hummel)
+
 2024-12-01         [RELEASE] Release of content_defender 3.5.0 (Nicole Hummel)
 2024-12-01 6e0d2cf [TASK] Raise typo3/testing-framework dependency to 8.2.3 (Nicole Hummel)
 2024-10-17 7bad6e2 [FEATURE] Raise compatibility to TYPO3 13.4 (Nicole Hummel)
