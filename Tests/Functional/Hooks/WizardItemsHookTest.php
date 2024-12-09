@@ -52,7 +52,7 @@ class WizardItemsHookTest extends AbstractFunctionalTestCase
             ],
             'Normal (header, textmedia, list[-indexed_search_pi2])' => [
                 0,
-                3,
+                5,
             ],
             'Footer2 (bullets)' => [
                 11,

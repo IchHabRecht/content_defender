@@ -71,14 +71,9 @@ class WizardItemsHook
      */
     protected function removeDisallowedValues(array $wizardItems, $field, array $values, $allowed = true)
     {
-        $group = '';
         foreach ($wizardItems as $key => $configuration) {
             $keyParts = explode('_', $key, 2);
             if (count($keyParts) === 1 || (!isset($configuration['defaultValues'][$field]) && !isset($configuration['tt_content_defValues'][$field]))) {
-                if (!empty($group)) {
-                    unset($wizardItems[$group]);
-                }
-                $group = $keyParts[0];
                 continue;
             }
 
@@ -90,12 +85,6 @@ class WizardItemsHook
                 unset($wizardItems[$key]);
                 continue;
             }
-
-            $group = '';
-        }
-
-        if (!empty($group)) {
-            unset($wizardItems[$group]);
         }
 
         return $wizardItems;
