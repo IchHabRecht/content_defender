@@ -30,7 +30,7 @@ class ContentRepository
 {
     protected ColPosCountState $colPosCount;
 
-    public function __construct(ColPosCountState $colPosCount = null)
+    public function __construct(?ColPosCountState $colPosCount = null)
     {
         $this->colPosCount = $colPosCount ?? GeneralUtility::makeInstance(ColPosCountState::class);
     }
