@@ -33,7 +33,7 @@ class TcaColPosItems implements FormDataProviderInterface
     /**
      * @param ContentRepository $contentRepository
      */
-    public function __construct(ContentRepository $contentRepository = null)
+    public function __construct(?ContentRepository $contentRepository = null)
     {
         $this->contentRepository = $contentRepository ?? GeneralUtility::makeInstance(ContentRepository::class);
     }
