@@ -29,7 +29,7 @@ class ColPosCountState implements \ArrayAccess, \Countable, \Iterator
 
     protected int $position = 0;
 
-    public function __construct(FrontendInterface $cache = null, $cacheIdentifier = 'tx_contentdefender_colPosCount', $data = null)
+    public function __construct(?FrontendInterface $cache = null, $cacheIdentifier = 'tx_contentdefender_colPosCount', $data = null)
     {
         $this->cache = $cache ?? GeneralUtility::makeInstance(CacheManager::class)->getCache('runtime');
         $this->cacheIdentifier = $cacheIdentifier;
