@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class NewContentElementController extends \TYPO3\CMS\Backend\Controller\ContentElement\NewContentElementController
 {
-    public function wizardAction(ServerRequestInterface $request = null): ResponseInterface
+    public function wizardAction(?ServerRequestInterface $request = null): ResponseInterface
     {
         return new JsonResponse([
             'wizardItems' => $this->getWizards(),
