@@ -19,6 +19,8 @@ namespace IchHabRecht\ContentDefender\Tests\Functional;
 
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Form\FormDataGroup\OrderedProviderList;
+use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -133,5 +135,18 @@ abstract class AbstractFunctionalTestCase extends FunctionalTestCase
             $fileContent = str_replace('\'{rootPageId}\'', (string)$pageId, $fileContent);
             GeneralUtility::writeFile($target, $fileContent);
         }
+    }
+
+    /**
+     * Build and return instance of TcaDatabaseRecord based on TYPO3 version
+     */
+    protected function getTcaDatabaseRecordInstance(): TcaDatabaseRecord
+    {
+        if (version_compare($this->versionBranch, '13', '<')) {
+            return new TcaDatabaseRecord();
+        }
+
+        // https://github.com/TYPO3/typo3/commit/ba527f46e8859b346c46c2d3e69b991ebe77046c
+        return new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
     }
 }
