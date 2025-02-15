@@ -21,7 +21,6 @@ require_once __DIR__ . '/../../AbstractFunctionalTestCase.php';
 
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Backend\Form\FormDataCompiler;
-use TYPO3\CMS\Backend\Form\FormDataGroup\OrderedProviderList;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -72,7 +71,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -109,7 +108,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -145,7 +144,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -173,7 +172,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
         $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));
@@ -211,7 +210,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord(GeneralUtility::makeInstance(OrderedProviderList::class));
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
         $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));
