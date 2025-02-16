@@ -71,7 +71,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -108,7 +108,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -144,7 +144,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -172,7 +172,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
         $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));
@@ -210,7 +210,7 @@ class TcaColPosItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
 
         $this->assertNotEmpty($formDataCompiler->compile($formDataCompilerInput, $formDataGroup));

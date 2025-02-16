@@ -22,6 +22,7 @@ require_once __DIR__ . '/../../AbstractFunctionalTestCase.php';
 use IchHabRecht\ContentDefender\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TcaCTypeItemsTest extends AbstractFunctionalTestCase
 {
@@ -69,7 +70,7 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
@@ -103,7 +104,7 @@ class TcaCTypeItemsTest extends AbstractFunctionalTestCase
             unset($formDataCompilerInput['request']);
         }
 
-        $formDataGroup = new TcaDatabaseRecord();
+        $formDataGroup = GeneralUtility::makeInstance(TcaDatabaseRecord::class);
         $formDataCompiler = new FormDataCompiler($formDataGroup);
         $result = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
