@@ -7,7 +7,7 @@ namespace IchHabRecht\ContentDefender\Exception;
 /*
  * This file is part of the TYPO3 extension content_defender.
  *
- * (c) Nicole Cordes <typo3@cordes.co>
+ * (c) Nicole Hummel <nicole-typo3@nimut.dev>
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
