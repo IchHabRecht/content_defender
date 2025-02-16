@@ -1,3 +1,8 @@
+2025-02-16         [RELEASE] Release of content_defender 3.5.2 (Nicole Hummel)
+2025-02-16 5387e39 [TASK] Update author information (Nicole Hummel)
+2025-02-16 18d9a26 [BUGFIX] Add compatibility with PHP 8.4 (#165) (Albrecht Köhnlein)
+2025-02-16 b4fb600 [BUGFIX] Remove misconfigured concurrency configuration (Nicole Hummel)
+
 2024-12-09         [RELEASE] Release of content_defender 3.5.1 (Nicole Hummel)
 2024-12-09 66dfc80 [BUGFIX] Preserve grouping of NewContentWizard items (Nicole Hummel)
 
