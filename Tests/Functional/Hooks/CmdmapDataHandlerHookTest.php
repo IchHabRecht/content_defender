@@ -498,7 +498,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $commandMap['tt_content'][4] = [
             'copy' => [
                 'action' => 'paste',
-                'target' => 3,
+                'target' => 4,
                 'update' => [
                     'colPos' => '3',
                 ],
