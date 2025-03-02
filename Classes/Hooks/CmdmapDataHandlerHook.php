@@ -20,6 +20,7 @@ namespace IchHabRecht\ContentDefender\Hooks;
 use IchHabRecht\ContentDefender\BackendLayout\BackendLayoutConfiguration;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 {
@@ -42,7 +43,10 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
 
                 $currentRecord = BackendUtility::getRecord('tt_content', $id);
 
-                if ($command === 'move') {
+                if ($command === 'copy') {
+                    // Enforce a new uid when copying a record to ensure correct maxItems validation
+                    $currentRecord['uid'] .= StringUtility::getUniqueId('-NEW');
+                } else {
                     // New colPos is passed as datamap array and already processed in processDatamap_beforeStart
                     $data = isset($dataHandler->datamap['tt_content'][$id])
                         ? $dataHandler->datamap : ($_POST['data'] ?? $_GET['data'] ?? null);
