@@ -1,3 +1,8 @@
+2025-03-26         [RELEASE] Release of content_defender 3.5.3 (Nicole Hummel)
+2025-03-02 64ebf5b [BUGFIX] Fix broken copy command test (Nicole Hummel)
+2025-03-02 6acd25e [BUGFIX] Ensure same record is added to maxItems count on copy command (Nicole Hummel)
+2025-03-02 c3c28d0 [TASK] Add failing test for copy command with loaded column (Nicole Hummel)
+
 2025-02-16         [RELEASE] Release of content_defender 3.5.2 (Nicole Hummel)
 2025-02-16 5387e39 [TASK] Update author information (Nicole Hummel)
 2025-02-16 18d9a26 [BUGFIX] Add compatibility with PHP 8.4 (#165) (Albrecht Köhnlein)

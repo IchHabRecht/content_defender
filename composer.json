@@ -64,6 +64,5 @@
             "app-dir": ".Build",
             "web-dir": ".Build/public"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
