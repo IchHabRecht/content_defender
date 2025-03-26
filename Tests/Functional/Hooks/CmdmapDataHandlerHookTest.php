@@ -430,6 +430,30 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
     /**
      * @test
      */
+    public function copyCommandPreventsSameRecordInLoadedColumn()
+    {
+        $commandMap['tt_content'][4] = [
+            'copy' => [
+                'action' => 'paste',
+                'target' => '-4',
+                'update' => [
+                    'colPos' => '0',
+                    'sys_language_uid' => '0',
+                ],
+            ],
+        ];
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start([], $commandMap);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $this->assertArrayNotHasKey('tt_content', $dataHandler->copyMappingArray);
+    }
+
+    /**
+     * @test
+     */
     public function copyCommandCopiesOnlyOneRecordToMaxitemsColPos()
     {
         $_GET['CB']['paste'] = '|3';
@@ -474,7 +498,7 @@ class CmdmapDataHandlerHookTest extends AbstractFunctionalTestCase
         $commandMap['tt_content'][4] = [
             'copy' => [
                 'action' => 'paste',
-                'target' => 3,
+                'target' => 4,
                 'update' => [
                     'colPos' => '3',
                 ],
