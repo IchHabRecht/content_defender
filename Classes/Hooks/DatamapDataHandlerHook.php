@@ -70,6 +70,30 @@ class DatamapDataHandlerHook extends AbstractDataHandlerHook
                 );
             }
 
+            if (!$this->isRecordAllowedByItemsCountAndCType($columnConfiguration, $incomingFieldArray)) {
+                // DataHandler copies a record by first add a new content element (in the old colPos) and then adjust
+                // the colPos information to the target colPos. This means we have to allow this element to be added
+                // even if the maxitems is reached already. The copy command was checked in CmdmapDataHandlerHook.
+                if (empty($dataHandler->cmdmap) && !empty($_POST['CB']['paste'] ?? $_GET['CB']['paste'] ?? null)) {
+                    continue;
+                }
+                $cType = $incomingFieldArray['CType'];
+                unset($dataHandler->datamap['tt_content'][$id]);
+                $dataHandler->log(
+                    'tt_content',
+                    $id,
+                    1,
+                    $pageId,
+                    1,
+                    'The record "%s" couldn\'t be saved due to reached maxitemsByCType configuration of %d.',
+                    27,
+                    [
+                        $incomingFieldArray[$GLOBALS['TCA']['tt_content']['ctrl']['label']],
+                        $columnConfiguration['maxitemsByCType.'][$cType],
+                    ]
+                );
+            }
+
             if (!$this->isRecordAllowedByItemsCount($columnConfiguration, $incomingFieldArray)) {
                 // DataHandler copies a record by first add a new content element (in the old colPos) and then adjust
                 // the colPos information to the target colPos. This means we have to allow this element to be added

@@ -128,6 +128,25 @@ columns {
 }
 ```
 
+- To restrict the number of content elements by type use `maxitemsByCType.[type] = [number of elements]`
+
+*Example:*
+```
+columns {
+    1 {
+        name = Column with one textmedia 
+        colPos = 3
+        colspan = 6
+        allowed {
+            CType = textmedia, header
+        }
+        maxitemsByCType {
+            header = 1
+        }
+    }
+}
+```
+
 ## Known issues
 
 ### TypeError

@@ -46,6 +46,21 @@ class ContentRepository
         return count($this->colPosCount[$identifier]);
     }
 
+    public function countColPosByRecordType(array $record, string $cType): int
+    {
+        $identifier = $this->getIdentifier($record);
+
+        if (!isset($this->colPosCount[$identifier])) {
+            $this->initialize($record);
+        }
+
+        $colPosCountState = $this->colPosCount[$identifier];
+        $allEntries = $colPosCountState[null];
+        $countByCType = array_count_values($allEntries);
+
+        return $countByCType[$cType] ?? 0;
+    }
+
     public function addRecordToColPos(array $record): int
     {
         $identifier = $this->getIdentifier($record);
@@ -118,7 +133,7 @@ class ContentRepository
         $languageField = $GLOBALS['TCA']['tt_content']['ctrl']['languageField'];
         $language = (array)($record[$languageField] ?? 0);
 
-        $selectFields = ['uid', 'pid'];
+        $selectFields = ['uid', 'pid', 'CType'];
         if (!empty($GLOBALS['TCA']['tt_content']['ctrl']['versioningWS'])) {
             $selectFields[] = 't3ver_state';
         }
@@ -151,7 +166,8 @@ class ContentRepository
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
                 $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];
-                $rows[$uid] = $uid;
+                $cType = $row['CType'];
+                $rows[$uid] = $cType;
             }
         }
 

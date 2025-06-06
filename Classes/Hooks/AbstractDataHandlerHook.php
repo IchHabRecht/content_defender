@@ -138,4 +138,22 @@ abstract class AbstractDataHandlerHook
 
         return (int)$columnConfiguration['maxitems'] >= $this->contentRepository->addRecordToColPos($record);
     }
+
+    /**
+     * @param array $columnConfiguration
+     * @param array $record
+     * @return bool
+     */
+    protected function isRecordAllowedByItemsCountAndCType(array $columnConfiguration, array $record)
+    {
+        $cType = $record['CType'];
+        if (!empty($columnConfiguration['maxitemsByCType.'])) {
+            $this->contentRepository->addRecordToColPos($record);
+            if ($this->contentRepository->countColPosByRecordType($record, $cType) >= (int)$columnConfiguration['maxitemsByCType.']) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

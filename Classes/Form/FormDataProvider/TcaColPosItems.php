@@ -94,6 +94,21 @@ class TcaColPosItems implements FormDataProviderInterface
                 }
             }
 
+            $cType = $record['CType'][0];
+            if (!empty($columnConfiguration['maxitemsByCType.'][$cType])
+                && $columnConfiguration['maxitemsByCType.'][$cType] <= $this->contentRepository->countColPosByRecordType($record, $cType)
+            ) {
+                $isCurrentColPos = $colPos === (int)$result['databaseRow']['colPos'][0];
+                if ($isCurrentColPos && !$this->contentRepository->isRecordInColPos($record)) {
+                    throw new AccessDeniedColPosException(
+                        'Maximum number of allowed content elements by CType "' . $cType . '" (' . $columnConfiguration['maxitemsByCType.'][$cType] . ') reached.',
+                        1749209557
+                    );
+                } elseif (!$isCurrentColPos) {
+                    unset($result['processedTca']['columns']['colPos']['config']['items'][$key]);
+                }
+            }
+
             if (!empty($columnConfiguration['maxitems'])
                 && $columnConfiguration['maxitems'] <= $this->contentRepository->countColPosByRecord($record)
             ) {
