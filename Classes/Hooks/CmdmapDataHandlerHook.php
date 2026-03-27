@@ -70,7 +70,7 @@ class CmdmapDataHandlerHook extends AbstractDataHandlerHook
                     $pageId = (int)$value['target'];
                     $colPos = (int)$value['update']['colPos'];
                 } else {
-                    $pageId = (int)$value;
+                    $pageId = (int)$currentRecord['pid'];
                     $colPos = (int)$currentRecord['colPos'];
                 }
                 if ($pageId < 0) {
