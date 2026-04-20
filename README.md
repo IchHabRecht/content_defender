@@ -18,7 +18,7 @@ composer require ichhabrecht/content-defender
 
 ### Extension Manager
 
-See [TYPO3 Documentation - Managing Extensions - Legacy Guide](https://docs.typo3.org/m/typo3/tutorial-getting-started/main/en-us/Extensions/LegacyManagement.html)
+See [TYPO3 Documentation - Managing Extensions - Legacy Guide](https://docs.typo3.org/m/typo3/tutorial-getting-started/11.5/en-us/Extensions/LegacyManagement.html#extensions_legacy_management)
 
 ## Usage
 
