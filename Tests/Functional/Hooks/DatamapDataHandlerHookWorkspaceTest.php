@@ -90,6 +90,47 @@ class DatamapDataHandlerHookWorkspaceTest extends AbstractFunctionalTestCase
         $this->assertSame(1, $count);
     }
 
+    /**
+     * @test
+     */
+    public function existingLiveRecordWithWorkspaceVersionWithinMaxitemsCountIsSaved()
+    {
+        $this->initializeWorkspace(self::WORKSPACE_STAGE);
+
+        $datamap['tt_content'] = [
+            '4' => [
+                'header' => 'New Header STAGE',
+            ],
+        ];
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start($datamap, []);
+        $dataHandler->process_datamap();
+        $dataHandler->process_cmdmap();
+
+        $queryBuilder = $this->getQueryBuilderForTable('tt_content');
+        $count = (int)$queryBuilder->count('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'colPos',
+                    $queryBuilder->createNamedParameter(3)
+                ),
+                $queryBuilder->expr()->eq(
+                    'header',
+                    $queryBuilder->createNamedParameter('New Header STAGE')
+                )
+            )
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->assertSame(1, $count);
+    }
+
     protected function initializeWorkspace(int $workspaceId)
     {
         $backendUser = $GLOBALS['BE_USER'];
