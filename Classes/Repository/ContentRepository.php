@@ -54,7 +54,8 @@ class ContentRepository
             $this->initialize($record);
         }
 
-        $this->colPosCount[$identifier][$record['uid']] = $record['uid'];
+        $uid = ($record['t3ver_oid'] ?? 0) ?: $record['uid'];
+        $this->colPosCount[$identifier][$uid] = $uid;
 
         return count($this->colPosCount[$identifier]);
     }
@@ -150,7 +151,9 @@ class ContentRepository
         while ($row = $statement->fetchAssociative()) {
             BackendUtility::workspaceOL('tt_content', $row, -99, true);
             if (is_array($row) && !VersionState::cast($row['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
-                $uid = ($row['_ORIG_uid'] ?? 0) ?: $row['uid'];
+                // workspaceOL() keeps the live uid in "uid" (the version uid is moved to "_ORIG_uid"),
+                // records are counted by their live uid in all colPos methods
+                $uid = (int)$row['uid'];
                 $rows[$uid] = $uid;
             }
         }
